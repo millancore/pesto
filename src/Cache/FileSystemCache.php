@@ -1,0 +1,42 @@
+<?php
+
+namespace Millancore\Pesto\Cache;
+
+use Millancore\Pesto\Contract\CacheInterface;
+use Millancore\Pesto\Contract\LoaderInterface;
+
+class FileSystemCache implements CacheInterface
+{
+    public function __construct(
+        private string $cacheDir,
+        private LoaderInterface $loader
+    ) {
+        if (!is_dir($this->cacheDir)) {
+            mkdir($this->cacheDir, 0777, true);
+        }
+    }
+
+    public function getCompiledPath(string $name): string
+    {
+        $hash = hash('sha256', $name);
+        return $this->cacheDir . '/' . $hash . '.php';
+    }
+
+    public function write(string $path, string $content): void
+    {
+        file_put_contents($path, $content);
+    }
+
+    public function isFresh(string $name): bool
+    {
+        $compiledPath = $this->getCompiledPath($name);
+        $sourcePath = $this->loader->getPath($name);
+
+        if (!file_exists($compiledPath) || $sourcePath === null) {
+            return false;
+        }
+
+        return filemtime($compiledPath) >= filemtime($sourcePath);
+    }
+
+}

@@ -1,0 +1,33 @@
+{
+  "name": "millancore/pesto",
+  "description": "PHP View Engine",
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Juan Millan",
+      "email": "juanes14569@gmail.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Millancore\\Pesto\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Millancore\\Pesto\\Tests\\": "tests/"
+    }
+  },
+  "require": {
+    "php": "^8.3",
+    "ext-dom": "*",
+    "symfony/dom-crawler": "^7.3",
+    "symfony/css-selector": "^7.3"
+  },
+  "require-dev": {
+    "ext-libxml": "*",
+    "phpunit/phpunit": "^12.3"
+  },
+  "minimum-stability": "stable"
+}
