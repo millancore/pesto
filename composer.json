@@ -20,13 +20,11 @@
     }
   },
   "require": {
-    "php": "^8.3",
+    "php": "^8.4",
     "ext-dom": "*",
-    "symfony/dom-crawler": "^7.3",
-    "symfony/css-selector": "^7.3"
+    "ext-libxml": "*"
   },
   "require-dev": {
-    "ext-libxml": "*",
     "phpunit/phpunit": "^12.3"
   },
   "minimum-stability": "stable"

@@ -2,39 +2,52 @@
 
 namespace Millancore\Pesto\Compiler;
 
-use Symfony\Component\DomCrawler\Crawler;
+use Dom\HTMLDocument;
+use const Dom\HTML_NO_DEFAULT_NS;
 
 class Pesto
 {
-    private Crawler $crawler;
+    private HTMLDocument $document;
 
     public function __construct(string $html)
     {
-        $this->crawler = new Crawler($html);
+        $this->document = HTMLDocument::createFromString(
+            $html,
+            HTML_NO_DEFAULT_NS | LIBXML_NOERROR
+        );
     }
 
 
     public function find(string $selector): NodeCollection
     {
-        $crawlerNodes = $this->crawler->filter($selector);
+        $nodes = $this->document->querySelectorAll($selector);
 
-        return new NodeCollection($crawlerNodes);
+        return new NodeCollection($nodes);
     }
+
+
+    public function getInnerXML(string $selector): string
+    {
+        $element = $this->document->querySelector($selector);
+
+        if ($element === null) {
+            return '';
+        }
+
+        $innerHtml = '';
+        foreach ($element->childNodes as $childNode) {
+
+            $innerHtml .= $this->document->saveXml($childNode);
+        }
+
+        return $innerHtml;
+    }
+
 
 
     public function getCompiledTemplate(): string
     {
-        $bodyNode = $this->crawler->filter('body')->getNode(0);
-        if (!$bodyNode) {
-            return '';
-        }
-
-        $output = '';
-        foreach ($bodyNode->childNodes as $child) {
-            $output .= $child->ownerDocument->saveXML($child);
-        }
-
-        return html_entity_decode($output, ENT_QUOTES, 'UTF-8');
+       return $this->document->saveXml();
     }
 
 

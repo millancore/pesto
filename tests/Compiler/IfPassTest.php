@@ -24,7 +24,7 @@ final class IfPassTest extends TestCase
         $pesto = new Pesto($html);
         $this->pass->compile($pesto);
 
-        $this->assertEquals($expected, $pesto->getCompiledTemplate());
+        $this->assertEquals($expected, $pesto->getInnerXML('body'));
     }
 
     public function test_compiles_an_if_with_else(): void
@@ -36,7 +36,7 @@ final class IfPassTest extends TestCase
         $pesto = new Pesto($html);
         $this->pass->compile($pesto);
 
-        $this->assertEquals($expected, $pesto->getCompiledTemplate());
+        $this->assertEquals($expected, $pesto->getInnerXML('body'));
 
     }
 
@@ -50,7 +50,7 @@ final class IfPassTest extends TestCase
 
         $this->pass->compile($pesto);
 
-        $this->assertEquals($expected, $pesto->getCompiledTemplate());
+        $this->assertEquals($expected, $pesto->getInnerXML('body'));
     }
 
 }

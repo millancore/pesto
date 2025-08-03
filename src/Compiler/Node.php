@@ -2,13 +2,14 @@
 
 namespace Millancore\Pesto\Compiler;
 
-use DOMNode;
+use Dom\Node as DomNode;
+use Dom\ProcessingInstruction;
 
 class Node
 {
-    private DOMNode $domNode;
+    private DomNode $domNode;
 
-    public function __construct(DOMNode $domNode)
+    public function __construct(DomNode $domNode)
     {
         $this->domNode = $domNode;
     }
@@ -48,12 +49,12 @@ class Node
         $this->domNode->removeAttribute($name);
     }
 
-    public function insertBefore(DOMNode $newNode): void
+    public function insertBefore(DomNode $newNode): void
     {
         $this->domNode->parentNode->insertBefore($newNode, $this->domNode);
     }
 
-    public function insertAfter(DOMNode $newNode): void
+    public function insertAfter(DomNode $newNode): void
     {
         if ($this->domNode->nextSibling) {
             $this->domNode->parentNode->insertBefore($newNode, $this->domNode->nextSibling);
@@ -62,7 +63,7 @@ class Node
         }
     }
 
-    public function createProcessingInstruction(string $target, string $data): \DOMProcessingInstruction
+    public function createProcessingInstruction(string $target, string $data): ProcessingInstruction
     {
         return $this->domNode->ownerDocument->createProcessingInstruction($target, $data);
     }
