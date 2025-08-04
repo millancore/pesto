@@ -34,24 +34,4 @@ class Environment
         require $path;
         return ob_get_clean();
     }
-
-    public function renderPartial(string $name, array $data = []): string
-    {
-        $source = $this->loader->getSource($name);
-        $compiledCode = $this->compiler->compile($source);
-
-        extract($data);
-        ob_start();
-        eval('?>' . $compiledCode);
-        return ob_get_clean();
-    }
-
-    public function renderStack(string $name): string
-    {
-        if (isset($this->compiler->stacks[$name])) {
-            return implode("\n", $this->compiler->stacks[$name]);
-        }
-        return '';
-    }
-
 }

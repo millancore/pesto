@@ -2,11 +2,12 @@
 
 namespace Millancore\Pesto\Compiler;
 
+use Countable;
 use IteratorAggregate;
 use Dom\NodeList;
 use Traversable;
 
-class NodeCollection implements IteratorAggregate
+class NodeCollection implements IteratorAggregate, Countable
 {
     private NodeList $nodeList;
 
@@ -17,8 +18,14 @@ class NodeCollection implements IteratorAggregate
 
     public function isEmpty() : bool
     {
-        return $this->nodeList->count() === 0;
+        return $this->count() === 0;
     }
+
+    public function count() : int
+    {
+        return $this->nodeList->count();
+    }
+
 
     public function each(callable $callback): void
     {

@@ -18,7 +18,7 @@ class FileSystemCache implements CacheInterface
 
     public function getCompiledPath(string $name): string
     {
-        $hash = hash('sha256', $name);
+        $hash = hash('xxh128', $name);
         return $this->cacheDir . '/' . $hash . '.php';
     }
 

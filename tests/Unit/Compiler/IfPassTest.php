@@ -1,6 +1,6 @@
 <?php
 
-namespace Millancore\Pesto\Tests\Compiler;
+namespace Millancore\Pesto\Tests\Unit\Compiler;
 
 use Millancore\Pesto\Compiler\Pass\IfPass;
 use Millancore\Pesto\Compiler\Pesto;

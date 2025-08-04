@@ -68,4 +68,23 @@ class Node
         return $this->domNode->ownerDocument->createProcessingInstruction($target, $data);
     }
 
+    public function replaceWith(DomNode $node): void
+    {
+        if ($this->domNode->parentNode) {
+            $this->domNode->parentNode->replaceChild($node, $this->domNode);
+        }
+    }
+
+    public function getOuterXML(): string
+    {
+        return $this->domNode->ownerDocument->saveXml($this->domNode);
+    }
+
+
+    public function createDocumentFragment(): \Dom\DocumentFragment
+    {
+        return $this->domNode->ownerDocument->createDocumentFragment();
+    }
+
+
 }
