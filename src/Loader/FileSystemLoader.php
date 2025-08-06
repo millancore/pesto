@@ -9,6 +9,11 @@ class FileSystemLoader implements LoaderInterface
 {
     public function __construct(private string $templateDir) {}
 
+    public function isFile($file) : bool
+    {
+        return is_file($file);
+    }
+
     /**
      * @throws LoaderException
      */

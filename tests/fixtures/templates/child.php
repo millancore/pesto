@@ -1,10 +1,5 @@
-<div php-extends="layout.php">
+<div php-extends="parent.php">
     <div php-section="content">
-        <h1>Welcome to Child Template</h1>
-        <p>This is the content section that will be yielded in the parent layout.</p>
-
-        <?php if($rawCondition) : ?>
-            <p>This is a raw PHP conditional statement. also valid</p>
-        <?php endif; ?>
+        <h1>Child Content</h1>
     </div>
 </div>

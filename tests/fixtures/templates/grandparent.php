@@ -7,13 +7,7 @@
 </head>
 <body>
 
-<main php-yield="content">
-    <!-- Main content -->
-</main>
-
-<footer php-if="$showFooter">
-    <p>Footer</p>
-</footer>
+<main php-yield="content"><!-- Main content --></main>
 
 </body>
 </html>

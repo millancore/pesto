@@ -9,12 +9,18 @@ class Pesto
 {
     private HTMLDocument $document;
 
+    private bool $hasOriginalRootTags;
+
     private const string PHP_OPEN_TAG_PLACEHOLDER = '___PHP_OPEN_TAG___';
     private const string PHP_ECHO_TAG_PLACEHOLDER = '___PHP_ECHO_TAG___';
     private const string PHP_CLOSE_TAG_PLACEHOLDER = '___PHP_CLOSE_TAG___';
 
     public function __construct(string $html)
     {
+        $this->hasOriginalRootTags =
+            str_contains($html, '<html') ||
+            str_contains($html, '<body');
+
         $html = $this->replacePhpTags($html);
 
         $this->document = HTMLDocument::createFromString(
@@ -81,7 +87,11 @@ class Pesto
 
     public function getCompiledTemplate(): string
     {
-        $rendered = $this->document->saveXml(null, LIBXML_NOXMLDECL| LIBXML_COMPACT);
+        if (!$this->hasOriginalRootTags) {
+            $rendered = $this->getInnerXML('body');
+        } else {
+            $rendered = $this->document->saveXml(null, LIBXML_NOXMLDECL| LIBXML_COMPACT);
+        }
 
         return $this->replacePhpTagsBack($rendered);
     }

@@ -24,7 +24,9 @@ class Compiler implements CompilerInterface
     public function init() : void
     {
         $this->passes = [
-            new Compiler\Pass\ExtendsPass($this->loader),
+            new Compiler\Pass\ExtendsPass(),
+            new Compiler\Pass\SectionPass(),
+            new Compiler\Pass\YieldPass(),
             /*new Compiler\IncludePass(),
             new Compiler\StackPushPass($this),
             new Compiler\PrefixedAttributePass(),
