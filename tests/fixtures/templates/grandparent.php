@@ -7,7 +7,13 @@
 </head>
 <body>
 
-<main php-yield="content"><!-- Main content --></main>
+<main php-slot>
+    <h1>Default Grandparent Content</h1>
+</main>
+
+<div php-slot="footer">
+    <h1>Default Footer Content</h1>
+</div>
 
 </body>
 </html>

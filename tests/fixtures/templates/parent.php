@@ -1,8 +1,3 @@
-<div php-extends="grandparent.php">
-
-    <div php-section="content">
-        <h1>Parent content</h1>
-    </div>
-
-    <div php-yield="content"></div>
-</div>
+<fragment php-layout="grandparent.php">
+    <h1>Parent content</h1>
+</fragment>

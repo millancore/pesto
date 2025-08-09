@@ -47,8 +47,6 @@ class Environment
 
         array_pop($this->renderStack);
 
-        echo '------- delimiter -------'.PHP_EOL;
-
         $content  = ltrim(ob_get_clean());
 
         echo $content;
@@ -67,7 +65,7 @@ class Environment
         })();
     }
 
-    public function startSection(string $name): void
+    public function startSlot(string $name): void
     {
         if (ob_start()) {
             $this->sectionStack[] = $name;
@@ -75,7 +73,7 @@ class Environment
     }
 
 
-    public function stopSection(): void
+    public function stopSlot()
     {
         if (empty($this->sectionStack)) {
             throw new \Exception('No section started');
@@ -88,6 +86,8 @@ class Environment
         if(!array_key_exists($sectionName, $this->sections)) {
             $this->sections[$sectionName] =  $content;
         }
+
+        echo $content;
     }
 
     public function yield(string $name): void

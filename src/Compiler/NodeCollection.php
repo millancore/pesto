@@ -26,6 +26,11 @@ class NodeCollection implements IteratorAggregate, Countable
         return $this->nodeList->count();
     }
 
+    public function first() : Node
+    {
+        return new Node($this->nodeList->item(0));
+    }
+
 
     public function each(callable $callback): void
     {

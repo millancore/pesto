@@ -31,13 +31,15 @@ final class RenderTest extends TestCase
 
         /** @var View $render */
         ob_start();
-        $this->environment->render('child.php', [
-            'showFooter' => true,
+        $this->environment->render('parent.php', [
+            'showFooter' => false,
             'rawCondition' => true
         ]);
 
         $render = ob_get_clean();
-        file_put_contents('output.html', $render);
+
+        dump($render);
+        file_put_contents(__DIR__ . '/../fixtures/cache/parent.php', $render);
     }
 
 }

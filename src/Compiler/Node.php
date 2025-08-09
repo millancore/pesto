@@ -68,6 +68,11 @@ class Node
         return $this->domNode->ownerDocument->createProcessingInstruction($target, $data);
     }
 
+    public function createPHPInstruction(string $data): ProcessingInstruction
+    {
+        return $this->domNode->ownerDocument->createProcessingInstruction('php', $data);
+    }
+
     public function replaceWith(DomNode $node): void
     {
         if ($this->domNode->parentNode) {
@@ -84,6 +89,26 @@ class Node
     public function createDocumentFragment(): \Dom\DocumentFragment
     {
         return $this->domNode->ownerDocument->createDocumentFragment();
+    }
+
+    public function getFirstChild()
+    {
+        return $this->domNode->firstChild;
+    }
+
+    public function parentNode()
+    {
+        return $this->domNode->parentNode;
+    }
+
+    public function prepend(ProcessingInstruction $start)
+    {
+        $this->domNode->insertBefore($start, $this->domNode->firstChild);
+    }
+
+    public function append(ProcessingInstruction $end)
+    {
+        $this->domNode->appendChild($end);
     }
 
 
