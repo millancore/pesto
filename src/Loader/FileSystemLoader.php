@@ -24,6 +24,7 @@ class FileSystemLoader implements LoaderInterface
         if ($path === null || !is_readable($path)) {
             throw new LoaderException(sprintf('Template "%s" not found or not readable.', $name));
         }
+
         return file_get_contents($path);
     }
 

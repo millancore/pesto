@@ -2,53 +2,39 @@
 
 namespace Millancore\Pesto;
 
-use Millancore\Pesto\Compiler\Pesto;
-use Millancore\Pesto\Contract\CompilerInterface;
-use Millancore\Pesto\Contract\CompilerPassInterface;
+use Millancore\Pesto\Compiler\SyntaxCompiler;
+use Millancore\Pesto\Compiler\NodeCompiler;
 use Millancore\Pesto\Contract\LoaderInterface;
+use Millancore\Pesto\Contract\CompilerInterface;
 
 class Compiler implements CompilerInterface
 {
-    /** @var CompilerInterface[] */
-    protected array $passes = [];
-
-    protected LoaderInterface $loader;
+    private LoaderInterface $loader;
+    private SyntaxCompiler $syntaxCompiler;
+    private NodeCompiler $nodeCompiler;
 
     public function __construct(LoaderInterface $loader)
     {
         $this->loader = $loader;
+        $this->syntaxCompiler = new SyntaxCompiler();
 
-        $this->init();
-    }
-
-    public function init() : void
-    {
-        $this->passes = [
+        $domPasses = [
             new Compiler\Pass\LayoutPass(),
+            // TODO: Remove this pass
             new Compiler\Pass\SlotPass(),
-            new Compiler\Pass\YieldPass(),
-            /*new Compiler\IncludePass(),
-            new Compiler\StackPushPass($this),
-            new Compiler\PrefixedAttributePass(),
-            new Compiler\ForeachPass(), */
+            new Compiler\Pass\PartialPass(),
             new Compiler\Pass\IfPass(),
-            /*new Compiler\TextPass(),
-            new Compiler\HtmlPass(),
-            new Compiler\StackRenderPass(), */
+            new Compiler\Pass\UnwrapPass()
+            //...
         ];
-    }
 
-    public array $stacks = [];
+        $this->nodeCompiler = new NodeCompiler($domPasses);
+    }
 
     public function compile(string $source): string
     {
-        $pesto = new Pesto($source);
+        $preprocessedSource = $this->syntaxCompiler->compile($source);
 
-        /** @var CompilerPassInterface $pass */
-        foreach ($this->passes as $pass) {
-            $pass->compile($pesto);
-        }
-
-        return $pesto->getCompiledTemplate();
+        return $this->nodeCompiler->compile($preprocessedSource);
     }
 }

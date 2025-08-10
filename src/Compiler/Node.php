@@ -111,5 +111,30 @@ class Node
         $this->domNode->appendChild($end);
     }
 
+    public function unwrap(): void
+    {
+        // Move all children to be siblings before the current node
+        while ($this->domNode->hasChildNodes()) {
+            $child = $this->domNode->firstChild;
+            // Detach the child from the current node and get it back
+            $this->domNode->removeChild($child);
+            // Insert the child before the current node
+            $this->domNode->parentNode->insertBefore($child, $this->domNode);
+        }
+
+        // Remove the now-empty node
+        $this->domNode->parentNode->removeChild($this->domNode);
+    }
+
+    public function after(DomNode $newNode): void
+    {
+        if ($this->domNode->nextSibling) {
+            $this->domNode->parentNode->insertBefore($newNode, $this->domNode->nextSibling);
+        } else {
+            $this->domNode->parentNode->appendChild($newNode);
+        }
+
+    }
+
 
 }

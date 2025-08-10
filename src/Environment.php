@@ -72,6 +72,28 @@ class Environment
         }
     }
 
+    public function start(string $name, array $data = []) : void
+    {
+        if (ob_start()) {
+            $this->sectionStack[] = [
+                'name' => $name,
+                'data' => $data
+            ];
+        }
+
+    }
+
+    public function end() : void
+    {
+        $content = ob_get_clean();
+
+        $partial = array_pop($this->sectionStack);
+
+        $partial['data']['slots']['__default'] = $content;
+
+        $this->render($partial['name'], $partial['data']);
+    }
+
 
     public function stopSlot()
     {
