@@ -112,8 +112,8 @@ class Environment
         echo $content;
     }
 
-    public function yield(string $name): void
+    public function escape($expression)
     {
-        echo $this->sections[$name] ?? '';
+        return htmlspecialchars($expression, ENT_QUOTES, 'UTF-8');
     }
 }

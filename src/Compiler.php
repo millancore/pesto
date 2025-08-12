@@ -24,6 +24,7 @@ class Compiler implements CompilerInterface
             new Compiler\Pass\SlotPass(),
             new Compiler\Pass\PartialPass(),
             new Compiler\Pass\IfPass(),
+            new Compiler\Pass\ContextPass(),
             new Compiler\Pass\UnwrapPass()
             //...
         ];
@@ -33,8 +34,8 @@ class Compiler implements CompilerInterface
 
     public function compile(string $source): string
     {
-        $preprocessedSource = $this->syntaxCompiler->compile($source);
+        $domProcessedSource = $this->nodeCompiler->compile($source);
 
-        return $this->nodeCompiler->compile($preprocessedSource);
+        return $this->syntaxCompiler->compile($domProcessedSource);
     }
 }

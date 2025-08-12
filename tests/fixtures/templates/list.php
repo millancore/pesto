@@ -1,6 +1,6 @@
-<ul>
+<div id="{{$id}}">
     {{ $slot }}
-</ul>
+</div>
 
 
 

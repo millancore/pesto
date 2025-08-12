@@ -89,6 +89,6 @@ class SyntaxCompiler implements CompilerInterface
 
     private function compileEscapedVariable(string $expression): string
     {
-        return "<?= htmlspecialchars({$expression} ?? \"\", ENT_QUOTES, \"UTF-8\") ?>";
+        return "<?= \$__pesto->escape($expression) ?>";
     }
 }
