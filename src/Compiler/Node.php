@@ -22,6 +22,12 @@ class Node
         return $this->domNode->getAttribute($name);
     }
 
+    public function getDomNode(): DomNode
+    {
+        return $this->domNode;
+
+    }
+
     public function hasAttribute(string $name): bool
     {
         return $this->domNode->hasAttribute($name);
@@ -135,6 +141,5 @@ class Node
         }
 
     }
-
 
 }

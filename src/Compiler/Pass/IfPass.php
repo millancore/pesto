@@ -6,7 +6,7 @@ use Millancore\Pesto\Compiler\Node;
 use Millancore\Pesto\Compiler\Pesto;
 use Millancore\Pesto\Contract\CompilerPassInterface;
 
-class IfPass implements CompilerPassInterface
+class IfPass extends AbstractPass implements CompilerPassInterface
 {
     public function compile(Pesto $pesto): void
     {
@@ -35,6 +35,8 @@ class IfPass implements CompilerPassInterface
             $anchorNode->insertAfter($phpClose);
 
             $node->removeAttribute('php-if');
+
+            $this->markTemplateForUnwrapping($node);
         });
     }
     

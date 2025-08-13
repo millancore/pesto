@@ -6,7 +6,7 @@ use Millancore\Pesto\Compiler\Node;
 use Millancore\Pesto\Compiler\Pesto;
 use Millancore\Pesto\Contract\CompilerPassInterface;
 
-class PartialPass implements CompilerPassInterface
+class PartialPass extends AbstractPass implements CompilerPassInterface
 {
 
     public function compile(Pesto $pesto): void
@@ -20,12 +20,15 @@ class PartialPass implements CompilerPassInterface
             $data = $element->getAttribute('php-with') ?? '[]';
             $element->removeAttribute('php-with');
 
+
             $startInstruction = $element->createPHPInstruction('$__pesto->start("' . $partialView . '", ' . $data . '); ');
 
             $endInstruction = $element->createPHPInstruction('$__pesto->end(); ');
 
             $element->insertBefore($startInstruction);
             $element->insertAfter($endInstruction);
+
+            $this->markTemplateForUnwrapping($element);
         });
     }
 }

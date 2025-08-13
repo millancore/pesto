@@ -1,3 +1,3 @@
-<div id="{{$id|ucfirst}}">
+<ul id="{{$id}}">
     {!! $slot !!}
-</div>
+</ul>

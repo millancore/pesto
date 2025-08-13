@@ -23,7 +23,7 @@ class PartialTest extends TestCase
     public function test_render_partial()
     {
         $cachePath = __DIR__ . '/../fixtures/cache';
-        array_map('unlink', glob($cachePath . '/*'));
+        //array_map('unlink', glob($cachePath . '/*'));
 
         ob_start();
         $this->environment->render('composition-list.php');

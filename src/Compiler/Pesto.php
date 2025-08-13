@@ -11,6 +11,8 @@ class Pesto
 
     private bool $hasOriginalRootTags;
 
+    private bool $wasWrappedForTemplate = false;
+
     private const string PHP_OPEN_TAG_PLACEHOLDER = '___PHP_OPEN_TAG___';
     private const string PHP_ECHO_TAG_PLACEHOLDER = '___PHP_ECHO_TAG___';
     private const string PHP_CLOSE_TAG_PLACEHOLDER = '___PHP_CLOSE_TAG___';
@@ -22,6 +24,8 @@ class Pesto
             str_contains($html, '<body');
 
         $html = $this->replacePhpTags($html);
+
+        $html = $this->wrapTemplateIfNeeded($html);
 
         $this->document = HTMLDocument::createFromString(
             $html,
@@ -41,6 +45,18 @@ class Pesto
     {
         return $this->document;
 
+    }
+
+    private function wrapTemplateIfNeeded(string $html): string
+    {
+        $trimmedHtml = trim($html);
+
+        if (str_starts_with($trimmedHtml, '<template')) {
+            $this->wasWrappedForTemplate = true;
+            return '<div id="__pesto-template-wrapper__">' . $html . '</div>';
+        }
+
+        return $html;
     }
 
 
@@ -87,14 +103,23 @@ class Pesto
 
     public function getCompiledTemplate(): string
     {
-        if (!$this->hasOriginalRootTags) {
-            $rendered = $this->getInnerXML('body');
-        } else {
-            $rendered = $this->document->saveXml(null, LIBXML_NOXMLDECL| LIBXML_COMPACT);
+        return $this->replacePhpTagsBack($this->getRenderedContent());
+    }
+
+    private function getRenderedContent(): string
+    {
+        if ($this->hasOriginalRootTags) {
+            return $this->document->saveXml(null, LIBXML_NOXMLDECL | LIBXML_COMPACT);
         }
 
-        return $this->replacePhpTagsBack($rendered);
+        if ($this->wasWrappedForTemplate) {
+            return $this->getInnerXML('#__pesto-template-wrapper__');
+        }
+
+        return $this->getInnerXML('body');
     }
+
+
 
 
 }

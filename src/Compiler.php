@@ -21,6 +21,7 @@ class Compiler implements CompilerInterface
         $domPasses = [
             new Compiler\Pass\PartialPass(),
             new Compiler\Pass\IfPass(),
+            new Compiler\Pass\ForeachPass(),
             new Compiler\Pass\ContextPass(),
             new Compiler\Pass\UnwrapPass()
             //...
