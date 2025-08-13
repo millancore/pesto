@@ -54,7 +54,7 @@ class ContextPass implements CompilerPassInterface
         return match (strtolower($parentElement->nodeName ?? '')) {
             'script' => 'js',
             'style' => 'css',
-            default => 'html'
+            default => 'escape'
         };
     }
 
@@ -72,10 +72,6 @@ class ContextPass implements CompilerPassInterface
 
     private function markContext(string $content, string $context): string
     {
-        if ($context === 'html') {
-            return $content;
-        }
-
-        return preg_replace('/\{\{([^}|]+)(\|.*?)?\}\}/', '{{$1|' . $context . '$2}}', $content);
+        return preg_replace('/\{\{([^}|]+)(\|.*?)?\}\}/', '{{$1$2|' . $context . '}}', $content);
     }
 }

@@ -19,9 +19,6 @@ class Compiler implements CompilerInterface
         $this->syntaxCompiler = new SyntaxCompiler();
 
         $domPasses = [
-            new Compiler\Pass\LayoutPass(),
-            // TODO: Remove this pass
-            new Compiler\Pass\SlotPass(),
             new Compiler\Pass\PartialPass(),
             new Compiler\Pass\IfPass(),
             new Compiler\Pass\ContextPass(),

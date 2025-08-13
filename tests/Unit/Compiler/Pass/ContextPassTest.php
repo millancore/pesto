@@ -29,7 +29,7 @@ class ContextPassTest extends TestCase
     public function test_compile_html_content_context(): void
     {
         $html = '<div>{{$value}}</div>';
-        $expected = '<div>{{$value}}</div>';
+        $expected = '<div>{{$value|escape}}</div>';
 
         $pesto = new Pesto($html);
         $this->pass->compile($pesto);
@@ -74,7 +74,7 @@ class ContextPassTest extends TestCase
     public function test_compile_with_extra_filters() : void
     {
         $html = '<div class="container {{$class|trim}}">Text</div>';
-        $expected = '<div class="container {{$class|attr|trim}}">Text</div>';
+        $expected = '<div class="container {{$class|trim|attr}}">Text</div>';
 
         $pesto = new Pesto($html);
         $this->pass->compile($pesto);

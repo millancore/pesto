@@ -6,11 +6,8 @@ use Millancore\Pesto\Contract\CompilerInterface;
 
 class SyntaxCompiler implements CompilerInterface
 {
-    private const ESCAPED_PATTERN = '/\{\{(.*?)\}\}/s';
-    private const UNESCAPED_PATTERN = '/\{!!(.*?)!!\}/s';
-
-    private const SLOT_DEFAULT_NAME = '__default';
-    private const SLOT_VARIABLE = '$slot';
+    private const string ESCAPED_PATTERN = '/\{\{(.*?)\}\}/s';
+    private const string UNESCAPED_PATTERN = '/\{!!(.*?)!!\}/s';
 
     public function compile(string $source): string
     {
@@ -18,9 +15,7 @@ class SyntaxCompiler implements CompilerInterface
         $source = $this->compileUnescapedExpressions($source);
 
         // Second pass: handle escaped expressions {{ }}
-        $source = $this->compileEscapedExpressions($source);
-
-        return $source;
+        return $this->compileEscapedExpressions($source);
     }
 
     private function compileUnescapedExpressions(string $source): string
@@ -43,52 +38,35 @@ class SyntaxCompiler implements CompilerInterface
 
     private function handleUnescapedExpression(string $expression): string
     {
-        $expression = trim($expression);
-        return "<?= {$expression} ?? \"\" ?>";
+        return "<?php echo trim($expression) ?>";
     }
 
     private function handleEscapedExpression(string $expression): string
     {
         $expression = trim($expression);
 
-        if ($this->isDefaultSlot($expression)) {
-            return $this->compileDefaultSlot();
+        $parts = explode('|', $expression);
+        $variable = trim(array_shift($parts));
+
+        $filters = array_map(
+            fn($filter) => $this->formatFilter(trim($filter)),
+            array_filter($parts, fn($part) => trim($part) !== '')
+        );
+
+        $filtersArray = empty($filters) ? '[]' : '[' . implode(', ', $filters) . ']';
+
+        return "<?= \$__pesto->output($variable, $filtersArray) ?>";
+    }
+
+    private function formatFilter(string $filter): string
+    {
+        if (!str_contains($filter, ':')) {
+            return "'$filter'";
         }
 
-        if ($this->isNamedSlot($expression, $slotName)) {
-            return $this->compileNamedSlot($slotName);
-        }
+        [$name, $params] = explode(':', $filter, 2);
+        $paramList = implode(', ', array_map('trim', explode(',', $params)));
 
-        return $this->compileEscapedVariable($expression);
-    }
-
-    private function isDefaultSlot(string $expression): bool
-    {
-        return $expression === self::SLOT_VARIABLE;
-    }
-
-    private function isNamedSlot(string $expression, ?string &$slotName = null): bool
-    {
-        if (preg_match('/^slot\((["\'])(.*?)\1\)$/', $expression, $matches)) {
-            $slotName = $matches[2];
-            return true;
-        }
-
-        return false;
-    }
-
-    private function compileDefaultSlot(): string
-    {
-        return "<?= \$slots['" . self::SLOT_DEFAULT_NAME . "'] ?? \"\" ?>";
-    }
-
-    private function compileNamedSlot(string $slotName): string
-    {
-        return "<?= \$slots['{$slotName}'] ?? \"\" ?>";
-    }
-
-    private function compileEscapedVariable(string $expression): string
-    {
-        return "<?= \$__pesto->escape($expression) ?>";
+        return "['$name', $paramList]";
     }
 }

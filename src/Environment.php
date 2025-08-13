@@ -2,33 +2,39 @@
 
 namespace Millancore\Pesto;
 
+use Exception;
 use Millancore\Pesto\Contract\CacheInterface;
 use Millancore\Pesto\Contract\CompilerInterface;
 use Millancore\Pesto\Contract\LoaderInterface;
+use Millancore\Pesto\Filter\CoreFiltersStack;
+use Millancore\Pesto\Filter\FilterRegister;
 
 class Environment
 {
     protected array $sectionStack = [];
-    protected array $sections = [];
     protected array $renderStack = [];
 
+    protected FilterRegister $filterRegister;
+
     public function __construct(
-        private LoaderInterface   $loader,
-        private CompilerInterface $compiler,
-        private CacheInterface    $cache
+        private readonly LoaderInterface $loader,
+        private readonly CompilerInterface $compiler,
+        private readonly CacheInterface $cache
     )
     {
+        $this->filterRegister = new FilterRegister([
+            new CoreFiltersStack()
+        ]);
     }
 
-    public function make(string $name, array $data = []): View
-    {
-        return new View($this, $name, $data);
-    }
 
-    public function render(string $name, array $data = [])
+    /**
+     * @throws Exception
+     */
+    public function render(string $name, array $data = []): void
     {
         if (in_array($name, $this->renderStack)) {
-            throw new \Exception("Circular template dependency detected: " . implode(' -> ', $this->renderStack) . " -> $name");
+            throw new Exception("Circular template dependency detected: " . implode(' -> ', $this->renderStack) . " -> $name");
         }
 
         $this->renderStack[] = $name;
@@ -52,25 +58,19 @@ class Environment
         echo $content;
     }
 
-    private function renderTemplate(string $path, array $data)
+    private function renderTemplate(string $path, array $data): void
     {
         $__pesto = $this;
         $__data = $data;
         $__path = $path;
 
-        return (static function () use ($__path, $__pesto, $__data) {
+        (static function () use ($__path, $__pesto, $__data) {
             extract($__data, EXTR_SKIP);
 
             return require $__path;
         })();
     }
 
-    public function startSlot(string $name): void
-    {
-        if (ob_start()) {
-            $this->sectionStack[] = $name;
-        }
-    }
 
     public function start(string $name, array $data = []) : void
     {
@@ -83,37 +83,27 @@ class Environment
 
     }
 
+    /**
+     * @throws Exception
+     */
     public function end() : void
     {
         $content = ob_get_clean();
 
         $partial = array_pop($this->sectionStack);
 
-        $partial['data']['slots']['__default'] = $content;
+        $partial['data']['slot'] = $content;
 
         $this->render($partial['name'], $partial['data']);
     }
 
 
-    public function stopSlot()
+    public function output($expression, $filters = [])
     {
-        if (empty($this->sectionStack)) {
-            throw new \Exception('No section started');
+        foreach ($filters as $filter) {
+            $expression = $this->filterRegister->apply($expression, $filter);
         }
 
-        $sectionName = array_pop($this->sectionStack);
-
-        $content = ob_get_clean();
-
-        if(!array_key_exists($sectionName, $this->sections)) {
-            $this->sections[$sectionName] =  $content;
-        }
-
-        echo $content;
-    }
-
-    public function escape($expression)
-    {
-        return htmlspecialchars($expression, ENT_QUOTES, 'UTF-8');
+        return $expression;
     }
 }
