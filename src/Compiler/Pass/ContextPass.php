@@ -2,10 +2,10 @@
 
 namespace Millancore\Pesto\Compiler\Pass;
 
-use Millancore\Pesto\Compiler\Pesto;
-use Millancore\Pesto\Contract\CompilerPassInterface;
+use Millancore\Pesto\Contract\CompilerPass;
+use Millancore\Pesto\Pesto;
 
-class ContextPass implements CompilerPassInterface
+class ContextPass implements CompilerPass
 {
     public function compile(Pesto $pesto): void
     {

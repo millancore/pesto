@@ -2,9 +2,9 @@
 
 namespace Millancore\Pesto\Compiler\Pass;
 
-use Millancore\Pesto\Compiler\Node;
+use Millancore\Pesto\Dom\Node;
 
-class AbstractPass
+class Pass
 {
     private const string TEMPLATE_TAG = 'template';
     private const string UNWRAP_ATTRIBUTE = 'php-inner';

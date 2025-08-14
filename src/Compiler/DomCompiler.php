@@ -2,12 +2,13 @@
 
 namespace Millancore\Pesto\Compiler;
 
-use Millancore\Pesto\Contract\CompilerPassInterface;
-use Millancore\Pesto\Contract\CompilerInterface;
+use Millancore\Pesto\Contract\Compiler;
+use Millancore\Pesto\Contract\CompilerPass;
+use Millancore\Pesto\Pesto;
 
-class NodeCompiler implements CompilerInterface
+class DomCompiler implements Compiler
 {
-    /** @var CompilerPassInterface[] */
+    /** @var CompilerPass[] */
     private array $passes;
 
     public function __construct(array $passes)

@@ -2,9 +2,9 @@
 
 namespace Millancore\Pesto\Compiler;
 
-use Millancore\Pesto\Contract\CompilerInterface;
+use Millancore\Pesto\Contract\Compiler;
 
-class SyntaxCompiler implements CompilerInterface
+class SyntaxCompiler implements Compiler
 {
     private const string ESCAPED_PATTERN = '/\{\{(.*?)\}\}/s';
     private const string UNESCAPED_PATTERN = '/\{!!(.*?)!!\}/s';

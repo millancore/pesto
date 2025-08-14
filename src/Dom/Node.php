@@ -1,6 +1,6 @@
 <?php
 
-namespace Millancore\Pesto\Compiler;
+namespace Millancore\Pesto\Dom;
 
 use Dom\Node as DomNode;
 use Dom\ProcessingInstruction;

@@ -3,9 +3,9 @@
 namespace Millancore\Pesto;
 
 use Exception;
-use Millancore\Pesto\Contract\CacheInterface;
-use Millancore\Pesto\Contract\CompilerInterface;
-use Millancore\Pesto\Contract\LoaderInterface;
+use Millancore\Pesto\Contract\Cache;
+use Millancore\Pesto\Contract\Compiler;
+use Millancore\Pesto\Contract\Loader;
 use Millancore\Pesto\Filter\CoreFiltersStack;
 use Millancore\Pesto\Filter\FilterRegister;
 
@@ -17,9 +17,9 @@ class Environment
     protected FilterRegister $filterRegister;
 
     public function __construct(
-        private readonly LoaderInterface $loader,
-        private readonly CompilerInterface $compiler,
-        private readonly CacheInterface $cache
+        private readonly Loader   $loader,
+        private readonly Compiler $compiler,
+        private readonly Cache    $cache
     )
     {
         $this->filterRegister = new FilterRegister([

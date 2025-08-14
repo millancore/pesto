@@ -3,13 +3,14 @@
 namespace Millancore\Pesto\Filter;
 
 use InvalidArgumentException;
+use Millancore\Pesto\Contract\StackFilter;
 
 class FilterRegister
 {
     private array $filters = [];
 
     /**
-     * @param StackFilterInterface[] $stackFilters
+     * @param StackFilter[] $stackFilters
      */
     public function __construct(array $stackFilters = [])
     {

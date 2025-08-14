@@ -2,7 +2,7 @@
 
 namespace Millancore\Pesto\Contract;
 
-interface CompilerInterface
+interface Compiler
 {
     public function compile(string $source): string;
 }

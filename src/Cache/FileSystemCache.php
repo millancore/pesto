@@ -2,14 +2,14 @@
 
 namespace Millancore\Pesto\Cache;
 
-use Millancore\Pesto\Contract\CacheInterface;
-use Millancore\Pesto\Contract\LoaderInterface;
+use Millancore\Pesto\Contract\Cache;
+use Millancore\Pesto\Contract\Loader;
 
-class FileSystemCache implements CacheInterface
+class FileSystemCache implements Cache
 {
     public function __construct(
         private string $cacheDir,
-        private LoaderInterface $loader
+        private Loader $loader
     ) {
         if (!is_dir($this->cacheDir)) {
             mkdir($this->cacheDir, 0777, true);

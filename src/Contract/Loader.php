@@ -2,7 +2,7 @@
 
 namespace Millancore\Pesto\Contract;
 
-interface LoaderInterface
+interface Loader
 {
     public function getSource(string $name): string;
     public function getPath(string $name): ?string;

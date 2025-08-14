@@ -2,9 +2,9 @@
 
 namespace Millancore\Pesto\Contract;
 
-use Millancore\Pesto\Compiler\Pesto;
+use Millancore\Pesto\Pesto;
 
-interface CompilerPassInterface
+interface CompilerPass
 {
     public function compile(Pesto $pesto): void;
 

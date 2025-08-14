@@ -2,7 +2,7 @@
 
 namespace Millancore\Pesto\Contract;
 
-interface HtmlableInterface
+interface Htmlable
 {
     public function toHtml(): string;
 }

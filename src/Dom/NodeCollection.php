@@ -1,10 +1,10 @@
 <?php
 
-namespace Millancore\Pesto\Compiler;
+namespace Millancore\Pesto\Dom;
 
 use Countable;
-use IteratorAggregate;
 use Dom\NodeList;
+use IteratorAggregate;
 use Traversable;
 
 class NodeCollection implements IteratorAggregate, Countable
@@ -31,7 +31,6 @@ class NodeCollection implements IteratorAggregate, Countable
         return new Node($this->nodeList->item(0));
     }
 
-
     public function each(callable $callback): void
     {
         $count = $this->nodeList->count();
@@ -40,13 +39,11 @@ class NodeCollection implements IteratorAggregate, Countable
         }
     }
 
-
     public function getIterator(): Traversable
     {
         for ($i = 0; $i < $this->nodeList->count(); $i++) {
             yield new Node($this->nodeList->item($i));
         }
     }
-
 
 }

@@ -3,9 +3,10 @@
 namespace Millancore\Pesto\Filter;
 
 use InvalidArgumentException;
-use Millancore\Pesto\Contract\HtmlableInterface;
+use Millancore\Pesto\Contract\Htmlable;
+use Millancore\Pesto\Contract\StackFilter;
 
-class CoreFiltersStack implements StackFilterInterface
+class CoreFiltersStack implements StackFilter
 {
 
     public function getFilters(): array
@@ -27,7 +28,7 @@ class CoreFiltersStack implements StackFilterInterface
 
         if (is_object($value)) {
 
-            if ($value instanceof HtmlableInterface) {
+            if ($value instanceof Htmlable) {
                 return $value->toHtml();
             }
 

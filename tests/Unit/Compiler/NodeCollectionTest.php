@@ -4,9 +4,9 @@ namespace Millancore\Pesto\Tests\Unit\Compiler;
 
 use Countable;
 use IteratorAggregate;
-use Millancore\Pesto\Compiler\Node;
-use Millancore\Pesto\Compiler\NodeCollection;
-use Millancore\Pesto\Compiler\Pesto;
+use Millancore\Pesto\Dom\Node;
+use Millancore\Pesto\Dom\NodeCollection;
+use Millancore\Pesto\Pesto;
 use PHPUnit\Framework\TestCase;
 
 final class NodeCollectionTest extends TestCase

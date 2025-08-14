@@ -2,11 +2,11 @@
 
 namespace Millancore\Pesto\Compiler\Pass;
 
-use Millancore\Pesto\Compiler\Node;
-use Millancore\Pesto\Compiler\Pesto;
-use Millancore\Pesto\Contract\CompilerPassInterface;
+use Millancore\Pesto\Contract\CompilerPass;
+use Millancore\Pesto\Dom\Node;
+use Millancore\Pesto\Pesto;
 
-class ForeachPass extends AbstractPass implements CompilerPassInterface
+class ForeachPass extends Pass implements CompilerPass
 {
 
     public function compile(Pesto $pesto): void

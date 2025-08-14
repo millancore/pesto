@@ -1,8 +1,8 @@
 <?php
 
-namespace Millancore\Pesto\Filter;
+namespace Millancore\Pesto\Contract;
 
-interface StackFilterInterface
+interface StackFilter
 {
     /**
      * @return array<string, callable>

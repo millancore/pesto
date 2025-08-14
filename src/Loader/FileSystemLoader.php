@@ -2,10 +2,10 @@
 
 namespace Millancore\Pesto\Loader;
 
-use Millancore\Pesto\Contract\LoaderInterface;
+use Millancore\Pesto\Contract\Loader;
 use Millancore\Pesto\Exception\LoaderException;
 
-class FileSystemLoader implements LoaderInterface
+class FileSystemLoader implements Loader
 {
     public function __construct(private string $templateDir) {}
 

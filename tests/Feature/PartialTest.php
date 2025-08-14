@@ -3,7 +3,7 @@
 namespace Millancore\Pesto\Tests\Feature;
 
 use Millancore\Pesto\Cache\FileSystemCache;
-use Millancore\Pesto\Compiler;
+use Millancore\Pesto\Compiler\PestoCompiler;
 use Millancore\Pesto\Environment;
 use Millancore\Pesto\Loader\FileSystemLoader;
 use Millancore\Pesto\Tests\TestCase;
@@ -16,7 +16,7 @@ class PartialTest extends TestCase
     {
         $loader = new FileSystemLoader(__DIR__ . '/../fixtures/templates');
         $cache = new FileSystemCache(__DIR__ . '/../fixtures/cache', $loader);
-        $compiler = new Compiler($loader);
+        $compiler = new PestoCompiler($loader);
         $this->environment = new Environment($loader, $compiler, $cache);
     }
 

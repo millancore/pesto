@@ -4,7 +4,7 @@ namespace Millancore\Pesto\Tests\Unit\Compiler;
 
 use Dom\HTMLDocument;
 use Dom\ProcessingInstruction;
-use Millancore\Pesto\Compiler\Node;
+use Millancore\Pesto\Dom\Node;
 use PHPUnit\Framework\TestCase;
 use const Dom\HTML_NO_DEFAULT_NS;
 
