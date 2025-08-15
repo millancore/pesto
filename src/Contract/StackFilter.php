@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Millancore\Pesto\Contract;
 
 interface StackFilter
@@ -7,5 +9,5 @@ interface StackFilter
     /**
      * @return array<string, callable>
      */
-    public function getFilters() : array;
+    public function getFilters(): array;
 }

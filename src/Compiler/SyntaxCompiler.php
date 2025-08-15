@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Millancore\Pesto\Compiler;
 
 use Millancore\Pesto\Contract\Compiler;
@@ -22,8 +24,8 @@ class SyntaxCompiler implements Compiler
     {
         return preg_replace_callback(
             self::UNESCAPED_PATTERN,
-            fn($matches) => $this->handleUnescapedExpression($matches[1]),
-            $source
+            fn ($matches) => $this->handleUnescapedExpression($matches[1]),
+            $source,
         );
     }
 
@@ -31,8 +33,8 @@ class SyntaxCompiler implements Compiler
     {
         return preg_replace_callback(
             self::ESCAPED_PATTERN,
-            fn($matches) => $this->handleEscapedExpression($matches[1]),
-            $source
+            fn ($matches) => $this->handleEscapedExpression($matches[1]),
+            $source,
         );
     }
 
@@ -49,11 +51,11 @@ class SyntaxCompiler implements Compiler
         $variable = trim(array_shift($parts));
 
         $filters = array_map(
-            fn($filter) => $this->formatFilter(trim($filter)),
-            array_filter($parts, fn($part) => trim($part) !== '')
+            fn ($filter) => $this->formatFilter(trim($filter)),
+            array_filter($parts, fn ($part) => trim($part) !== ''),
         );
 
-        $filtersArray = empty($filters) ? '[]' : '[' . implode(', ', $filters) . ']';
+        $filtersArray = empty($filters) ? '[]' : '['.implode(', ', $filters).']';
 
         return "<?= \$__pesto->output($variable, $filtersArray) ?>";
     }

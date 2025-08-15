@@ -26,7 +26,14 @@
   },
   "require-dev": {
     "phpunit/phpunit": "^12.3",
-    "symfony/var-dumper": "^7.3"
+    "symfony/var-dumper": "^7.3",
+    "phpstan/phpstan": "^2.1",
+    "friendsofphp/php-cs-fixer": "^3.86"
+  },
+  "scripts": {
+    "test": "vendor/bin/phpunit",
+    "phpstan": "vendor/bin/phpstan analyse src tests",
+    "fixer": "vendor/bin/php-cs-fixer fix"
   },
   "minimum-stability": "stable"
 }

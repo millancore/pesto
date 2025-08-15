@@ -1,11 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Millancore\Pesto\Tests\Feature;
 
-use Millancore\Pesto\Cache\FileSystemCache;
-use Millancore\Pesto\Compiler\PestoCompiler;
 use Millancore\Pesto\Environment;
-use Millancore\Pesto\Loader\FileSystemLoader;
+use Millancore\Pesto\PestoFactory;
 use Millancore\Pesto\Tests\TestCase;
 
 class PartialTest extends TestCase
@@ -14,22 +14,21 @@ class PartialTest extends TestCase
 
     public function setUp(): void
     {
-        $loader = new FileSystemLoader(__DIR__ . '/../fixtures/templates');
-        $cache = new FileSystemCache(__DIR__ . '/../fixtures/cache', $loader);
-        $compiler = new PestoCompiler($loader);
-        $this->environment = new Environment($loader, $compiler, $cache);
+        $this->environment = PestoFactory::create(
+            self::TEMPLATE_PATH,
+            self::CACHE_PATH,
+        );
     }
 
-    public function test_render_partial()
+    public function testRenderPartial(): void
     {
-        $cachePath = __DIR__ . '/../fixtures/cache';
-        //array_map('unlink', glob($cachePath . '/*'));
+        $this->refreshCache();
 
         ob_start();
         $this->environment->render('composition-list.php');
         $content = ob_get_clean();
 
-        file_put_contents(__DIR__ . '/../fixtures/cache/composition-list.php', $content);
-        dd($content);
+        file_put_contents(__DIR__.'/../fixtures/cache/composition-list.php', $content);
+        // dd($content);
     }
 }

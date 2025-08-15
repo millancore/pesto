@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Millancore\Pesto\Compiler;
 
 use Millancore\Pesto\Contract\Compiler;
@@ -21,8 +23,8 @@ class PestoCompiler implements Compiler
             new Pass\IfPass(),
             new Pass\ForeachPass(),
             new Pass\ContextPass(),
-            new Pass\UnwrapPass()
-            //...
+            new Pass\UnwrapPass(),
+            // ...
         ];
 
         $this->nodeCompiler = new DomCompiler($domPasses);

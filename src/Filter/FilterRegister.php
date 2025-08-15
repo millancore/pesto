@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Millancore\Pesto\Filter;
 
-use InvalidArgumentException;
 use Millancore\Pesto\Contract\StackFilter;
 
 class FilterRegister
@@ -28,7 +29,7 @@ class FilterRegister
 
     public function has(string $name): bool
     {
-       return isset($this->filters[$name]);
+        return isset($this->filters[$name]);
     }
 
     public function get(string $name): callable
@@ -37,25 +38,21 @@ class FilterRegister
             return $this->filters[$name];
         }
 
-        if(is_callable($name)) {
+        if (is_callable($name)) {
             return $name;
         }
 
-        throw new InvalidArgumentException(sprintf('Filter "%s" not found.', $name));
+        throw new \InvalidArgumentException(sprintf('Filter "%s" not found.', $name));
     }
 
-    public function apply(mixed $expression, string|array $filter) : mixed
+    public function apply(mixed $expression, string|array $filter): mixed
     {
         if (is_string($filter)) {
             return $this->get($filter)($expression);
         }
 
-
         $filterName = array_shift($filter);
 
-
         return $this->get($filterName)($expression, ...$filter);
-
     }
-
 }

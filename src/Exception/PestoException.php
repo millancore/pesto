@@ -1,10 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Millancore\Pesto\Exception;
 
-use Exception;
-
-class PestoException extends Exception
+class PestoException extends \Exception
 {
-
 }

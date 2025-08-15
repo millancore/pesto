@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Millancore\Pesto\Compiler\Pass;
 
 use Millancore\Pesto\Contract\CompilerPass;
@@ -8,7 +10,6 @@ use Millancore\Pesto\Pesto;
 
 class ForeachPass extends Pass implements CompilerPass
 {
-
     public function compile(Pesto $pesto): void
     {
         $elements = $pesto->find('[php-foreach]');
@@ -16,7 +17,6 @@ class ForeachPass extends Pass implements CompilerPass
         $elements->each(function (Node $element) {
             $foreachExpression = $element->getAttribute('php-foreach');
             $element->removeAttribute('php-foreach');
-
 
             $startInstruction = $element->createPHPInstruction("foreach($foreachExpression): ");
             $endInstruction = $element->createPHPInstruction('endforeach; ');
@@ -26,7 +26,5 @@ class ForeachPass extends Pass implements CompilerPass
 
             $this->markTemplateForUnwrapping($element);
         });
-
-
     }
 }

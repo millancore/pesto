@@ -1,11 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Millancore\Pesto;
 
 use Dom\HTMLDocument;
 use Millancore\Pesto\Dom\Document;
 use Millancore\Pesto\Dom\NodeCollection;
-use const Dom\HTML_NO_DEFAULT_NS;
 
 class Pesto
 {
@@ -17,7 +18,6 @@ class Pesto
     private const string PHP_CLOSE_TAG_PLACEHOLDER = '___PHP_CLOSE_TAG___';
 
     private const string TEMPLATE_WRAPPER_ID = '__pesto-template-wrapper__';
-
 
     public function __construct(string $html)
     {
@@ -32,7 +32,6 @@ class Pesto
         $this->document = Document::fromString($html);
     }
 
-
     public function find(string $selector): NodeCollection
     {
         $nodes = $this->document->querySelectorAll($selector);
@@ -43,7 +42,6 @@ class Pesto
     public function getDocument(): HTMLDocument
     {
         return $this->document;
-
     }
 
     public function getInnerXML(string $selector): string
@@ -56,7 +54,6 @@ class Pesto
 
         $innerHtml = '';
         foreach ($element->childNodes as $childNode) {
-
             $innerHtml .= $this->document->saveXml($childNode);
         }
 
@@ -68,7 +65,7 @@ class Pesto
         return str_replace(
             ['<?php', '<?=', '?>'],
             [self::PHP_OPEN_TAG_PLACEHOLDER, self::PHP_ECHO_TAG_PLACEHOLDER, self::PHP_CLOSE_TAG_PLACEHOLDER],
-            $html
+            $html,
         );
     }
 
@@ -77,7 +74,7 @@ class Pesto
         return str_replace(
             [self::PHP_OPEN_TAG_PLACEHOLDER, self::PHP_ECHO_TAG_PLACEHOLDER, self::PHP_CLOSE_TAG_PLACEHOLDER],
             ['<?php', '<?=', '?>'],
-            $html
+            $html,
         );
     }
 

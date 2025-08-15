@@ -1,14 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Millancore\Pesto\Tests\Unit\Compiler;
 
-use Countable;
-use IteratorAggregate;
 use Millancore\Pesto\Dom\Node;
 use Millancore\Pesto\Dom\NodeCollection;
 use Millancore\Pesto\Pesto;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
+#[CoversClass(NodeCollection::class)]
 final class NodeCollectionTest extends TestCase
 {
     private NodeCollection $collection;
@@ -20,27 +22,27 @@ final class NodeCollectionTest extends TestCase
         $this->collection = new Pesto($html)->find('p');
     }
 
-    public function test_collection_is_iterable() : void
+    public function testCollectionIsIterable(): void
     {
-        $this->assertInstanceOf(IteratorAggregate::class, $this->collection);
+        $this->assertInstanceOf(\IteratorAggregate::class, $this->collection);
     }
 
-    public function test_collection_is_countable() : void
+    public function testCollectionIsCountable(): void
     {
-        $this->assertInstanceOf(Countable::class, $this->collection);;
+        $this->assertInstanceOf(\Countable::class, $this->collection);
     }
 
-    public function test_count_returns_numbers_of_nodes() : void
+    public function testCountReturnsNumbersOfNodes(): void
     {
         $this->assertEquals(2, $this->collection->count());
     }
 
-    public function test_collection_is_no_empty() : void
+    public function testCollectionIsNoEmpty(): void
     {
         $this->assertFalse($this->collection->isEmpty());
     }
 
-    public function test_each_iterates_over_nodes_in_reverse_order() : void
+    public function testEachIteratesOverNodesInReverseOrder(): void
     {
         $nodes = [];
         $this->collection->each(function (Node $node) use (&$nodes) {

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Millancore\Pesto\Dom;
 
 use Dom\Node as DomNode;
@@ -19,19 +21,18 @@ class Node
         if (!$this->hasAttribute($name)) {
             return null;
         }
+
         return $this->domNode->getAttribute($name);
     }
 
     public function getDomNode(): DomNode
     {
         return $this->domNode;
-
     }
 
     public function hasAttribute(string $name): bool
     {
         return $this->domNode->hasAttribute($name);
-
     }
 
     public function getNextSibling(): ?Node
@@ -47,7 +48,6 @@ class Node
         }
 
         return null;
-
     }
 
     public function removeAttribute(string $name): void
@@ -90,7 +90,6 @@ class Node
     {
         return $this->domNode->ownerDocument->saveXml($this->domNode);
     }
-
 
     public function createDocumentFragment(): \Dom\DocumentFragment
     {
@@ -139,7 +138,5 @@ class Node
         } else {
             $this->domNode->parentNode->appendChild($newNode);
         }
-
     }
-
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Millancore\Pesto\Compiler;
 
 use Millancore\Pesto\Contract\Compiler;
@@ -11,6 +13,9 @@ class DomCompiler implements Compiler
     /** @var CompilerPass[] */
     private array $passes;
 
+    /**
+     * @param array<CompilerPass> $passes
+     */
     public function __construct(array $passes)
     {
         $this->passes = $passes;

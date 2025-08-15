@@ -1,14 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Millancore\Pesto\Filter;
 
-use InvalidArgumentException;
 use Millancore\Pesto\Contract\Htmlable;
 use Millancore\Pesto\Contract\StackFilter;
 
 class CoreFiltersStack implements StackFilter
 {
-
     public function getFilters(): array
     {
         return [
@@ -23,24 +23,23 @@ class CoreFiltersStack implements StackFilter
     public function escape(mixed $value): string
     {
         if (is_array($value)) {
-            throw new InvalidArgumentException('Cannot escape array in HTML context. Use {!! !!} for raw output or explicitly convert to string.');
+            throw new \InvalidArgumentException('Cannot escape array in HTML context. Use {!! !!} for raw output or explicitly convert to string.');
         }
 
         if (is_object($value)) {
-
             if ($value instanceof Htmlable) {
                 return $value->toHtml();
             }
 
-            throw new InvalidArgumentException('To print an object, implement __toString() method in it, or implement HtmlableInterface');
+            throw new \InvalidArgumentException('To print an object, implement __toString() method in it, or implement HtmlableInterface');
         }
 
-        return htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
+        return htmlspecialchars((string) $value, ENT_QUOTES, 'UTF-8');
     }
 
     public function escapeUrl(string $value): string
     {
-       return rawurlencode($value);
+        return rawurlencode($value);
     }
 
     public function escapeJs(mixed $value): string

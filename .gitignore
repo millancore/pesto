@@ -1,4 +1,6 @@
 
 .idea
 /vendor/
+/cache/
+.php-cs-fixer.cache
 

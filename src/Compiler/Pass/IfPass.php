@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Millancore\Pesto\Compiler\Pass;
 
 use Millancore\Pesto\Contract\CompilerPass;
@@ -30,7 +32,7 @@ class IfPass extends Pass implements CompilerPass
     private function processIfCondition(Node $node): Node
     {
         $condition = $node->getAttribute('php-if');
-        $phpOpen = $node->createProcessingInstruction('php', 'if (' . $condition . '): ');
+        $phpOpen = $node->createProcessingInstruction('php', 'if ('.$condition.'): ');
         $node->insertBefore($phpOpen);
 
         $this->markTemplateForUnwrapping($node);
@@ -43,9 +45,8 @@ class IfPass extends Pass implements CompilerPass
         $nextSibling = $anchorNode->getNextSibling();
 
         while ($nextSibling && $nextSibling->hasAttribute('php-elseif')) {
-
             $elseifCondition = $nextSibling->getAttribute('php-elseif');
-            $phpElseif = $node->createProcessingInstruction('php', 'elseif (' . $elseifCondition . '): ');
+            $phpElseif = $node->createProcessingInstruction('php', 'elseif ('.$elseifCondition.'): ');
             $nextSibling->insertBefore($phpElseif);
             $nextSibling->removeAttribute('php-elseif');
 

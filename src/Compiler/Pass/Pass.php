@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Millancore\Pesto\Compiler\Pass;
 
 use Millancore\Pesto\Dom\Node;

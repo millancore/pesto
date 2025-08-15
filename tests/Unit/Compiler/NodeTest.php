@@ -1,13 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Millancore\Pesto\Tests\Unit\Compiler;
+
+use const Dom\HTML_NO_DEFAULT_NS;
 
 use Dom\HTMLDocument;
 use Dom\ProcessingInstruction;
 use Millancore\Pesto\Dom\Node;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
-use const Dom\HTML_NO_DEFAULT_NS;
 
+#[CoversClass(Node::class)]
 class NodeTest extends TestCase
 {
     private HTMLDocument $document;
@@ -20,7 +25,7 @@ class NodeTest extends TestCase
 
         $this->document = HTMLDocument::createFromString(
             $html,
-            HTML_NO_DEFAULT_NS | LIBXML_NOERROR
+            HTML_NO_DEFAULT_NS | LIBXML_NOERROR,
         );
 
         $pElement = $this->document->querySelector('p');
@@ -30,19 +35,19 @@ class NodeTest extends TestCase
         $this->lastNode = new Node($lastElement);
     }
 
-    public function test_get_attribute(): void
+    public function testGetAttribute(): void
     {
         $this->assertEquals('test', $this->pNode->getAttribute('class'));
         $this->assertNull($this->pNode->getAttribute('non-existent-attribute'));
     }
 
-    public function test_has_attribute(): void
+    public function testHasAttribute(): void
     {
         $this->assertTrue($this->pNode->hasAttribute('id'));
         $this->assertFalse($this->pNode->hasAttribute('non-existent-attribute'));
     }
 
-    public function test_get_next_sibling_skips_non_element_nodes(): void
+    public function testGetNextSiblingSkipsNonElementNodes(): void
     {
         $sibling = $this->pNode->getNextSibling();
 
@@ -50,19 +55,19 @@ class NodeTest extends TestCase
         $this->assertEquals('second', $sibling->getAttribute('id'));
     }
 
-    public function test_get_next_sibling_returns_null_for_last_node(): void
+    public function testGetNextSiblingReturnsNullForLastNode(): void
     {
         $this->assertNull($this->lastNode->getNextSibling());
     }
 
-    public function test_remove_attribute(): void
+    public function testRemoveAttribute(): void
     {
         $this->assertTrue($this->pNode->hasAttribute('class'));
         $this->pNode->removeAttribute('class');
         $this->assertFalse($this->pNode->hasAttribute('class'));
     }
 
-    public function test_insert_before(): void
+    public function testInsertBefore(): void
     {
         $newNode = $this->document->createElement('i');
         $newNode->textContent = 'New';
@@ -73,7 +78,7 @@ class NodeTest extends TestCase
         $this->assertStringContainsString('<i>New</i><p', $html);
     }
 
-    public function test_insert_after(): void
+    public function testInsertAfter(): void
     {
         $newNode = $this->document->createElement('i');
         $newNode->textContent = 'Another';
@@ -85,7 +90,7 @@ class NodeTest extends TestCase
         $this->assertStringContainsString('</p><i>Another</i><!-- comment --><span', $html);
     }
 
-    public function test_insert_after_last_node(): void
+    public function testInsertAfterLastNode(): void
     {
         $newNode = $this->document->createElement('u');
         $newNode->textContent = 'The Very End';
@@ -96,7 +101,7 @@ class NodeTest extends TestCase
         $this->assertStringContainsString('</b><u>The Very End</u>', $html);
     }
 
-    public function test_replace_with(): void
+    public function testReplaceWith(): void
     {
         $newNode = $this->document->createElement('h1');
         $newNode->textContent = 'Replaced';
@@ -109,7 +114,7 @@ class NodeTest extends TestCase
         $this->assertStringContainsString('<h1>Replaced</h1>', $html);
     }
 
-    public function test_create_processing_instruction(): void
+    public function testCreateProcessingInstruction(): void
     {
         $pi = $this->pNode->createProcessingInstruction('php', 'echo "test";');
 
@@ -118,13 +123,13 @@ class NodeTest extends TestCase
         $this->assertEquals('echo "test";', $pi->data);
     }
 
-    public function test_get_outer_xml(): void
+    public function testGetOuterXml(): void
     {
         $xml = $this->pNode->getOuterXML();
         $this->assertEquals('<p id="first" class="test">First</p>', $xml);
     }
 
-    public function test_create_document_fragment(): void
+    public function testCreateDocumentFragment(): void
     {
         $fragment = $this->pNode->createDocumentFragment();
         $this->assertInstanceOf(\Dom\DocumentFragment::class, $fragment);

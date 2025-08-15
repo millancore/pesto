@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Millancore\Pesto\Cache;
 
 use Millancore\Pesto\Contract\Cache;
@@ -9,7 +11,7 @@ class FileSystemCache implements Cache
 {
     public function __construct(
         private string $cacheDir,
-        private Loader $loader
+        private Loader $loader,
     ) {
         if (!is_dir($this->cacheDir)) {
             mkdir($this->cacheDir, 0777, true);
@@ -19,7 +21,8 @@ class FileSystemCache implements Cache
     public function getCompiledPath(string $name): string
     {
         $hash = hash('xxh128', $name);
-        return $this->cacheDir . '/' . $hash . '.php';
+
+        return $this->cacheDir.'/'.$hash.'.php';
     }
 
     public function write(string $path, string $content): void
@@ -38,5 +41,4 @@ class FileSystemCache implements Cache
 
         return filemtime($compiledPath) >= filemtime($sourcePath);
     }
-
 }

@@ -1,10 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Millancore\Pesto\Tests\Unit\Compiler\Pass;
 
 use Millancore\Pesto\Compiler\Pass\ContextPass;
 use Millancore\Pesto\Tests\TestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
 
+#[CoversClass(ContextPass::class)]
 class ContextPassTest extends TestCase
 {
     private ContextPass $pass;
@@ -14,7 +18,7 @@ class ContextPassTest extends TestCase
         $this->pass = new ContextPass();
     }
 
-    public function test_compile_html_attribute_context(): void
+    public function testCompileHtmlAttributeContext(): void
     {
         $html = '<div id="{{$value}}">Hello</div>';
         $expected = '<div id="{{$value|attr}}">Hello</div>';
@@ -22,7 +26,7 @@ class ContextPassTest extends TestCase
         $this->assertCompiledEquals($this->pass, $expected, $html);
     }
 
-    public function test_compile_html_content_context(): void
+    public function testCompileHtmlContentContext(): void
     {
         $html = '<div>{{$value}}</div>';
         $expected = '<div>{{$value|escape}}</div>';
@@ -30,7 +34,7 @@ class ContextPassTest extends TestCase
         $this->assertCompiledEquals($this->pass, $expected, $html);
     }
 
-    public function test_compile_javascript_context(): void
+    public function testCompileJavascriptContext(): void
     {
         $html = '<div onclick="alert(\'{{$message}}\')">Click</div>';
         $expected = '<div onclick="alert(\'{{$message|js}}\')">Click</div>';
@@ -38,7 +42,7 @@ class ContextPassTest extends TestCase
         $this->assertCompiledEquals($this->pass, $expected, $html);
     }
 
-    public function test_compile_url_context(): void
+    public function testCompileUrlContext(): void
     {
         $html = '<a href="{{$url}}">Link</a>';
         $expected = '<a href="{{$url|url}}">Link</a>';
@@ -46,7 +50,7 @@ class ContextPassTest extends TestCase
         $this->assertCompiledEquals($this->pass, $expected, $html);
     }
 
-    public function test_compile_css_context(): void
+    public function testCompileCssContext(): void
     {
         $html = '<div style="color: {{$color}}">Text</div>';
         $expected = '<div style="color: {{$color|css}}">Text</div>';
@@ -54,13 +58,11 @@ class ContextPassTest extends TestCase
         $this->assertCompiledEquals($this->pass, $expected, $html);
     }
 
-
-    public function test_compile_with_extra_filters() : void
+    public function testCompileWithExtraFilters(): void
     {
         $html = '<div class="container {{$class|trim}}">Text</div>';
         $expected = '<div class="container {{$class|trim|attr}}">Text</div>';
 
         $this->assertCompiledEquals($this->pass, $expected, $html);
     }
-
 }

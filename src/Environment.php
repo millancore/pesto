@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Millancore\Pesto;
 
-use Exception;
 use Millancore\Pesto\Contract\Cache;
 use Millancore\Pesto\Contract\Compiler;
 use Millancore\Pesto\Contract\Loader;
@@ -17,24 +18,22 @@ class Environment
     protected FilterRegister $filterRegister;
 
     public function __construct(
-        private readonly Loader   $loader,
+        private readonly Loader $loader,
         private readonly Compiler $compiler,
-        private readonly Cache    $cache
-    )
-    {
+        private readonly Cache $cache,
+    ) {
         $this->filterRegister = new FilterRegister([
-            new CoreFiltersStack()
+            new CoreFiltersStack(),
         ]);
     }
 
-
     /**
-     * @throws Exception
+     * @throws \Exception
      */
     public function render(string $name, array $data = []): void
     {
         if (in_array($name, $this->renderStack)) {
-            throw new Exception("Circular template dependency detected: " . implode(' -> ', $this->renderStack) . " -> $name");
+            throw new \Exception('Circular template dependency detected: '.implode(' -> ', $this->renderStack)." -> $name");
         }
 
         $this->renderStack[] = $name;
@@ -53,7 +52,7 @@ class Environment
 
         array_pop($this->renderStack);
 
-        $content  = ltrim(ob_get_clean());
+        $content = ltrim(ob_get_clean());
 
         echo $content;
     }
@@ -71,22 +70,20 @@ class Environment
         })();
     }
 
-
-    public function start(string $name, array $data = []) : void
+    public function start(string $name, array $data = []): void
     {
         if (ob_start()) {
             $this->sectionStack[] = [
                 'name' => $name,
-                'data' => $data
+                'data' => $data,
             ];
         }
-
     }
 
     /**
-     * @throws Exception
+     * @throws \Exception
      */
-    public function end() : void
+    public function end(): void
     {
         $content = ob_get_clean();
 
@@ -96,7 +93,6 @@ class Environment
 
         $this->render($partial['name'], $partial['data']);
     }
-
 
     public function output($expression, $filters = [])
     {

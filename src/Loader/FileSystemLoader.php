@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Millancore\Pesto\Loader;
 
 use Millancore\Pesto\Contract\Loader;
@@ -7,9 +9,11 @@ use Millancore\Pesto\Exception\LoaderException;
 
 class FileSystemLoader implements Loader
 {
-    public function __construct(private string $templateDir) {}
+    public function __construct(private string $templateDir)
+    {
+    }
 
-    public function isFile($file) : bool
+    public function isFile($file): bool
     {
         return is_file($file);
     }
@@ -30,9 +34,8 @@ class FileSystemLoader implements Loader
 
     public function getPath(string $name): ?string
     {
-        $path = $this->templateDir . '/' . $name;
+        $path = $this->templateDir.'/'.$name;
 
         return file_exists($path) ? $path : null;
     }
-
 }
