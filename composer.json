@@ -32,7 +32,8 @@
   },
   "scripts": {
     "test": "vendor/bin/phpunit",
-    "phpstan": "vendor/bin/phpstan analyse src tests",
+    "coverage": "vendor/bin/phpunit --coverage-html tests/coverage",
+    "phpstan": "vendor/bin/phpstan analyse",
     "fixer": "vendor/bin/php-cs-fixer fix"
   },
   "minimum-stability": "stable"

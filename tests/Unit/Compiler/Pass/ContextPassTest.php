@@ -5,9 +5,14 @@ declare(strict_types=1);
 namespace Millancore\Pesto\Tests\Unit\Compiler\Pass;
 
 use Millancore\Pesto\Compiler\Pass\ContextPass;
+use Millancore\Pesto\Dom\Document;
+use Millancore\Pesto\Pesto;
 use Millancore\Pesto\Tests\TestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\UsesClass;
 
+#[UsesClass(Document::class)]
+#[UsesClass(Pesto::class)]
 #[CoversClass(ContextPass::class)]
 class ContextPassTest extends TestCase
 {

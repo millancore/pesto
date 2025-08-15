@@ -5,9 +5,18 @@ declare(strict_types=1);
 namespace Millancore\Pesto\Tests\Unit\Compiler\Pass;
 
 use Millancore\Pesto\Compiler\Pass\IfPass;
+use Millancore\Pesto\Dom\Document;
+use Millancore\Pesto\Dom\Node;
+use Millancore\Pesto\Dom\NodeCollection;
+use Millancore\Pesto\Pesto;
 use Millancore\Pesto\Tests\TestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\UsesClass;
 
+#[UsesClass(Document::class)]
+#[UsesClass(Node::class)]
+#[UsesClass(NodeCollection::class)]
+#[UsesClass(Pesto::class)]
 #[CoversClass(IfPass::class)]
 final class IfPassTest extends TestCase
 {

@@ -44,11 +44,17 @@ class CoreFiltersStack implements StackFilter
 
     public function escapeJs(mixed $value): string
     {
-        return json_encode($value, JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT);
+        $result = json_encode($value, JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT);
+
+        if (!$result) {
+            return 'null';
+        }
+
+        return $result;
     }
 
     public function escapeCss(string $value): string
     {
-        return preg_replace('/[^a-zA-Z0-9\-_#%\s\.]/', '', $value);
+        return preg_replace('/[^a-zA-Z0-9\-_#%\s\.]/', '', $value) ?? '';
     }
 }

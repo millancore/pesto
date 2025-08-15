@@ -9,11 +9,11 @@ use Millancore\Pesto\Exception\LoaderException;
 
 class FileSystemLoader implements Loader
 {
-    public function __construct(private string $templateDir)
-    {
-    }
+    public function __construct(
+        private string $templateDir
+    ){ }
 
-    public function isFile($file): bool
+    public function isFile(string $file): bool
     {
         return is_file($file);
     }
@@ -29,7 +29,9 @@ class FileSystemLoader implements Loader
             throw new LoaderException(sprintf('Template "%s" not found or not readable.', $name));
         }
 
-        return file_get_contents($path);
+        $source = file_get_contents($path);
+
+        return $source === false ? '' : $source;
     }
 
     public function getPath(string $name): ?string

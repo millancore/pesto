@@ -23,7 +23,6 @@ class DomCompiler implements Compiler
 
     public function compile(string $source): string
     {
-        // TODO: move to constructor?
         $pesto = new Pesto($source);
 
         foreach ($this->passes as $pass) {

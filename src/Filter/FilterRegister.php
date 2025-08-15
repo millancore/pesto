@@ -4,10 +4,13 @@ declare(strict_types=1);
 
 namespace Millancore\Pesto\Filter;
 
+use InvalidArgumentException;
 use Millancore\Pesto\Contract\StackFilter;
 
 class FilterRegister
 {
+
+    /** @var array<string, callable> */
     private array $filters = [];
 
     /**
@@ -42,9 +45,14 @@ class FilterRegister
             return $name;
         }
 
-        throw new \InvalidArgumentException(sprintf('Filter "%s" not found.', $name));
+        throw new InvalidArgumentException(sprintf('Filter "%s" not found.', $name));
     }
 
+    /**
+     * @param mixed $expression
+     * @param string|array<string, array<mixed>> $filter
+     * @return mixed
+     */
     public function apply(mixed $expression, string|array $filter): mixed
     {
         if (is_string($filter)) {

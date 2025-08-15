@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Millancore\Pesto\Dom;
 
+use Dom\DocumentFragment;
+use Dom\Element;
 use Dom\Node as DomNode;
 use Dom\ProcessingInstruction;
 
@@ -18,12 +20,20 @@ class Node
 
     public function getAttribute(string $name): ?string
     {
-        if (!$this->hasAttribute($name)) {
-            return null;
+       if($this->domNode instanceof Element) {
+            return $this->domNode->getAttribute($name);
         }
 
-        return $this->domNode->getAttribute($name);
+       return null;
     }
+
+    public function setAttribute(string $name, string $value): void
+    {
+        if($this->domNode instanceof Element) {
+            $this->domNode->setAttribute($name, $value);
+        }
+    }
+
 
     public function getDomNode(): DomNode
     {
@@ -32,7 +42,11 @@ class Node
 
     public function hasAttribute(string $name): bool
     {
-        return $this->domNode->hasAttribute($name);
+        if($this->domNode instanceof Element) {
+            return $this->domNode->hasAttribute($name);
+        }
+
+        return false;
     }
 
     public function getNextSibling(): ?Node
@@ -52,7 +66,9 @@ class Node
 
     public function removeAttribute(string $name): void
     {
-        $this->domNode->removeAttribute($name);
+        if ($this->domNode instanceof Element) {
+            $this->domNode->removeAttribute($name);
+        }
     }
 
     public function insertBefore(DomNode $newNode): void
@@ -91,29 +107,9 @@ class Node
         return $this->domNode->ownerDocument->saveXml($this->domNode);
     }
 
-    public function createDocumentFragment(): \Dom\DocumentFragment
+    public function createDocumentFragment(): DocumentFragment
     {
         return $this->domNode->ownerDocument->createDocumentFragment();
-    }
-
-    public function getFirstChild()
-    {
-        return $this->domNode->firstChild;
-    }
-
-    public function parentNode()
-    {
-        return $this->domNode->parentNode;
-    }
-
-    public function prepend(ProcessingInstruction $start)
-    {
-        $this->domNode->insertBefore($start, $this->domNode->firstChild);
-    }
-
-    public function append(ProcessingInstruction $end)
-    {
-        $this->domNode->appendChild($end);
     }
 
     public function unwrap(): void

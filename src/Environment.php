@@ -7,6 +7,7 @@ namespace Millancore\Pesto;
 use Millancore\Pesto\Contract\Cache;
 use Millancore\Pesto\Contract\Compiler;
 use Millancore\Pesto\Contract\Loader;
+use Millancore\Pesto\Exception\CompilerException;
 use Millancore\Pesto\Filter\CoreFiltersStack;
 use Millancore\Pesto\Filter\FilterRegister;
 
@@ -28,12 +29,15 @@ class Environment
     }
 
     /**
-     * @throws \Exception
+     * @param string $name
+     * @param array<mixed> $data
+     * @return void
+     * @throws CompilerException
      */
     public function render(string $name, array $data = []): void
     {
         if (in_array($name, $this->renderStack)) {
-            throw new \Exception('Circular template dependency detected: '.implode(' -> ', $this->renderStack)." -> $name");
+            throw new CompilerException('Circular template dependency detected: '.implode(' -> ', $this->renderStack)." -> $name");
         }
 
         $this->renderStack[] = $name;
@@ -57,6 +61,11 @@ class Environment
         echo $content;
     }
 
+    /**
+     * @param string $path
+     * @param array<mixed> $data
+     * @return void
+     */
     private function renderTemplate(string $path, array $data): void
     {
         $__pesto = $this;
@@ -70,6 +79,11 @@ class Environment
         })();
     }
 
+    /**
+     * @param string $name
+     * @param array<mixed> $data
+     * @return void
+     */
     public function start(string $name, array $data = []): void
     {
         if (ob_start()) {
@@ -86,7 +100,6 @@ class Environment
     public function end(): void
     {
         $content = ob_get_clean();
-
         $partial = array_pop($this->sectionStack);
 
         $partial['data']['slot'] = $content;
@@ -94,7 +107,12 @@ class Environment
         $this->render($partial['name'], $partial['data']);
     }
 
-    public function output($expression, $filters = [])
+    /**
+     * @param string $expression
+     * @param array<mixed> $filters
+     * @return string
+     */
+    public function output(string $expression, array $filters = []) : string
     {
         foreach ($filters as $filter) {
             $expression = $this->filterRegister->apply($expression, $filter);

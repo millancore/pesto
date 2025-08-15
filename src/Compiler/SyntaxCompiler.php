@@ -17,10 +17,10 @@ class SyntaxCompiler implements Compiler
         $source = $this->compileUnescapedExpressions($source);
 
         // Second pass: handle escaped expressions {{ }}
-        return $this->compileEscapedExpressions($source);
+        return $this->compileEscapedExpressions($source) ?? '';
     }
 
-    private function compileUnescapedExpressions(string $source): string
+    private function compileUnescapedExpressions(string $source): ?string
     {
         return preg_replace_callback(
             self::UNESCAPED_PATTERN,
@@ -29,7 +29,7 @@ class SyntaxCompiler implements Compiler
         );
     }
 
-    private function compileEscapedExpressions(string $source): string
+    private function compileEscapedExpressions(string $source): ?string
     {
         return preg_replace_callback(
             self::ESCAPED_PATTERN,
@@ -38,9 +38,9 @@ class SyntaxCompiler implements Compiler
         );
     }
 
-    private function handleUnescapedExpression(string $expression): string
+    private function handleUnescapedExpression(?string $expression): string
     {
-        return "<?php echo trim($expression) ?>";
+        return "<?php echo $expression; ?>";
     }
 
     private function handleEscapedExpression(string $expression): string

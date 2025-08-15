@@ -14,7 +14,7 @@ class Pass
     protected function markTemplateForUnwrapping(Node $node): void
     {
         if ($this->isTemplateNode($node)) {
-            $node->getDomNode()->setAttribute(self::UNWRAP_ATTRIBUTE, '');
+            $node->setAttribute(self::UNWRAP_ATTRIBUTE, '');
         }
     }
 

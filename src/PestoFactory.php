@@ -13,9 +13,8 @@ class PestoFactory
     public static function create(string $templatesPath, string $cachePath): Environment
     {
         $loader = new FileSystemLoader($templatesPath);
-        $compiler = new PestoCompiler($loader);
         $cache = new FileSystemCache($cachePath, $loader);
 
-        return new Environment($loader, $compiler, $cache);
+        return new Environment($loader, new PestoCompiler, $cache);
     }
 }

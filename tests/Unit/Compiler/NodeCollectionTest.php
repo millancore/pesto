@@ -4,12 +4,17 @@ declare(strict_types=1);
 
 namespace Millancore\Pesto\Tests\Unit\Compiler;
 
+use Millancore\Pesto\Dom\Document;
 use Millancore\Pesto\Dom\Node;
 use Millancore\Pesto\Dom\NodeCollection;
 use Millancore\Pesto\Pesto;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\TestCase;
 
+#[UsesClass(Pesto::class)]
+#[UsesClass(Document::class)]
+#[UsesClass(Node::class)]
 #[CoversClass(NodeCollection::class)]
 final class NodeCollectionTest extends TestCase
 {
