@@ -24,7 +24,7 @@ class SyntaxCompiler implements Compiler
     {
         return preg_replace_callback(
             self::UNESCAPED_PATTERN,
-            fn ($matches) => $this->handleUnescapedExpression($matches[1]),
+            fn ($matches) => $this->handleUnescapedExpression(trim($matches[1])),
             $source,
         );
     }
@@ -40,7 +40,7 @@ class SyntaxCompiler implements Compiler
 
     private function handleUnescapedExpression(?string $expression): string
     {
-        return "<?php echo $expression; ?>";
+        return "<?= $expression; ?>";
     }
 
     private function handleEscapedExpression(string $expression): string

@@ -4,14 +4,12 @@ declare(strict_types=1);
 
 namespace Millancore\Pesto\Dom;
 
-use Countable;
 use Dom\NodeList;
-use IteratorAggregate;
 
 /**
- * @implements IteratorAggregate<int, Node>
+ * @implements \IteratorAggregate<int, Node>
  */
-class NodeCollection implements IteratorAggregate, Countable
+class NodeCollection implements \IteratorAggregate, \Countable
 {
     private NodeList $nodeList;
 

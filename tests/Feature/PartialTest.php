@@ -22,7 +22,7 @@ class PartialTest extends TestCase
         );
     }
 
-    public function test_render_foreach_and_if_inline(): void
+    public function testRenderForeachAndIfInline(): void
     {
         $this->refreshCache();
 
@@ -62,5 +62,4 @@ PHP;
         $this->refreshCache();
         $this->cleanupTemporaryTemplate();
     }
-
 }

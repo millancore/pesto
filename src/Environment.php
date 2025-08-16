@@ -29,9 +29,8 @@ class Environment
     }
 
     /**
-     * @param string $name
      * @param array<mixed> $data
-     * @return void
+     *
      * @throws CompilerException
      */
     public function render(string $name, array $data = []): void
@@ -62,9 +61,7 @@ class Environment
     }
 
     /**
-     * @param string $path
      * @param array<mixed> $data
-     * @return void
      */
     private function renderTemplate(string $path, array $data): void
     {
@@ -80,9 +77,7 @@ class Environment
     }
 
     /**
-     * @param string $name
      * @param array<mixed> $data
-     * @return void
      */
     public function start(string $name, array $data = []): void
     {
@@ -108,11 +103,9 @@ class Environment
     }
 
     /**
-     * @param string $expression
      * @param array<mixed> $filters
-     * @return string
      */
-    public function output(string $expression, array $filters = []) : string
+    public function output(string $expression, array $filters = []): string
     {
         foreach ($filters as $filter) {
             $expression = $this->filterRegister->apply($expression, $filter);

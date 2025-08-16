@@ -10,8 +10,9 @@ use Millancore\Pesto\Exception\LoaderException;
 class FileSystemLoader implements Loader
 {
     public function __construct(
-        private string $templateDir
-    ){ }
+        private string $templateDir,
+    ) {
+    }
 
     public function isFile(string $file): bool
     {

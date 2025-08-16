@@ -20,20 +20,19 @@ class Node
 
     public function getAttribute(string $name): ?string
     {
-       if($this->domNode instanceof Element) {
+        if ($this->domNode instanceof Element) {
             return $this->domNode->getAttribute($name);
         }
 
-       return null;
+        return null;
     }
 
     public function setAttribute(string $name, string $value): void
     {
-        if($this->domNode instanceof Element) {
+        if ($this->domNode instanceof Element) {
             $this->domNode->setAttribute($name, $value);
         }
     }
-
 
     public function getDomNode(): DomNode
     {
@@ -42,7 +41,7 @@ class Node
 
     public function hasAttribute(string $name): bool
     {
-        if($this->domNode instanceof Element) {
+        if ($this->domNode instanceof Element) {
             return $this->domNode->hasAttribute($name);
         }
 

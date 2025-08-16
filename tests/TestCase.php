@@ -27,7 +27,7 @@ class TestCase extends \PHPUnit\Framework\TestCase
 
     protected function createTemporaryTemplate(string $name, string $content): void
     {
-        file_put_contents(self::TEMPLATE_PATH . '/' . $name, $content);
+        file_put_contents(self::TEMPLATE_PATH.'/'.$name, $content);
     }
 
     protected function cleanupTemporaryTemplate(): void

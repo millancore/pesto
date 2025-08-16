@@ -15,6 +15,6 @@ class PestoFactory
         $loader = new FileSystemLoader($templatesPath);
         $cache = new FileSystemCache($cachePath, $loader);
 
-        return new Environment($loader, new PestoCompiler, $cache);
+        return new Environment($loader, new PestoCompiler(), $cache);
     }
 }
