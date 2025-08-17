@@ -10,19 +10,21 @@ use Millancore\Pesto\Tests\TestCase;
 use PHPUnit\Framework\Attributes\CoversNothing;
 
 #[CoversNothing]
-class PartialTest extends TestCase
+class InlineTest extends TestCase
 {
-    private Environment $environment;
+    private Environment $env;
 
     public function setUp(): void
     {
-        $this->environment = PestoFactory::create(
+        $this->env = PestoFactory::create(
             self::TEMPLATE_PATH,
             self::CACHE_PATH,
         );
+
+
     }
 
-    public function testRenderForeachAndIfInline(): void
+    public function test_render_foreach_and_if_inline(): void
     {
         $this->refreshCache();
 
@@ -48,10 +50,33 @@ PHP;
         $this->createTemporaryTemplate('composition-list.php', $compositionList);
 
         ob_start();
-        $this->environment->render('composition-list.php');
+        $this->env->render('composition-list.php');
         $content = ob_get_clean();
 
         $this->assertStringContainsString('<ul id="maria">', $content);
+        $this->assertStringNotContainsString('<li>Item 6</li>', $content);
+        $this->assertStringContainsString('<li>Item 9</li>', $content);
+        $this->assertStringContainsString('<li>Item 10</li>', $content);
+    }
+
+
+    public function test_render_foreach_and_if_inline_with_template(): void
+    {
+        $this->refreshCache();
+
+        $template = <<<PHP
+<ul>
+    <template php-foreach="range(1, 10) as \$number" php-if="\$number > 8">
+        <li>Item {{ \$number }}</li>
+    </template>
+</ul>
+PHP;
+        $this->createTemporaryTemplate('template.php', $template);
+
+        ob_start();
+        $this->env->render('template.php');
+        $content = ob_get_clean();
+
         $this->assertStringNotContainsString('<li>Item 6</li>', $content);
         $this->assertStringContainsString('<li>Item 9</li>', $content);
         $this->assertStringContainsString('<li>Item 10</li>', $content);
