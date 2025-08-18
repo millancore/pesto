@@ -23,6 +23,13 @@ class FilterRegister
         }
     }
 
+    public function addStack(StackFilter $stack): void
+    {
+        foreach ($stack->getFilters() as $name => $filter) {
+            $this->add($name, $filter);
+        }
+    }
+
     public function add(string $name, callable $callback): void
     {
         $this->filters[$name] = $callback;

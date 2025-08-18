@@ -19,6 +19,7 @@ class PestoCompiler implements Compiler
             new Pass\PartialPass(),
             new Pass\ForeachPass(),
             new Pass\IfPass(),
+            new Pass\SlotPass(),
             new Pass\ContextPass(),
             new Pass\UnwrapPass(),
             // ...

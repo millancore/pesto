@@ -20,11 +20,9 @@ class InlineTest extends TestCase
             self::TEMPLATE_PATH,
             self::CACHE_PATH,
         );
-
-
     }
 
-    public function test_render_foreach_and_if_inline(): void
+    public function testRenderForeachAndIfInline(): void
     {
         $this->refreshCache();
 
@@ -59,8 +57,7 @@ PHP;
         $this->assertStringContainsString('<li>Item 10</li>', $content);
     }
 
-
-    public function test_render_foreach_and_if_inline_with_template(): void
+    public function testRenderForeachAndIfInlineWithTemplate(): void
     {
         $this->refreshCache();
 

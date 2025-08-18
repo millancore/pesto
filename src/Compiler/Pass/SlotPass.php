@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Millancore\Pesto\Compiler\Pass;
 
 use Millancore\Pesto\Contract\CompilerPass;
@@ -8,7 +10,6 @@ use Millancore\Pesto\Pesto;
 
 class SlotPass extends Pass implements CompilerPass
 {
-
     public function compile(Pesto $pesto): void
     {
         $elements = $pesto->find('[php-slot]');
@@ -17,7 +18,7 @@ class SlotPass extends Pass implements CompilerPass
             $slot = $element->getAttribute('php-slot');
             $element->removeAttribute('php-slot');
 
-            $startInstruction = $element->createPHPInstruction('$__pesto->slot('.$slot.'); ');
+            $startInstruction = $element->createPHPInstruction('$__pesto->slot("'.$slot.'"); ');
 
             $endInstruction = $element->createPHPInstruction('$__pesto->endSlot(); ');
 
@@ -26,6 +27,5 @@ class SlotPass extends Pass implements CompilerPass
 
             $this->markTemplateForUnwrapping($element);
         });
-
     }
 }

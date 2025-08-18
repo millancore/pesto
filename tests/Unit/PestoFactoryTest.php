@@ -12,6 +12,7 @@ use Millancore\Pesto\Filter\CoreFiltersStack;
 use Millancore\Pesto\Filter\FilterRegister;
 use Millancore\Pesto\Loader\FileSystemLoader;
 use Millancore\Pesto\PestoFactory;
+use Millancore\Pesto\Renderer;
 use Millancore\Pesto\Tests\TestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\UsesClass;
@@ -24,6 +25,7 @@ use PHPUnit\Framework\Attributes\UsesClass;
 #[UsesClass(CoreFiltersStack::class)]
 #[UsesClass(FilterRegister::class)]
 #[UsesClass(FileSystemLoader::class)]
+#[UsesClass(Renderer::class)]
 class PestoFactoryTest extends TestCase
 {
     public function testCreateEnvironmentInstanceFromFactory(): void

@@ -7,7 +7,7 @@ namespace Millancore\Pesto\Cache;
 use Millancore\Pesto\Contract\Cache;
 use Millancore\Pesto\Contract\Loader;
 
-class FileSystemCache implements Cache
+readonly class FileSystemCache implements Cache
 {
     public function __construct(
         private string $cacheDir,
@@ -22,7 +22,7 @@ class FileSystemCache implements Cache
     {
         $hash = hash('xxh128', $name);
 
-        return $this->cacheDir.'/'.$hash.'.php';
+        return $this->cacheDir.DIRECTORY_SEPARATOR.$hash.'.php';
     }
 
     public function write(string $path, string $content): void
