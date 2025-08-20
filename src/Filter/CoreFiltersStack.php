@@ -31,7 +31,7 @@ class CoreFiltersStack implements StackFilter
                 return $value->toHtml();
             }
 
-            throw new \InvalidArgumentException('To print an object, implement __toString() method in it, or implement HtmlableInterface');
+            throw new \InvalidArgumentException('To print an object, implement __toString() method in it, or implement Htmlable');
         }
 
         return htmlspecialchars((string) $value, ENT_QUOTES, 'UTF-8');

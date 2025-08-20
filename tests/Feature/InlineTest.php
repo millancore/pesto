@@ -28,7 +28,7 @@ class InlineTest extends TestCase
 
         $listTemplate = <<<PHP
 <ul id="{{\$id}}">
-    {!! \$slot !!}
+    {{ \$slot }}
 </ul>
 PHP;
 
@@ -47,9 +47,7 @@ PHP;
         $this->createTemporaryTemplate('list.php', $listTemplate);
         $this->createTemporaryTemplate('composition-list.php', $compositionList);
 
-        ob_start();
-        $this->env->render('composition-list.php');
-        $content = ob_get_clean();
+        $content = $this->env->make('composition-list.php')->toHtml();
 
         $this->assertStringContainsString('<ul id="maria">', $content);
         $this->assertStringNotContainsString('<li>Item 6</li>', $content);
@@ -70,9 +68,7 @@ PHP;
 PHP;
         $this->createTemporaryTemplate('template.php', $template);
 
-        ob_start();
-        $this->env->render('template.php');
-        $content = ob_get_clean();
+        $content = $this->env->make('template.php')->toHtml();
 
         $this->assertStringNotContainsString('<li>Item 6</li>', $content);
         $this->assertStringContainsString('<li>Item 9</li>', $content);

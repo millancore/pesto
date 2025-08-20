@@ -38,7 +38,7 @@ class PartialManager
 
         // The content between start() and end() that is not in a slot() is the default slot.
         if (!isset($partial['data']['slot'])) {
-            $partial['data']['slot'] = $content;
+            $partial['data']['slot'] = new Slot($content);
         }
 
         return [
@@ -71,7 +71,7 @@ class PartialManager
         }
 
         $sectionIndex = count($this->sectionStack) - 1;
-        $this->sectionStack[$sectionIndex]['slots'][$slotName] = $content;
-        $this->sectionStack[$sectionIndex]['data'][$slotName] = $content;
+        $this->sectionStack[$sectionIndex]['slots'][$slotName] = new Slot($content);
+        $this->sectionStack[$sectionIndex]['data'][$slotName] = new Slot($content);
     }
 }

@@ -17,9 +17,9 @@ class Environment
         $this->partialManager = new PartialManager();
     }
 
-    public function render(string $name, array $data = []): void
+    public function make(string $name, array $data = []): View
     {
-        echo $this->renderer->render($this, $name, $data);
+        return new View($this, $name, $data);
     }
 
     public function start(string $name, array $data = []): void
@@ -31,7 +31,7 @@ class Environment
     {
         $partial = $this->partialManager->end();
 
-        $this->render($partial['name'], $partial['data']);
+        echo $this->renderer->render($this, $partial['name'], $partial['data']);
     }
 
     public function slot(string $name): void
@@ -44,12 +44,17 @@ class Environment
         $this->partialManager->endSlot();
     }
 
-    public function output(string $expression, array $filters = []): string
+    public function output(mixed $expression, array $filters = []): string
     {
         foreach ($filters as $filter) {
             $expression = $this->filterRegister->apply($expression, $filter);
         }
 
         return $expression;
+    }
+
+    public function render(string $name, array $data)
+    {
+        return $this->renderer->render($this, $name, $data);
     }
 }

@@ -28,8 +28,8 @@ class SlotTest extends TestCase
 
         $slotTemplate = <<<HTML
     <main>
-        <footer>{!!\$footer!!}</footer>
-        {!!\$slot!!}
+        <footer>{{\$footer}}</footer>
+        {{\$slot}}
     </main>
 HTML;
 
@@ -43,9 +43,7 @@ HTML;
         $this->createTemporaryTemplate('slot.php', $slotTemplate);
         $this->createTemporaryTemplate('template.php', $template);
 
-        ob_start();
-        $this->env->render('template.php');
-        $content = ob_get_clean();
+        $content = $this->env->make('template.php');
 
         $this->assertEquals(<<<HTML
 <main>
@@ -53,5 +51,12 @@ HTML;
             <h1>Title</h1>
         </main>
 HTML, $content);
+    }
+
+    public function tearDown() : void
+    {
+        $this->refreshCache();
+        $this->cleanupTemporaryTemplate();
+
     }
 }
