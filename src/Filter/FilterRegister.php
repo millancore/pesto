@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Millancore\Pesto\Filter;
 
 use Millancore\Pesto\Contract\StackFilter;
+use ReflectionClass;
+use ReflectionMethod;
 
 class FilterRegister
 {
@@ -17,16 +19,22 @@ class FilterRegister
     public function __construct(array $stackFilters = [])
     {
         foreach ($stackFilters as $stack) {
-            foreach ($stack->getFilters() as $name => $filter) {
-                $this->add($name, $filter);
-            }
+            $this->addStack($stack);
         }
     }
 
     public function addStack(StackFilter $stack): void
     {
-        foreach ($stack->getFilters() as $name => $filter) {
-            $this->add($name, $filter);
+        $reflection = new ReflectionClass($stack);
+
+        foreach ($reflection->getMethods(ReflectionMethod::IS_PUBLIC) as $method) {
+            $attributes = $method->getAttributes(AsFilter::class);
+
+            foreach ($attributes as $attribute) {
+                /** @var AsFilter $instance */
+                $instance = $attribute->newInstance();
+                $this->add($instance->name, [$stack, $method->getName()]);
+            }
         }
     }
 
