@@ -6,8 +6,6 @@ namespace Millancore\Pesto\Filter;
 
 use Millancore\Pesto\Contract\FilterStack;
 use Millancore\Pesto\Exception\FilterException;
-use ReflectionClass;
-use ReflectionMethod;
 
 class FilterRegistry
 {
@@ -15,12 +13,12 @@ class FilterRegistry
     private array $filters = [];
 
     /**
-     * @param iterable<object> $filterProviders Los objetos que contienen los métodos de filtro.
+     * @param iterable<object> $filterProviders los objetos que contienen los métodos de filtro
      */
     public function __construct(iterable $filterProviders = [])
     {
         foreach ($filterProviders as $provider) {
-            if($provider instanceof FilterStack) {
+            if ($provider instanceof FilterStack) {
                 $this->registerProviderFromContract($provider);
             }
 
@@ -29,10 +27,9 @@ class FilterRegistry
     }
 
     /**
-     * Use Contract to prevent Reflection overhead
-     * @param FilterStack $filterStack
+     * Use Contract to prevent Reflection overhead.
      */
-    private function registerProviderFromContract(FilterStack $filterStack) : void
+    private function registerProviderFromContract(FilterStack $filterStack): void
     {
         foreach ($filterStack->getFilters() as $name => $callback) {
             $this->add($name, $callback);
@@ -41,11 +38,10 @@ class FilterRegistry
 
     private function registerProviderFromAttribute(object $provider): void
     {
-        $reflection = new ReflectionClass($provider);
-        foreach ($reflection->getMethods(ReflectionMethod::IS_PUBLIC) as $method) {
+        $reflection = new \ReflectionClass($provider);
+        foreach ($reflection->getMethods(\ReflectionMethod::IS_PUBLIC) as $method) {
             $attributes = $method->getAttributes(AsFilter::class);
             foreach ($attributes as $attribute) {
-
                 /** @var AsFilter $instance */
                 $instance = $attribute->newInstance();
                 $this->add($instance->name, [$provider, $method->getName()]);
@@ -71,6 +67,7 @@ class FilterRegistry
         if (!$this->has($name)) {
             throw new FilterException(sprintf('Filter "%s" not found.', $name));
         }
+
         return $this->filters[$name];
     }
 

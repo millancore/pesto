@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Millancore\Pesto\Filter;
 
-use InvalidArgumentException;
 use Millancore\Pesto\Contract\FilterStack;
 use Millancore\Pesto\Contract\Htmlable;
 
@@ -25,7 +24,7 @@ class CoreFilters implements FilterStack
     public function escape(mixed $value): string
     {
         if (is_array($value)) {
-            throw new InvalidArgumentException('Cannot escape array in HTML context. Use {!! !!} for raw output or explicitly convert to string.');
+            throw new \InvalidArgumentException('Cannot escape array in HTML context. Use {!! !!} for raw output or explicitly convert to string.');
         }
 
         if (is_object($value)) {
@@ -37,7 +36,7 @@ class CoreFilters implements FilterStack
                 return htmlspecialchars((string) $value, ENT_QUOTES, 'UTF-8');
             }
 
-            throw new InvalidArgumentException('To print an object, implement __toString() method in it, or implement Htmlable');
+            throw new \InvalidArgumentException('To print an object, implement __toString() method in it, or implement Htmlable');
         }
 
         return htmlspecialchars((string) $value, ENT_QUOTES, 'UTF-8');

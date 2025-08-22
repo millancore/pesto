@@ -27,7 +27,7 @@ class ForeachPassTest extends TestCase
         $this->pass = new ForeachPass();
     }
 
-    public function test_compile_a_simple_foreach(): void
+    public function testCompileASimpleForeach(): void
     {
         $html = '<div php-foreach="$items as $item">Hello</div>';
         $expected = '<?php foreach($items as $item): ?><div>Hello</div><?php endforeach; ?>';
@@ -35,7 +35,7 @@ class ForeachPassTest extends TestCase
         $this->assertCompiledEquals($this->pass, $expected, $html);
     }
 
-    public function test_compile_a_simple_foreach_with_key(): void
+    public function testCompileASimpleForeachWithKey(): void
     {
         $html = '<div php-foreach="$items as $key => $item">Hello</div>';
         $expected = '<?php foreach($items as $key => $item): ?><div>Hello</div><?php endforeach; ?>';
@@ -43,7 +43,7 @@ class ForeachPassTest extends TestCase
         $this->assertCompiledEquals($this->pass, $expected, $html);
     }
 
-    public function test_compile_template_foreach(): void
+    public function testCompileTemplateForeach(): void
     {
         $html = '<template php-foreach="$items as $item">World</template>';
         $expected = '<?php foreach($items as $item): ?><template php-inner="">World</template><?php endforeach; ?>';

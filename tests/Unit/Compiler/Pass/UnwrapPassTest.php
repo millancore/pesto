@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Millancore\Pesto\Tests\Unit\Compiler\Pass;
 
 use Millancore\Pesto\Compiler\Pass\UnwrapPass;
@@ -25,11 +27,10 @@ class UnwrapPassTest extends TestCase
         $this->pass = new UnwrapPass();
     }
 
-    public function test_unwrap_content_inner_attribute(): void
+    public function testUnwrapContentInnerAttribute(): void
     {
         $html = '<div php-inner>Hello</div>';
 
         $this->assertCompiledEquals($this->pass, 'Hello', $html);
     }
-
 }

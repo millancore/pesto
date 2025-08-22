@@ -11,15 +11,15 @@ class Environment
     use PartialHandler;
 
     public function __construct(
-        private readonly Renderer       $renderer,
+        private readonly Renderer $renderer,
         private readonly FilterRegistry $filterRegistry,
-    ) { }
+    ) {
+    }
 
     public function make(string $name, array $data = []): View
     {
         return new View($this, $name, $data);
     }
-
 
     public function end(): void
     {

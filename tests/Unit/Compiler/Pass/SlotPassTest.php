@@ -1,13 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Millancore\Pesto\Tests\Unit\Compiler\Pass;
 
+use Millancore\Pesto\Compiler\Pass\SlotPass;
 use Millancore\Pesto\Dom\Document;
 use Millancore\Pesto\Dom\Node;
 use Millancore\Pesto\Dom\NodeCollection;
 use Millancore\Pesto\Pesto;
 use Millancore\Pesto\Tests\TestCase;
-use Millancore\Pesto\Compiler\Pass\SlotPass;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\UsesClass;
 
@@ -25,7 +27,7 @@ class SlotPassTest extends TestCase
         $this->pass = new SlotPass();
     }
 
-    public function test_compiled_named_slot() : void
+    public function testCompiledNamedSlot(): void
     {
         $html = '<div php-slot="slot_name">Slot Content</div>';
         $expected = '<?php $__pesto->slot("slot_name"); ?><div>Slot Content</div><?php $__pesto->endSlot(); ?>';
@@ -33,12 +35,11 @@ class SlotPassTest extends TestCase
         $this->assertCompiledEquals($this->pass, $expected, $html);
     }
 
-    public function test_compiled_named_slot_using_template() : void
+    public function testCompiledNamedSlotUsingTemplate(): void
     {
         $html = '<template php-slot="slot_name">Slot Content</template>';
         $expected = '<?php $__pesto->slot("slot_name"); ?><template php-inner="">Slot Content</template><?php $__pesto->endSlot(); ?>';
 
         $this->assertCompiledEquals($this->pass, $expected, $html);
     }
-
 }

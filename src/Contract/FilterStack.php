@@ -6,9 +6,8 @@ namespace Millancore\Pesto\Contract;
 
 interface FilterStack
 {
-
     /**
      * @return array<string, callable>
      */
-    public function getFilters() : array;
+    public function getFilters(): array;
 }

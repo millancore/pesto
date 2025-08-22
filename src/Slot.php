@@ -1,15 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Millancore\Pesto;
 
 use Millancore\Pesto\Contract\Htmlable;
-use Stringable;
 
-readonly class Slot implements Htmlable, Stringable
+readonly class Slot implements Htmlable, \Stringable
 {
     public function __construct(
-        private string $content
-    ) {}
+        private string $content,
+    ) {
+    }
 
     public function toHtml(): string
     {

@@ -30,19 +30,19 @@ final class NodeCollectionTest extends TestCase
         $this->emptyCollection = $pesto->find('.nonexistent');
     }
 
-    public function test_count_returns_number_of_nodes(): void
+    public function testCountReturnsNumberOfNodes(): void
     {
         $this->assertEquals(2, $this->collection->count());
         $this->assertEquals(0, $this->emptyCollection->count());
     }
 
-    public function test_is_empty_returns_boolean(): void
+    public function testIsEmptyReturnsBoolean(): void
     {
         $this->assertFalse($this->collection->isEmpty());
         $this->assertTrue($this->emptyCollection->isEmpty());
     }
 
-    public function test_first_returns_first_node(): void
+    public function testFirstReturnsFirstNode(): void
     {
         $firstNode = $this->collection->first();
 
@@ -50,7 +50,7 @@ final class NodeCollectionTest extends TestCase
         $this->assertEquals('p1', $firstNode->getAttribute('id'));
     }
 
-    public function test_each_iterates_over_nodes_in_reverse_order(): void
+    public function testEachIteratesOverNodesInReverseOrder(): void
     {
         $nodes = [];
         $this->collection->each(function (Node $node) use (&$nodes) {
@@ -60,7 +60,7 @@ final class NodeCollectionTest extends TestCase
         $this->assertEquals(['p2', 'p1'], $nodes);
     }
 
-    public function test_each_does_not_execute_callback_on_empty_collection(): void
+    public function testEachDoesNotExecuteCallbackOnEmptyCollection(): void
     {
         $callbackExecuted = false;
         $this->emptyCollection->each(function (Node $node) use (&$callbackExecuted) {
@@ -70,7 +70,7 @@ final class NodeCollectionTest extends TestCase
         $this->assertFalse($callbackExecuted);
     }
 
-    public function test_iterator_yields_correct_node_instances(): void
+    public function testIteratorYieldsCorrectNodeInstances(): void
     {
         $iterator = $this->collection->getIterator();
         $nodes = iterator_to_array($iterator);

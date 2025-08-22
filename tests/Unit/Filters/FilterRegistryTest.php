@@ -16,7 +16,7 @@ use PHPUnit\Framework\Attributes\UsesClass;
 #[UsesClass(AsFilter::class)]
 class FilterRegistryTest extends TestCase
 {
-    public function test_add_and_get_filter(): void
+    public function testAddAndGetFilter(): void
     {
         $registry = new FilterRegistry();
         $registry->add('uppercase', 'strtoupper');
@@ -24,7 +24,7 @@ class FilterRegistryTest extends TestCase
         $this->assertSame('strtoupper', $registry->get('uppercase'));
     }
 
-    public function test_get_non_existent_filter_throws_exception(): void
+    public function testGetNonExistentFilterThrowsException(): void
     {
         $this->expectException(FilterException::class);
         $this->expectExceptionMessage('Filter "non_existent" not found.');
@@ -33,7 +33,7 @@ class FilterRegistryTest extends TestCase
         $registry->get('non_existent');
     }
 
-    public function test_has_filter(): void
+    public function testHasFilter(): void
     {
         $registry = new FilterRegistry();
         $registry->add('lowercase', 'strtolower');
@@ -42,7 +42,7 @@ class FilterRegistryTest extends TestCase
         $this->assertFalse($registry->has('uppercase'));
     }
 
-    public function test_apply_simple_filter(): void
+    public function testApplySimpleFilter(): void
     {
         $registry = new FilterRegistry();
         $registry->add('uppercase', 'strtoupper');
@@ -50,21 +50,21 @@ class FilterRegistryTest extends TestCase
         $this->assertSame('HELLO', $registry->apply('Hello', 'uppercase'));
     }
 
-    public function test_apply_filter_with_arguments(): void
+    public function testApplyFilterWithArguments(): void
     {
         $registry = new FilterRegistry();
-        $registry->add('add', fn($initial, $value) => $initial + $value);
+        $registry->add('add', fn ($initial, $value) => $initial + $value);
 
         $this->assertSame(15, $registry->apply(10, ['add', 5]));
     }
 
-    public function test_it_registers_filters_from_provider_with_attribute(): void
+    public function testItRegistersFiltersFromProviderWithAttribute(): void
     {
         $provider = new class {
             #[AsFilter(name: 'my_filter')]
             public function myFilterMethod(string $value): string
             {
-                return 'filtered_' . $value;
+                return 'filtered_'.$value;
             }
         };
 
@@ -74,13 +74,13 @@ class FilterRegistryTest extends TestCase
         $this->assertSame('filtered_test', $registry->apply('test', 'my_filter'));
     }
 
-    public function test_it_registers_filters_from_provider_with_contract(): void
+    public function testItRegistersFiltersFromProviderWithContract(): void
     {
         $provider = new class implements FilterStack {
             public function getFilters(): array
             {
                 return [
-                    'contract_filter' => fn($value) => 'contract_' . $value,
+                    'contract_filter' => fn ($value) => 'contract_'.$value,
                 ];
             }
         };

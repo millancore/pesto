@@ -35,43 +35,43 @@ class NodeTest extends TestCase
         $this->lastNode = new Node($lastElement);
     }
 
-    public function test_get_attribute_returns_value_when_exists(): void
+    public function testGetAttributeReturnsValueWhenExists(): void
     {
         $this->assertEquals('test', $this->elementNode->getAttribute('class'));
         $this->assertEquals('first', $this->elementNode->getAttribute('id'));
     }
 
-    public function test_get_attribute_returns_null_when_not_exists(): void
+    public function testGetAttributeReturnsNullWhenNotExists(): void
     {
         $this->assertNull($this->elementNode->getAttribute('non-existent-attribute'));
     }
 
-    public function test_set_attribute_adds_new_attribute(): void
+    public function testSetAttributeAddsNewAttribute(): void
     {
         $this->elementNode->setAttribute('data-test', 'value');
 
         $this->assertEquals('value', $this->elementNode->getAttribute('data-test'));
     }
 
-    public function test_set_attribute_updates_existing_attribute(): void
+    public function testSetAttributeUpdatesExistingAttribute(): void
     {
         $this->elementNode->setAttribute('class', 'updated');
 
         $this->assertEquals('updated', $this->elementNode->getAttribute('class'));
     }
 
-    public function test_has_attribute_returns_true_when_exists(): void
+    public function testHasAttributeReturnsTrueWhenExists(): void
     {
         $this->assertTrue($this->elementNode->hasAttribute('id'));
         $this->assertTrue($this->elementNode->hasAttribute('class'));
     }
 
-    public function test_has_attribute_returns_false_when_not_exists(): void
+    public function testHasAttributeReturnsFalseWhenNotExists(): void
     {
         $this->assertFalse($this->elementNode->hasAttribute('non-existent-attribute'));
     }
 
-    public function test_get_next_sibling_returns_next_element_node(): void
+    public function testGetNextSiblingReturnsNextElementNode(): void
     {
         $sibling = $this->elementNode->getNextSibling();
 
@@ -79,12 +79,12 @@ class NodeTest extends TestCase
         $this->assertEquals('second', $sibling->getAttribute('id'));
     }
 
-    public function test_get_next_sibling_returns_null_for_last_node(): void
+    public function testGetNextSiblingReturnsNullForLastNode(): void
     {
         $this->assertNull($this->lastNode->getNextSibling());
     }
 
-    public function test_remove_attribute_removes_existing_attribute(): void
+    public function testRemoveAttributeRemovesExistingAttribute(): void
     {
         $this->assertTrue($this->elementNode->hasAttribute('class'));
 
@@ -93,7 +93,7 @@ class NodeTest extends TestCase
         $this->assertFalse($this->elementNode->hasAttribute('class'));
     }
 
-    public function test_insert_before_adds_node_before_current(): void
+    public function testInsertBeforeAddsNodeBeforeCurrent(): void
     {
         $newNode = $this->document->createElement('i');
         $newNode->textContent = 'New';
@@ -105,7 +105,7 @@ class NodeTest extends TestCase
         $this->assertStringContainsString('<i>New</i><p', $html);
     }
 
-    public function test_insert_after_adds_node_after_current(): void
+    public function testInsertAfterAddsNodeAfterCurrent(): void
     {
         $newNode = $this->document->createElement('i');
         $newNode->textContent = 'Another';
@@ -117,7 +117,7 @@ class NodeTest extends TestCase
         $this->assertStringContainsString('</p><i>Another</i><!-- comment --><span', $html);
     }
 
-    public function test_insert_after_appends_when_no_next_sibling(): void
+    public function testInsertAfterAppendsWhenNoNextSibling(): void
     {
         $newNode = $this->document->createElement('u');
         $newNode->textContent = 'The Very End';
@@ -129,7 +129,7 @@ class NodeTest extends TestCase
         $this->assertStringContainsString('</b><u>The Very End</u>', $html);
     }
 
-    public function test_replace_with_replaces_current_node(): void
+    public function testReplaceWithReplacesCurrentNode(): void
     {
         $newNode = $this->document->createElement('h1');
         $newNode->textContent = 'Replaced';
@@ -142,7 +142,7 @@ class NodeTest extends TestCase
         $this->assertStringContainsString('<h1>Replaced</h1>', $html);
     }
 
-    public function test_create_processing_instruction_returns_processing_instruction(): void
+    public function testCreateProcessingInstructionReturnsProcessingInstruction(): void
     {
         $pi = $this->elementNode->createProcessingInstruction('xml', 'version="1.0"');
 
@@ -151,7 +151,7 @@ class NodeTest extends TestCase
         $this->assertEquals('version="1.0"', $pi->data);
     }
 
-    public function test_create_php_instruction_returns_php_processing_instruction(): void
+    public function testCreatePhpInstructionReturnsPhpProcessingInstruction(): void
     {
         $pi = $this->elementNode->createPHPInstruction('echo "test";');
 
@@ -160,21 +160,21 @@ class NodeTest extends TestCase
         $this->assertEquals('echo "test";', $pi->data);
     }
 
-    public function test_get_outer_xml_returns_node_xml(): void
+    public function testGetOuterXmlReturnsNodeXml(): void
     {
         $xml = $this->elementNode->getOuterXML();
 
         $this->assertEquals('<p id="first" class="test">First</p>', $xml);
     }
 
-    public function test_create_document_fragment_returns_document_fragment(): void
+    public function testCreateDocumentFragmentReturnsDocumentFragment(): void
     {
         $fragment = $this->elementNode->createDocumentFragment();
 
         $this->assertInstanceOf(\Dom\DocumentFragment::class, $fragment);
     }
 
-    public function test_get_dom_node_returns_underlying_dom_node(): void
+    public function testGetDomNodeReturnsUnderlyingDomNode(): void
     {
         $domNode = $this->elementNode->getDomNode();
 
@@ -182,7 +182,7 @@ class NodeTest extends TestCase
         $this->assertEquals('first', $domNode->getAttribute('id'));
     }
 
-    public function test_unwrap_moves_children_and_removes_node(): void
+    public function testUnwrapMovesChildrenAndRemovesNode(): void
     {
         // Create a wrapper div with children
         $wrapper = $this->document->createElement('div');
@@ -208,7 +208,7 @@ class NodeTest extends TestCase
         $this->assertStringContainsString('<span>Child 2</span>', $html);
     }
 
-    public function test_after_adds_node_after_current(): void
+    public function testAfterAddsNodeAfterCurrent(): void
     {
         $newNode = $this->document->createElement('em');
         $newNode->textContent = 'After';
@@ -220,7 +220,7 @@ class NodeTest extends TestCase
         $this->assertStringContainsString('</p><em>After</em><!-- comment --><span', $html);
     }
 
-    public function test_after_appends_when_no_next_sibling(): void
+    public function testAfterAppendsWhenNoNextSibling(): void
     {
         $newNode = $this->document->createElement('strong');
         $newNode->textContent = 'At End';

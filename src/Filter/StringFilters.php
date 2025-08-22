@@ -8,7 +8,7 @@ use Millancore\Pesto\Contract\FilterStack;
 
 class StringFilters implements FilterStack
 {
-    function getFilters(): array
+    public function getFilters(): array
     {
         return [
             'upper' => fn (string $string) => strtoupper($string),
@@ -42,6 +42,7 @@ class StringFilters implements FilterStack
         $string = preg_replace('/[^\w\s-]+/', '', $string);
         $string = preg_replace('/\s+/', $separator, $string);
         $string = preg_replace('/-+/', $separator, $string);
+
         return trim($string, $separator);
     }
 

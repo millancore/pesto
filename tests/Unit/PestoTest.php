@@ -17,7 +17,7 @@ use PHPUnit\Framework\Attributes\UsesClass;
 #[CoversClass(Pesto::class)]
 class PestoTest extends TestCase
 {
-    public function test_get_html_document(): void
+    public function testGetHtmlDocument(): void
     {
         $html = '<div>Content</div>';
         $pesto = new Pesto($html);
@@ -25,7 +25,7 @@ class PestoTest extends TestCase
         $this->assertInstanceOf(HTMLDocument::class, $pesto->getDocument());
     }
 
-    public function test_find_returns_node_collection(): void
+    public function testFindReturnsNodeCollection(): void
     {
         $html = '<div class="test">Content</div><p class="test">More content</p>';
         $pesto = new Pesto($html);
@@ -35,7 +35,7 @@ class PestoTest extends TestCase
         $this->assertInstanceOf(NodeCollection::class, $result);
     }
 
-    public function test_get_inner_xml_with_existing_element(): void
+    public function testGetInnerXmlWithExistingElement(): void
     {
         $html = '<div id="container"><p>Hello</p></div>';
         $pesto = new Pesto($html);
@@ -45,7 +45,7 @@ class PestoTest extends TestCase
         $this->assertStringContainsString('<p>Hello</p>', $innerXml);
     }
 
-    public function test_get_inner_xml_with_non_existent_element(): void
+    public function testGetInnerXmlWithNonExistentElement(): void
     {
         $html = '<div>Content</div>';
         $pesto = new Pesto($html);
@@ -55,7 +55,7 @@ class PestoTest extends TestCase
         $this->assertEquals('', $innerXml);
     }
 
-    public function test_get_compiled_template_preserves_php_tags(): void
+    public function testGetCompiledTemplatePreservesPhpTags(): void
     {
         $html = '<div><?php echo "test"; ?><?= $var ?></div>';
         $pesto = new Pesto($html);
@@ -66,7 +66,7 @@ class PestoTest extends TestCase
         $this->assertStringContainsString('<?= $var ?>', $compiled);
     }
 
-    public function test_get_compiled_template_with_fragment_html(): void
+    public function testGetCompiledTemplateWithFragmentHtml(): void
     {
         $html = '<p>Hello World</p>';
         $pesto = new Pesto($html);
@@ -77,7 +77,7 @@ class PestoTest extends TestCase
         $this->assertStringNotContainsString('__pesto-template-wrapper__', $compiled);
     }
 
-    public function test_get_compiled_template_with_full_html_document(): void
+    public function testGetCompiledTemplateWithFullHtmlDocument(): void
     {
         $html = '<html lang="en"><body><div>Content</div></body></html>';
         $pesto = new Pesto($html);

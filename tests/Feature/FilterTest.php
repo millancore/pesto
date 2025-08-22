@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Millancore\Pesto\Tests\Feature;
 
 use Millancore\Pesto\Environment;
@@ -21,14 +23,13 @@ class FilterTest extends TestCase
         );
     }
 
-
-    public function test_it_simple_title_filter() : void
+    public function testItSimpleTitleFilter(): void
     {
         $template = <<<HTML
         <h1>{{ 'pesto is a great engine' | title }}</h1>
         HTML;
 
-        $templateName = $this->uniqueTemplateName('filter-title');;
+        $templateName = $this->uniqueTemplateName('filter-title');
 
         $this->createTemporaryTemplate($templateName, $template);
         $content = $this->env->make($templateName);
@@ -36,23 +37,22 @@ class FilterTest extends TestCase
         $this->assertEquals('<h1>Pesto Is A Great Engine</h1>', $content->toHtml());
     }
 
-    public function test_it_filter_with_arguments() : void
+    public function testItFilterWithArguments(): void
     {
         $names = ['juan', 'maria', 'jhon'];
 
         $template = <<<HTML
 <h1>{{ \$names | join:',' }}</h1>
 HTML;
-        $templateName = $this->uniqueTemplateName('filter-join');;
+        $templateName = $this->uniqueTemplateName('filter-join');
 
         $this->createTemporaryTemplate($templateName, $template);
         $content = $this->env->make($templateName, ['names' => $names]);
 
-
         $this->assertEquals('<h1>juan, maria, jhon</h1>', $content->toHtml());
     }
 
-    public function test_trow_exception_if_filter_not_found() : void
+    public function testTrowExceptionIfFilterNotFound(): void
     {
         $this->expectException(FilterException::class);
         $this->expectExceptionMessage('Filter "notfound" not found');
@@ -61,13 +61,10 @@ HTML;
         <h1>{{ 'name' | notfound }}</h1>
         HTML;
 
-        $templateName = $this->uniqueTemplateName('filter-notfound');;
+        $templateName = $this->uniqueTemplateName('filter-notfound');
 
         $this->createTemporaryTemplate($templateName, $template);
 
         $this->env->make($templateName)->toHtml();
     }
-
-
-
 }

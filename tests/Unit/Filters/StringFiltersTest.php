@@ -21,14 +21,14 @@ class StringFiltersTest extends TestCase
         $this->filters = new StringFilters();
     }
 
-    public function test_is_instance_of_filter_stack(): void
+    public function testIsInstanceOfFilterStack(): void
     {
-        $this->assertInstanceOf(FilterStack::class, $this->filters);;
+        $this->assertInstanceOf(FilterStack::class, $this->filters);
         $this->assertIsArray($this->filters->getFilters());
     }
 
     #[DataProvider('provideUpper')]
-    public function test_upper(string $expected, string $input): void
+    public function testUpper(string $expected, string $input): void
     {
         $this->assertSame($expected, ($this->filters->getFilters()['upper'])($input));
     }
@@ -42,7 +42,7 @@ class StringFiltersTest extends TestCase
     }
 
     #[DataProvider('provideLower')]
-    public function test_lower(string $expected, string $input): void
+    public function testLower(string $expected, string $input): void
     {
         $this->assertSame($expected, ($this->filters->getFilters()['lower'])($input));
     }
@@ -56,7 +56,7 @@ class StringFiltersTest extends TestCase
     }
 
     #[DataProvider('provideCapitalize')]
-    public function test_capitalize(string $expected, string $input): void
+    public function testCapitalize(string $expected, string $input): void
     {
         $this->assertSame($expected, ($this->filters->getFilters()['capitalize'])($input));
     }
@@ -70,7 +70,7 @@ class StringFiltersTest extends TestCase
     }
 
     #[DataProvider('provideTitle')]
-    public function test_title(string $expected, string $input): void
+    public function testTitle(string $expected, string $input): void
     {
         $this->assertSame($expected, ($this->filters->getFilters()['title'])($input));
     }
@@ -84,7 +84,7 @@ class StringFiltersTest extends TestCase
     }
 
     #[DataProvider('provideTrim')]
-    public function test_trim(string $expected, string $input, string $characters = " \t\n\r\0\x0B"): void
+    public function testTrim(string $expected, string $input, string $characters = " \t\n\r\0\x0B"): void
     {
         $this->assertSame($expected, $this->filters->trim($input, $characters));
     }
@@ -98,7 +98,7 @@ class StringFiltersTest extends TestCase
     }
 
     #[DataProvider('provideNl2br')]
-    public function test_nl2br(string $expected, string $input): void
+    public function testNl2br(string $expected, string $input): void
     {
         $this->assertSame($expected, ($this->filters->getFilters()['nl2br'])($input));
     }
@@ -111,7 +111,7 @@ class StringFiltersTest extends TestCase
     }
 
     #[DataProvider('provideStripTags')]
-    public function test_strip_tags(string $expected, string $input, string|array $allowed_tags = ''): void
+    public function testStripTags(string $expected, string $input, string|array $allowed_tags = ''): void
     {
         $this->assertSame($expected, $this->filters->stripTags($input, $allowed_tags));
     }
@@ -125,7 +125,7 @@ class StringFiltersTest extends TestCase
     }
 
     #[DataProvider('provideSlug')]
-    public function test_slug(string $expected, string $input, string $separator = '-'): void
+    public function testSlug(string $expected, string $input, string $separator = '-'): void
     {
         $this->assertSame($expected, $this->filters->slug($input, $separator));
     }
@@ -140,7 +140,7 @@ class StringFiltersTest extends TestCase
     }
 
     #[DataProvider('provideJoin')]
-    public function test_join(string $expected, array $input, string $glue): void
+    public function testJoin(string $expected, array $input, string $glue): void
     {
         $this->assertSame($expected, $this->filters->join($input, $glue));
     }
@@ -149,7 +149,7 @@ class StringFiltersTest extends TestCase
     {
         return [
             ['a,b,c', ['a', 'b', 'c'], ','],
-            ['a-b-c', ['a', 'b', 'c'], '-']
+            ['a-b-c', ['a', 'b', 'c'], '-'],
         ];
     }
 }
