@@ -47,15 +47,16 @@ use MillanCore\Pesto\PestoFactory;
 $pesto = PestoFactory::create([
     templatesPath: __DIR__ . '/views',
     cachePath: __DIR__ . '/cache',
+    // [ New CustomFilters(), ... ]
 ]);
 
-$pesto->render('view.php', ['user' => $user]);
+$pesto->make('view.php', ['user' => $user]);
 ```
 
 ## Features
 
-Pesto templates use files with the `.php` extension,
-allowing you to seamlessly integrate PHP code
+Pesto templates support files with the `.html` or `.php`  extension,
+allowing you to integrate PHP code if needed.
 
 - [View Composition](#view-composition)
   - [The `<template>` Tag](#template-tag)
@@ -69,6 +70,7 @@ allowing you to seamlessly integrate PHP code
 - [Filters](#filters)
   - [Chain Filters](#chain-filters)
   - [Filters with Arguments](#filters-with-arguments)
+  - [Add Filters](#add-filters)
 
 ## View Composition
 Pesto makes it easy to reuse parts of your views
@@ -190,4 +192,30 @@ To pass arguments to a filter, you can use the `:` operator.
 ```html
 <p>{{ $createAt | date:m-d-Y }}</p>
 ```
+
+### Add Filters
+Add filter to Pesto is very simple, you can create a class with public methods
+and add the AsFilter Attribute.
+
+```php
+// CustomFilter.php
+#[AsFilter(name: 'truncate')]
+public function truncate(string $value, int $length, string $end = '...') : string
+{ 
+    //...
+}
+```
+on Pesto factory pass the class to the `filters` option.
+
+```php 
+$pesto = PestoFactory::create([
+    templatesPath: __DIR__ . '/views',
+    cachePath: __DIR__ . '/cache', [
+        New CustomFilter(),
+    ]
+]);
+
+```
+
+
 

@@ -5,11 +5,21 @@ declare(strict_types=1);
 namespace Millancore\Pesto\Filter;
 
 use InvalidArgumentException;
+use Millancore\Pesto\Contract\FilterStack;
 use Millancore\Pesto\Contract\Htmlable;
-use Millancore\Pesto\Contract\StackFilter;
 
-class CoreFiltersStack implements StackFilter
+class CoreFilters implements FilterStack
 {
+    public function getFilters(): array
+    {
+        return [
+            'escape' => [$this, 'escape'],
+            'url' => [$this, 'escapeUrl'],
+            'js' => [$this, 'escapeJs'],
+            'css' => [$this, 'escapeCss'],
+        ];
+    }
+
     #[AsFilter('escape')]
     #[AsFilter('attr')]
     public function escape(mixed $value): string
@@ -21,6 +31,10 @@ class CoreFiltersStack implements StackFilter
         if (is_object($value)) {
             if ($value instanceof Htmlable) {
                 return $value->toHtml();
+            }
+
+            if (method_exists($value, '__toString')) {
+                return htmlspecialchars((string) $value, ENT_QUOTES, 'UTF-8');
             }
 
             throw new InvalidArgumentException('To print an object, implement __toString() method in it, or implement Htmlable');

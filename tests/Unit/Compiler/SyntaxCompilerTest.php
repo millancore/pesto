@@ -18,7 +18,7 @@ class SyntaxCompilerTest extends TestCase
         $this->compiler = new SyntaxCompiler();
     }
 
-    public function testCompileEscapedExpression(): void
+    public function test_compile_escaped_expression(): void
     {
         $source = '<div>{{ $name }}</div>';
 
@@ -27,7 +27,7 @@ class SyntaxCompilerTest extends TestCase
         $this->assertEquals('<div><?= $__pesto->output($name, []) ?></div>', $result);
     }
 
-    public function testCompileUnescapedExpression(): void
+    public function test_compile_unescaped_expression(): void
     {
         $source = '<div>{!! $html !!}</div>';
 
@@ -36,7 +36,7 @@ class SyntaxCompilerTest extends TestCase
         $this->assertEquals('<div><?= $html; ?></div>', $result);
     }
 
-    public function testCompileEscapedExpressionWithSingleFilter(): void
+    public function test_compile_escaped_expression_with_single_filter(): void
     {
         $source = '<div>{{ $name | upper }}</div>';
 
@@ -45,7 +45,7 @@ class SyntaxCompilerTest extends TestCase
         $this->assertEquals('<div><?= $__pesto->output($name, [\'upper\']) ?></div>', $result);
     }
 
-    public function testCompileEscapedExpressionWithMultipleFilters(): void
+    public function test_compile_escaped_expression_with_multiple_filters(): void
     {
         $source = '<div>{{ $name | upper | trim }}</div>';
 
@@ -54,7 +54,7 @@ class SyntaxCompilerTest extends TestCase
         $this->assertEquals('<div><?= $__pesto->output($name, [\'upper\', \'trim\']) ?></div>', $result);
     }
 
-    public function testCompileEscapedExpressionWithFilterAndParameters(): void
+    public function test_compile_escaped_expression_with_filter_and_parameters(): void
     {
         $source = '<div>{{ $text | truncate:10 }}</div>';
 
@@ -63,7 +63,7 @@ class SyntaxCompilerTest extends TestCase
         $this->assertEquals('<div><?= $__pesto->output($text, [[\'truncate\', 10]]) ?></div>', $result);
     }
 
-    public function testCompileEscapedExpressionWithFilterMultipleParameters(): void
+    public function test_compile_escaped_expression_with_filter_multiple_parameters(): void
     {
         $source = '<div>{{ $text | substr:0, 10 }}</div>';
 
@@ -72,7 +72,7 @@ class SyntaxCompilerTest extends TestCase
         $this->assertEquals('<div><?= $__pesto->output($text, [[\'substr\', 0, 10]]) ?></div>', $result);
     }
 
-    public function testCompileMixedExpressions(): void
+    public function test_compile_mixed_expressions(): void
     {
         $source = '<div>{{ $name }} and {!! $html !!}</div>';
 
@@ -81,7 +81,7 @@ class SyntaxCompilerTest extends TestCase
         $this->assertEquals('<div><?= $__pesto->output($name, []) ?> and <?= $html; ?></div>', $result);
     }
 
-    public function testCompileWithWhitespaceInExpressions(): void
+    public function test_compile_with_whitespace_in_expressions(): void
     {
         $source = '<div>{{  $name  |  upper  }}</div>';
 
@@ -90,7 +90,7 @@ class SyntaxCompilerTest extends TestCase
         $this->assertEquals('<div><?= $__pesto->output($name, [\'upper\']) ?></div>', $result);
     }
 
-    public function testCompileWithNoExpressions(): void
+    public function test_compile_with_no_expressions(): void
     {
         $source = '<div>Just plain HTML</div>';
 
@@ -99,7 +99,7 @@ class SyntaxCompilerTest extends TestCase
         $this->assertEquals('<div>Just plain HTML</div>', $result);
     }
 
-    public function testCompileEmptyString(): void
+    public function test_compile_empty_string(): void
     {
         $source = '';
 
@@ -108,7 +108,7 @@ class SyntaxCompilerTest extends TestCase
         $this->assertEquals('', $result);
     }
 
-    public function testCompileMultipleEscapedExpressionsOnSameLine(): void
+    public function test_compile_multiple_escaped_expressions_on_same_line(): void
     {
         $source = '<div>{{ $first }} - {{ $second }}</div>';
 

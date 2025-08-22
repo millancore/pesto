@@ -27,7 +27,7 @@ final class IfPassTest extends TestCase
         $this->pass = new IfPass();
     }
 
-    public function testCompilesASimpleIf(): void
+    public function test_compiles_a_simple_if(): void
     {
         $html = '<div php-if="$show">Hello</div>';
         $expected = '<?php if ($show): ?><div>Hello</div><?php endif; ?>';
@@ -35,7 +35,7 @@ final class IfPassTest extends TestCase
         $this->assertCompiledEquals($this->pass, $expected, $html);
     }
 
-    public function testCompilesAnIfWithElse(): void
+    public function test_compiles_an_if_with_else(): void
     {
         $html = '<div php-if="$show">Hello</div><div php-else>World</div>';
         $expected = '<?php if ($show): ?><div>Hello</div><?php else: ?><div>World</div><?php endif; ?>';
@@ -43,7 +43,7 @@ final class IfPassTest extends TestCase
         $this->assertCompiledEquals($this->pass, $expected, $html);
     }
 
-    public function testCompilesAnNestedIf(): void
+    public function test_compiles_an_nested_if(): void
     {
         $html = '<div php-if="$show">Hello <div php-if="$getting">World</div></div>';
         $expected = '<?php if ($show): ?><div>Hello <?php if ($getting): ?><div>World</div><?php endif; ?></div><?php endif; ?>';
@@ -51,7 +51,7 @@ final class IfPassTest extends TestCase
         $this->assertCompiledEquals($this->pass, $expected, $html);
     }
 
-    public function testCompilesAnIfWithElseif(): void
+    public function test_compiles_an_if_with_elseif(): void
     {
         $html = '<div php-if="$show">Hello</div><div php-elseif="$getting">World</div>';
         $expected = '<?php if ($show): ?><div>Hello</div><?php elseif ($getting): ?><div>World</div><?php endif; ?>';
@@ -59,7 +59,7 @@ final class IfPassTest extends TestCase
         $this->assertCompiledEquals($this->pass, $expected, $html);
     }
 
-    public function testCompilesAnIfWithElseifAndElse(): void
+    public function test_compiles_an_if_with_elseif_and_else(): void
     {
         $html = '<div php-if="$show">Hello</div><div php-elseif="$getting">World</div><div php-else>Universe</div>';
         $expected = '<?php if ($show): ?><div>Hello</div><?php elseif ($getting): ?><div>World</div><?php else: ?><div>Universe</div><?php endif; ?>';

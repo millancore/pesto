@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Millancore\Pesto;
 
-class PartialManager
+trait PartialHandler
 {
     protected array $sectionStack = [];
 
@@ -27,7 +27,7 @@ class PartialManager
     /**
      * @throws \Exception
      */
-    public function end(): array
+    public function endPartial(): object
     {
         $content = ob_get_clean();
         $partial = array_pop($this->sectionStack);
@@ -41,7 +41,7 @@ class PartialManager
             $partial['data']['slot'] = new Slot($content);
         }
 
-        return [
+        return (object) [
             'name' => $partial['name'],
             'data' => $partial['data'],
         ];

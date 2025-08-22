@@ -27,7 +27,7 @@ class PartialPassTest extends TestCase
         $this->pass = new PartialPass();
     }
 
-    public function testCompileASimplePartial(): void
+    public function test_compile_a_simple_partial(): void
     {
         $html = '<div php-partial="test.php">Hello</div>';
         $expected = '<?php $__pesto->start("test.php", []); ?><div>Hello</div><?php $__pesto->end(); ?>';
@@ -35,7 +35,7 @@ class PartialPassTest extends TestCase
         $this->assertCompiledEquals($this->pass, $expected, $html);
     }
 
-    public function testCompileAPartialWithVariables(): void
+    public function test_compile_partial_with_variables(): void
     {
         $html = '<div php-partial="test.php" php-with=\'["id" => "test-123"]\'>Hello</div>';
         $expected = '<?php $__pesto->start("test.php", ["id" => "test-123"]); ?><div>Hello</div><?php $__pesto->end(); ?>';
@@ -43,7 +43,7 @@ class PartialPassTest extends TestCase
         $this->assertCompiledEquals($this->pass, $expected, $html);
     }
 
-    public function testCompileNestedPartials(): void
+    public function test_compile_nested_partials(): void
     {
         $html = '<ul php-partial="list.php"><li>parent item</li><li><ul php-partial="list.php"><li>Child Item</li></ul></li></ul>';
         $expected = '<?php $__pesto->start("list.php", []); ?><ul><li>parent item</li><li><?php $__pesto->start("list.php", []); ?><ul><li>Child Item</li></ul><?php $__pesto->end(); ?></li></ul><?php $__pesto->end(); ?>';

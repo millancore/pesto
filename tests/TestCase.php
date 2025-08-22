@@ -34,4 +34,9 @@ class TestCase extends \PHPUnit\Framework\TestCase
     {
         array_map('unlink', glob(self::TEMPLATE_PATH.'/*'));
     }
+
+    protected function uniqueTemplateName(string $prefix = '__test'): string
+    {
+        return uniqid($prefix, true).'.php';
+    }
 }

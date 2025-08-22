@@ -22,7 +22,7 @@ class SlotTest extends TestCase
         );
     }
 
-    public function testRenderSlotInPartial(): void
+    public function test_render_slot_in_partial(): void
     {
         $this->refreshCache();
 
