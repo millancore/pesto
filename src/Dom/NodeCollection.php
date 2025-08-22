@@ -9,7 +9,8 @@ use Dom\NodeList;
 
 /**
  * @implements \IteratorAggregate<int, Node>
- * @property-read int<0, max> $length
+ *
+ * @property int<0, max> $length
  */
 class NodeCollection implements \IteratorAggregate, \Countable
 {

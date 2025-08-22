@@ -8,7 +8,6 @@ use Dom\DocumentFragment;
 use Dom\Element;
 use Dom\Node as DomNode;
 use Dom\ProcessingInstruction;
-use Dom\XMLDocument;
 
 class Node
 {

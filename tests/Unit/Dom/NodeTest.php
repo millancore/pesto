@@ -160,7 +160,6 @@ class NodeTest extends TestCase
         $this->assertEquals('echo "test";', $pi->data);
     }
 
-
     public function testCreateDocumentFragmentReturnsDocumentFragment(): void
     {
         $fragment = $this->elementNode->createDocumentFragment();

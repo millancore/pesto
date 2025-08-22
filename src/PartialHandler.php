@@ -28,8 +28,9 @@ trait PartialHandler
     }
 
     /**
-     * @throws \Exception
      * @return array{name: string, data: array<string, mixed>}
+     *
+     * @throws \Exception
      */
     public function endPartial(): array
     {
