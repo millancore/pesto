@@ -8,6 +8,9 @@ use Millancore\Pesto\Contract\Htmlable;
 
 class View implements Htmlable, \Stringable
 {
+    /**
+     * @param array<string, mixed> $data
+     */
     public function __construct(
         protected Environment $environment,
         protected string $name,
@@ -15,6 +18,9 @@ class View implements Htmlable, \Stringable
     ) {
     }
 
+    /**
+     * @param array<string, mixed> $data
+     */
     public function with(array $data): self
     {
         $this->data = array_merge($this->data, $data);
@@ -22,6 +28,9 @@ class View implements Htmlable, \Stringable
         return $this;
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function getData(): array
     {
         return $this->data;

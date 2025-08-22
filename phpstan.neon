@@ -4,3 +4,7 @@ parameters:
         - src
     excludePaths:
         - tests/fixtures/*
+    ignoreErrors:
+        -
+            message: '#^Anonymous function has an unused use \$__pesto\.$#'
+            path: src/Renderer.php

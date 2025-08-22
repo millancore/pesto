@@ -16,6 +16,9 @@ class Environment
     ) {
     }
 
+    /**
+     * @param array<string, mixed> $data
+     */
     public function make(string $name, array $data = []): View
     {
         return new View($this, $name, $data);
@@ -24,18 +27,24 @@ class Environment
     public function end(): void
     {
         $partial = $this->endPartial();
-        echo $this->renderer->render($this, $partial->name, $partial->data);
+        echo $this->renderer->render($this, $partial['name'], $partial['data']);
     }
 
+    /**
+     * @param list<mixed> $filters
+     */
     public function output(mixed $expression, array $filters = []): string
     {
         foreach ($filters as $filter) {
             $expression = $this->filterRegistry->apply($expression, $filter);
         }
 
-        return $expression;
+        return (string) $expression;
     }
 
+    /**
+     * @param array<string, mixed> $data
+     */
     public function render(string $name, array $data): string
     {
         return $this->renderer->render($this, $name, $data);

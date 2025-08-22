@@ -160,12 +160,6 @@ class NodeTest extends TestCase
         $this->assertEquals('echo "test";', $pi->data);
     }
 
-    public function testGetOuterXmlReturnsNodeXml(): void
-    {
-        $xml = $this->elementNode->getOuterXML();
-
-        $this->assertEquals('<p id="first" class="test">First</p>', $xml);
-    }
 
     public function testCreateDocumentFragmentReturnsDocumentFragment(): void
     {

@@ -30,6 +30,9 @@ class StringFilters implements FilterStack
     }
 
     #[AsFilter(name: 'strip_tags')]
+    /**
+     * @param string|list<string> $allowed_tags
+     */
     public function stripTags(string $string, string|array $allowed_tags = ''): string
     {
         return strip_tags($string, $allowed_tags);
@@ -48,6 +51,9 @@ class StringFilters implements FilterStack
 
     #[AsFilter(name: 'join')]
     #[AsFilter(name: 'implode')]
+    /**
+     * @param list<string> $pieces
+     */
     public function join(array $pieces, string $glue): string
     {
         return implode($glue, $pieces);

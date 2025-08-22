@@ -4,13 +4,16 @@ declare(strict_types=1);
 
 namespace Millancore\Pesto\Dom;
 
+use Dom\Node as DomNode;
 use Dom\NodeList;
 
 /**
  * @implements \IteratorAggregate<int, Node>
+ * @property-read int<0, max> $length
  */
 class NodeCollection implements \IteratorAggregate, \Countable
 {
+    /** @var NodeList<DomNode> */
     private NodeList $nodeList;
 
     public function __construct(NodeList $nodeList)
@@ -23,6 +26,9 @@ class NodeCollection implements \IteratorAggregate, \Countable
         return $this->count() === 0;
     }
 
+    /**
+     * @return int<0, max>
+     */
     public function count(): int
     {
         return $this->nodeList->count();

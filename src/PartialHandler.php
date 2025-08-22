@@ -13,6 +13,9 @@ trait PartialHandler
      */
     protected array $slotStack = [];
 
+    /**
+     * @param array<string, mixed> $data
+     */
     public function start(string $name, array $data = []): void
     {
         if (ob_start()) {
@@ -26,8 +29,9 @@ trait PartialHandler
 
     /**
      * @throws \Exception
+     * @return array{name: string, data: array<string, mixed>}
      */
-    public function endPartial(): object
+    public function endPartial(): array
     {
         $content = ob_get_clean();
         $partial = array_pop($this->sectionStack);
@@ -38,10 +42,10 @@ trait PartialHandler
 
         // The content between start() and end() that is not in a slot() is the default slot.
         if (!isset($partial['data']['slot'])) {
-            $partial['data']['slot'] = new Slot($content);
+            $partial['data']['slot'] = new Slot($content ?: '');
         }
 
-        return (object) [
+        return [
             'name' => $partial['name'],
             'data' => $partial['data'],
         ];
@@ -59,7 +63,7 @@ trait PartialHandler
      */
     public function endSlot(): void
     {
-        $content = ob_get_clean();
+        $content = ob_get_clean() ?: '';
         $slotName = array_pop($this->slotStack);
 
         if ($slotName === null) {

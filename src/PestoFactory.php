@@ -13,6 +13,9 @@ use Millancore\Pesto\Loader\FileSystemLoader;
 
 class PestoFactory
 {
+    /**
+     * @param array<object> $filterStack
+     */
     public static function create(
         string $templatesPath,
         string $cachePath,

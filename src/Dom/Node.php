@@ -8,6 +8,7 @@ use Dom\DocumentFragment;
 use Dom\Element;
 use Dom\Node as DomNode;
 use Dom\ProcessingInstruction;
+use Dom\XMLDocument;
 
 class Node
 {
@@ -99,11 +100,6 @@ class Node
         if ($this->domNode->parentNode) {
             $this->domNode->parentNode->replaceChild($node, $this->domNode);
         }
-    }
-
-    public function getOuterXML(): string
-    {
-        return $this->domNode->ownerDocument->saveXml($this->domNode);
     }
 
     public function createDocumentFragment(): DocumentFragment

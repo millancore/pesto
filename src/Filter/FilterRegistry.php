@@ -49,6 +49,9 @@ class FilterRegistry
         }
     }
 
+    /**
+     * @param callable(mixed...):mixed $callback
+     */
     public function add(string $name, callable $callback): void
     {
         $this->filters[$name] = $callback;
