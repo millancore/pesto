@@ -96,9 +96,9 @@ Layout
     <title>{{ $title }}</title>
 </head>
 <body>
-    <header>{{ $header }}</header>
+    <header>{{ $header | slot }}</header>
 
-    <main>{{ $slot }}</main>
+    <main>{{ $main | slot }}</main>
 </body>
 </html>
 ```
@@ -174,23 +174,38 @@ Pesto also allows you to use inline control flow directives.
 
 ## Filters
 Pesto provides a simple way to apply filters to variables using the pipe operator,
-you can define your own filters or use the php built-in functions.
+you can define your own filters.
 
 ```html
-<p>{{ $text | strtoupper }}</p>
+<p>{{ $text | upper }}</p>
 ```
+
+### List of Filters
+- `raw` Prevents escaping of the variable.
+
+#### String Filters
+- `upper` 
+- `lower` 
+- `capitalize`
+- `title`
+- `trim`
+- `nl2br`
+- `strip_tags`
+- `slug`
+- `join`
+
 
 ### Chain Filters
 You can chain multiple filters together.
 ```html
-<p>{{ $text | ucfirst | truncate:50,... }}</p>
+<p>{{ $text | capitalize | truncate:50,... }}</p>
 ```
 
 ### Filters with Arguments
 To pass arguments to a filter, you can use the `:` operator.
 
 ```html
-<p>{{ $createAt | date:m-d-Y }}</p>
+<p>{{ $createAt | date:'m-d-Y' }}</p>
 ```
 
 ### Add Filters

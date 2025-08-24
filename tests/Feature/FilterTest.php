@@ -23,7 +23,7 @@ class FilterTest extends TestCase
         );
     }
 
-    public function testItSimpleTitleFilter(): void
+    public function test_it_simple_title_filter(): void
     {
         $template = <<<HTML
         <h1>{{ 'pesto is a great engine' | title }}</h1>
@@ -37,7 +37,7 @@ class FilterTest extends TestCase
         $this->assertEquals('<h1>Pesto Is A Great Engine</h1>', $content->toHtml());
     }
 
-    public function testItFilterWithArguments(): void
+    public function test_it_filter_with_arguments(): void
     {
         $names = ['juan', 'maria', 'jhon'];
 
@@ -52,7 +52,7 @@ HTML;
         $this->assertEquals('<h1>juan, maria, jhon</h1>', $content->toHtml());
     }
 
-    public function testTrowExceptionIfFilterNotFound(): void
+    public function test_trow_exception_if_filter_not_found(): void
     {
         $this->expectException(FilterException::class);
         $this->expectExceptionMessage('Filter "notfound" not found');

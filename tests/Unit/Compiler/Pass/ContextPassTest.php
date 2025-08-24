@@ -23,15 +23,15 @@ class ContextPassTest extends TestCase
         $this->pass = new ContextPass();
     }
 
-    public function testCompileHtmlAttributeContext(): void
+    public function test_compile_html_attribute_context(): void
     {
         $html = '<div id="{{$value}}">Hello</div>';
-        $expected = '<div id="{{$value|attr}}">Hello</div>';
+        $expected = '<div id="{{$value|escape}}">Hello</div>';
 
         $this->assertCompiledEquals($this->pass, $expected, $html);
     }
 
-    public function testCompileHtmlContentContext(): void
+    public function test_compile_html_content_context(): void
     {
         $html = '<div>{{$value}}</div>';
         $expected = '<div>{{$value|escape}}</div>';
@@ -39,34 +39,42 @@ class ContextPassTest extends TestCase
         $this->assertCompiledEquals($this->pass, $expected, $html);
     }
 
-    public function testCompileJavascriptContext(): void
+    public function test_compile_with_html_filter(): void
+    {
+        $html = '<div>{{$value|html}}</div>';
+        $expected = '<div>{{$value|html|escape}}</div>';
+
+        $this->assertCompiledEquals($this->pass, $expected, $html);
+    }
+
+    public function test_compile_javascript_context(): void
     {
         $html = '<div onclick="alert(\'{{$message}}\')">Click</div>';
-        $expected = '<div onclick="alert(\'{{$message|js}}\')">Click</div>';
+        $expected = '<div onclick="alert(\'{{$message|escape:\'on_attribute\'}}\')">Click</div>';
 
         $this->assertCompiledEquals($this->pass, $expected, $html);
     }
 
-    public function testCompileUrlContext(): void
+    public function test_compile_url_context(): void
     {
         $html = '<a href="{{$url}}">Link</a>';
-        $expected = '<a href="{{$url|url}}">Link</a>';
+        $expected = '<a href="{{$url|escape:\'url\'}}">Link</a>';
 
         $this->assertCompiledEquals($this->pass, $expected, $html);
     }
 
-    public function testCompileCssContext(): void
+    public function test_compile_css_context(): void
     {
         $html = '<div style="color: {{$color}}">Text</div>';
-        $expected = '<div style="color: {{$color|css}}">Text</div>';
+        $expected = '<div style="color: {{$color|escape:\'css\'}}">Text</div>';
 
         $this->assertCompiledEquals($this->pass, $expected, $html);
     }
 
-    public function testCompileWithExtraFilters(): void
+    public function test_compile_with_extra_filters(): void
     {
         $html = '<div class="container {{$class|trim}}">Text</div>';
-        $expected = '<div class="container {{$class|trim|attr}}">Text</div>';
+        $expected = '<div class="container {{$class|trim|escape}}">Text</div>';
 
         $this->assertCompiledEquals($this->pass, $expected, $html);
     }

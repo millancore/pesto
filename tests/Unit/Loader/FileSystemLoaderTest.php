@@ -20,33 +20,33 @@ class FileSystemLoaderTest extends TestCase
         $this->loader = new FileSystemLoader(self::TEMPLATE_PATH);
     }
 
-    public function testItGetsTheSourceOfATemplate(): void
+    public function test_it_gets_the_source_of_a_template(): void
     {
         $this->createTemplate('test.pesto', 'Hello, {{ $name }}!');
         $source = $this->loader->getSource('test.pesto');
         $this->assertEquals('Hello, {{ $name }}!', $source);
     }
 
-    public function testItThrowsAnExceptionWhenTemplateNotFound(): void
+    public function test_it_throws_an_exception_when_template_not_found(): void
     {
         $this->expectException(LoaderException::class);
         $this->loader->getSource('non_existent_template.pesto');
     }
 
-    public function testItGetsThePathOfATemplate(): void
+    public function test_it_gets_the_path_of_a_template(): void
     {
         $this->createTemplate('test.pesto', '');
         $path = $this->loader->getPath('test.pesto');
         $this->assertEquals(self::TEMPLATE_PATH.'/test.pesto', $path);
     }
 
-    public function testItReturnsNullWhenGettingPathForNonExistentTemplate(): void
+    public function test_it_returns_null_when_getting_path_for_non_existent_template(): void
     {
         $path = $this->loader->getPath('non_existent_template.pesto');
         $this->assertNull($path);
     }
 
-    public function testItChecksIfAFileExists(): void
+    public function test_it_checks_if_a_file_exists(): void
     {
         $this->createTemplate('test.pesto', '');
         $this->assertTrue($this->loader->isFile(self::TEMPLATE_PATH.'/test.pesto'));

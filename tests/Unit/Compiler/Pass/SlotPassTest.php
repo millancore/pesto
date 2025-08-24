@@ -27,7 +27,7 @@ class SlotPassTest extends TestCase
         $this->pass = new SlotPass();
     }
 
-    public function testCompiledNamedSlot(): void
+    public function test_compiled_named_slot(): void
     {
         $html = '<div php-slot="slot_name">Slot Content</div>';
         $expected = '<?php $__pesto->slot("slot_name"); ?><div>Slot Content</div><?php $__pesto->endSlot(); ?>';
@@ -35,7 +35,7 @@ class SlotPassTest extends TestCase
         $this->assertCompiledEquals($this->pass, $expected, $html);
     }
 
-    public function testCompiledNamedSlotUsingTemplate(): void
+    public function test_compiled_named_slot_using_template(): void
     {
         $html = '<template php-slot="slot_name">Slot Content</template>';
         $expected = '<?php $__pesto->slot("slot_name"); ?><template php-inner="">Slot Content</template><?php $__pesto->endSlot(); ?>';

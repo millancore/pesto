@@ -21,7 +21,7 @@ class ViewTest extends TestCase
         $this->env = $this->createMock(Environment::class);
     }
 
-    public function testItBeHtmlable(): void
+    public function test_it_be_htmlable(): void
     {
         $this->env->method('render')->willReturn('content');
 
@@ -31,7 +31,7 @@ class ViewTest extends TestCase
         $this->assertEquals('content', $view->toHtml());
     }
 
-    public function testItBeStringable(): void
+    public function test_it_be_stringable(): void
     {
         $this->env->method('render')->willReturn('content');
         $view = new View($this->env, 'test', []);
@@ -40,7 +40,7 @@ class ViewTest extends TestCase
         $this->assertEquals('content', $view->__toString());
     }
 
-    public function testItCanRenderWithData(): void
+    public function test_it_can_render_with_data(): void
     {
         $data = ['name' => 'John'];
 
@@ -50,7 +50,7 @@ class ViewTest extends TestCase
         $this->assertEquals($data, $view->getData());
     }
 
-    public function testItCanAddMoreData(): void
+    public function test_it_can_add_more_data(): void
     {
         $view = new View($this->env, 'test', []);
 

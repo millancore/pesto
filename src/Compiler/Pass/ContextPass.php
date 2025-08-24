@@ -12,6 +12,8 @@ use Millancore\Pesto\Pesto;
 
 class ContextPass implements CompilerPass
 {
+    private const string ESCAPE_FILTER = 'escape';
+
     public function compile(Pesto $pesto): void
     {
         $this->walkNode($pesto->getDocument()->documentElement);
@@ -43,6 +45,10 @@ class ContextPass implements CompilerPass
             if ($child->nodeType === XML_TEXT_NODE && str_contains($child->nodeValue, '{{')) {
                 $this->processTextNode($child);
             }
+
+            if ($child->nodeType === XML_COMMENT_NODE && str_contains($child->nodeValue, '{{')) {
+                $this->processCommentNode($child);
+            }
         }
 
         foreach ($node->childNodes as $child) {
@@ -50,6 +56,18 @@ class ContextPass implements CompilerPass
                 $this->walkNode($child);
             }
         }
+    }
+
+    private function processCommentNode(Node $commentNode): void
+    {
+        if (is_null($commentNode->nodeValue)) {
+            return;
+        }
+
+        $commentNode->nodeValue = $this->markContext(
+            $commentNode->nodeValue,
+            self::ESCAPE_FILTER.':\'comment\'',
+        );
     }
 
     private function processTextNode(Node $textNode): void
@@ -75,9 +93,9 @@ class ContextPass implements CompilerPass
     private function getTextContext(?Node $parentElement): string
     {
         return match (strtolower($parentElement->nodeName ?? '')) {
-            'script' => 'js',
-            'style' => 'css',
-            default => 'escape'
+            'script' => self::ESCAPE_FILTER.':\'js\'',
+            'style' => self::ESCAPE_FILTER.':\'css\'',
+            default => self::ESCAPE_FILTER,
         };
     }
 
@@ -86,10 +104,10 @@ class ContextPass implements CompilerPass
         $attr = strtolower($attrName);
 
         return match (true) {
-            in_array($attr, ['href', 'src', 'action']) => 'url',
-            str_starts_with($attr, 'on') => 'js',
-            $attr === 'style' => 'css',
-            default => 'attr'
+            in_array($attr, ['href', 'src', 'action']) => self::ESCAPE_FILTER.':\'url\'',
+            str_starts_with($attr, 'on') => self::ESCAPE_FILTER.':\'on_attribute\'',
+            $attr === 'style' => self::ESCAPE_FILTER.':\'css\'',
+            default => self::ESCAPE_FILTER,
         };
     }
 

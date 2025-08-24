@@ -11,13 +11,13 @@ use PHPUnit\Framework\Attributes\CoversClass;
 #[CoversClass(AsFilter::class)]
 class AsFilterTest extends TestCase
 {
-    public function testItConstructsWithAName(): void
+    public function test_it_constructs_with_a_name(): void
     {
         $filter = new AsFilter('test_filter');
         $this->assertSame('test_filter', $filter->name);
     }
 
-    public function testItIsAPhpAttribute(): void
+    public function test_it_is_a_php_attribute(): void
     {
         $reflection = new \ReflectionClass(AsFilter::class);
         $attributes = $reflection->getattributes(\Attribute::class);

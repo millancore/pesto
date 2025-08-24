@@ -12,43 +12,47 @@ class CoreFilters implements FilterStack
     public function getFilters(): array
     {
         return [
+            'raw' => fn ($value) => $value,
             'escape' => [$this, 'escape'],
-            'url' => [$this, 'escapeUrl'],
-            'js' => [$this, 'escapeJs'],
-            'css' => [$this, 'escapeCss'],
         ];
     }
 
-    #[AsFilter('escape')]
-    #[AsFilter('attr')]
-    public function escape(mixed $value): string
+    public function escape(mixed $value, string $context = 'html'): string
     {
-        if (is_array($value)) {
-            throw new \InvalidArgumentException('Cannot escape array in HTML context. Use {!! !!} for raw output or explicitly convert to string.');
+        if ($value instanceof Htmlable) {
+            return $value->toHtml();
         }
 
-        if (is_object($value)) {
-            if ($value instanceof Htmlable) {
-                return $value->toHtml();
-            }
+        if (is_array($value)) {
+            throw new \InvalidArgumentException('Cannot escape array in HTML context. use {{ $arr | join }} filter to convert to string');
+        }
 
-            if (method_exists($value, '__toString')) {
-                return htmlspecialchars((string) $value, ENT_QUOTES, 'UTF-8');
-            }
-
+        if (is_object($value) && !method_exists($value, '__toString')) {
             throw new \InvalidArgumentException('To print an object, implement __toString() method in it, or implement Htmlable');
         }
 
-        return htmlspecialchars((string) $value, ENT_QUOTES, 'UTF-8');
+        $value = (string) $value;
+
+        return match ($context) {
+            'js' => $this->escapeJs($value),
+            'on_attribute' => $this->escapeJS($value),
+            'css' => $this->escapeCss($value),
+            'url' => $this->escapeUrl($value),
+            'comment' => $this->escapeComment($value),
+            default => htmlspecialchars($value, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'),
+        };
     }
 
-    #[AsFilter('url')]
     public function escapeUrl(string $value): string
     {
-        return rawurlencode($value);
+        $url = trim($value);
+        if (str_starts_with(strtolower($url), 'javascript:')) {
+            return '';
+        }
+
+        return rawurlencode($url);
     }
 
-    #[AsFilter('js')]
     public function escapeJs(mixed $value): string
     {
         $result = json_encode($value, JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT);
@@ -60,9 +64,15 @@ class CoreFilters implements FilterStack
         return $result;
     }
 
-    #[AsFilter('css')]
     public function escapeCss(string $value): string
     {
         return preg_replace('/[^a-zA-Z0-9\-_#%\s\.]/', '', $value) ?? '';
+    }
+
+    private function escapeComment(string $value): string
+    {
+        $value = htmlspecialchars($value, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+
+        return str_replace('--', '- -', $value);
     }
 }

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Millancore\Pesto;
 
+use Millancore\Pesto\Exception\CompilerException;
+
 trait PartialHandler
 {
     protected array $sectionStack = [];
@@ -28,11 +30,10 @@ trait PartialHandler
     }
 
     /**
-     * @return array{name: string, data: array<string, mixed>}
-     *
-     * @throws \Exception
+     * @throws CompilerException
+     * @throws \Throwable
      */
-    public function endPartial(): array
+    public function end(): void
     {
         $content = ob_get_clean();
         $partial = array_pop($this->sectionStack);
@@ -42,14 +43,11 @@ trait PartialHandler
         }
 
         // The content between start() and end() that is not in a slot() is the default slot.
-        if (!isset($partial['data']['slot'])) {
-            $partial['data']['slot'] = new Slot($content ?: '');
+        if (!isset($partial['data']['main'])) {
+            $partial['data']['main'] = new Slot($content ?: '');
         }
 
-        return [
-            'name' => $partial['name'],
-            'data' => $partial['data'],
-        ];
+        echo $this->renderer->render($this, $partial['name'], $partial['data']);
     }
 
     public function slot(string $name): void

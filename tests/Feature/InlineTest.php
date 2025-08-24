@@ -22,13 +22,13 @@ class InlineTest extends TestCase
         );
     }
 
-    public function testRenderForeachAndIfInline(): void
+    public function test_render_foreach_and_if_inline(): void
     {
         $this->refreshCache();
 
         $listTemplate = <<<PHP
 <ul id="{{\$id}}">
-    {{ \$slot }}
+    {{ \$main | slot }}
 </ul>
 PHP;
 
@@ -55,7 +55,7 @@ PHP;
         $this->assertStringContainsString('<li>Item 10</li>', $content);
     }
 
-    public function testRenderForeachAndIfInlineWithTemplate(): void
+    public function test_render_foreach_and_if_inline_with_template(): void
     {
         $this->refreshCache();
 
@@ -77,7 +77,7 @@ PHP;
 
     public function tearDown(): void
     {
-        $this->refreshCache();
+        // $this->refreshCache();
         $this->cleanupTemporaryTemplate();
     }
 }

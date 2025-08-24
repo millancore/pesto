@@ -13,7 +13,7 @@ use PHPUnit\Framework\Attributes\CoversNothing;
 #[CoversNothing]
 class PestoFactoryTest extends TestCase
 {
-    public function testCreateEnvironmentInstanceFromFactory(): void
+    public function test_create_environment_instance_from_factory(): void
     {
         $environment = PestoFactory::create(
             self::TEMPLATE_PATH,
@@ -23,7 +23,7 @@ class PestoFactoryTest extends TestCase
         $this->assertInstanceOf(Environment::class, $environment);
     }
 
-    public function testCreateEnvFromFactoryWithFilters()
+    public function test_create_env_from_factory_with_filters()
     {
         $env = PestoFactory::create(
             self::TEMPLATE_PATH,

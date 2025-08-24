@@ -27,7 +27,7 @@ return new Config()
         'no_unused_imports' => true,
         'trailing_comma_in_multiline' => ['elements' => ['arrays', 'arguments', 'parameters']],
         'yoda_style' => false,
-        'php_unit_method_casing' => ['case' => 'camel_case'],
+        'php_unit_method_casing' => ['case' => 'snake_case'],
     ])
     ->setFinder($finder)
     ->setCacheFile(__DIR__ . '/cache/.php-cs-fixer.cache');

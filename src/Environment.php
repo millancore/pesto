@@ -24,17 +24,20 @@ class Environment
         return new View($this, $name, $data);
     }
 
-    public function end(): void
-    {
-        $partial = $this->endPartial();
-        echo $this->renderer->render($this, $partial['name'], $partial['data']);
-    }
-
     /**
      * @param list<mixed> $filters
      */
     public function output(mixed $expression, array $filters = []): string
     {
+        // early return for slots skip extra filters
+        if (in_array('slot', $filters)) {
+            return $expression->content;
+        }
+
+        if (in_array('raw', $filters)) {
+            array_pop($filters);
+        }
+
         foreach ($filters as $filter) {
             $expression = $this->filterRegistry->apply($expression, $filter);
         }

@@ -12,7 +12,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 #[CoversClass(Document::class)]
 class DocumentTest extends TestCase
 {
-    public function testGetHtmlDocumentFromString(): void
+    public function test_get_html_document_from_string(): void
     {
         $html = '<div>Content</div>';
 

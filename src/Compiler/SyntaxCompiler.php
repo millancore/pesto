@@ -9,24 +9,10 @@ use Millancore\Pesto\Contract\Compiler;
 class SyntaxCompiler implements Compiler
 {
     private const string ESCAPED_PATTERN = '/\{\{(.*?)\}\}/s';
-    private const string UNESCAPED_PATTERN = '/\{!!(.*?)!!\}/s';
 
     public function compile(string $source): string
     {
-        // First pass: handle unescaped expressions {!! !!}
-        $source = $this->compileUnescapedExpressions($source);
-
-        // Second pass: handle escaped expressions {{ }}
         return $this->compileEscapedExpressions($source) ?? '';
-    }
-
-    private function compileUnescapedExpressions(string $source): ?string
-    {
-        return preg_replace_callback(
-            self::UNESCAPED_PATTERN,
-            fn ($matches) => $this->handleUnescapedExpression(trim($matches[1])),
-            $source,
-        );
     }
 
     private function compileEscapedExpressions(string $source): ?string
@@ -36,11 +22,6 @@ class SyntaxCompiler implements Compiler
             fn ($matches) => $this->handleEscapedExpression($matches[1]),
             $source,
         );
-    }
-
-    private function handleUnescapedExpression(?string $expression): string
-    {
-        return "<?= $expression; ?>";
     }
 
     private function handleEscapedExpression(string $expression): string

@@ -22,14 +22,14 @@ class CoreFiltersTest extends TestCase
         $this->filters = new CoreFilters();
     }
 
-    public function testIsInstanceOfFilterStack(): void
+    public function test_is_instance_of_filter_stack(): void
     {
         $this->assertInstanceOf(FilterStack::class, $this->filters);
         $this->assertIsArray($this->filters->getFilters());
     }
 
     #[DataProvider('provideEscape')]
-    public function testEscapeFilter(string $expected, mixed $input): void
+    public function test_escape_filter(string $expected, mixed $input): void
     {
         $this->assertSame($expected, $this->filters->escape($input));
     }
@@ -54,15 +54,15 @@ class CoreFiltersTest extends TestCase
         ];
     }
 
-    public function testTryToEscapeArrayValue(): void
+    public function test_try_to_escape_array_value(): void
     {
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Cannot escape array in HTML context. Use {!! !!} for raw output or explicitly convert to string');
+        $this->expectExceptionMessage('Cannot escape array in HTML context. use {{ $arr | join }} filter to convert to string');
 
         $this->filters->escape([]);
     }
 
-    public function testTryToEscapeObject(): void
+    public function test_try_to_escape_object(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('To print an object, implement __toString() method in it, or implement Htmlable');
@@ -71,7 +71,7 @@ class CoreFiltersTest extends TestCase
     }
 
     #[DataProvider('provideEscapeUrl')]
-    public function testEscapeUrl(string $expected, string $input): void
+    public function test_escape_url(string $expected, string $input): void
     {
         $this->assertSame($expected, $this->filters->escapeUrl($input));
     }
@@ -84,7 +84,7 @@ class CoreFiltersTest extends TestCase
     }
 
     #[DataProvider('provideEscapeJs')]
-    public function testEscapeJs(string $expected, mixed $input): void
+    public function test_escape_js(string $expected, mixed $input): void
     {
         $this->assertSame($expected, $this->filters->escapeJs($input));
     }
@@ -100,7 +100,7 @@ class CoreFiltersTest extends TestCase
     }
 
     #[DataProvider('provideEscapeCss')]
-    public function testEscapeCss(string $expected, string $input): void
+    public function test_escape_css(string $expected, string $input): void
     {
         $this->assertSame($expected, $this->filters->escapeCss($input));
     }

@@ -22,14 +22,14 @@ class SlotTest extends TestCase
         );
     }
 
-    public function testRenderSlotInPartial(): void
+    public function test_render_slot_in_partial(): void
     {
         $this->refreshCache();
 
         $slotTemplate = <<<HTML
     <main>
-        <footer>{{\$footer}}</footer>
-        {{\$slot}}
+        <footer>{{\$footer| slot }}</footer>
+        {{\$main | slot }}
     </main>
 HTML;
 

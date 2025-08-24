@@ -33,7 +33,7 @@ class FileSystemCacheTest extends TestCase
         }
     }
 
-    public function testItCreatesCacheDirectoryIfNotExists(): void
+    public function test_it_creates_cache_directory_if_not_exists(): void
     {
         $tempCacheDir = sys_get_temp_dir().'/pesto_test_cache';
         if (is_dir($tempCacheDir)) {
@@ -47,7 +47,7 @@ class FileSystemCacheTest extends TestCase
         rmdir($tempCacheDir);
     }
 
-    public function testGetCompiledPathReturnsCorrectPath(): void
+    public function test_get_compiled_path_returns_correct_path(): void
     {
         $name = 'template.html';
         $hash = hash('xxh128', $name);
@@ -56,7 +56,7 @@ class FileSystemCacheTest extends TestCase
         $this->assertSame($expectedPath, $this->cache->getCompiledPath($name));
     }
 
-    public function testWriteCreatesFileWithContent(): void
+    public function test_write_creates_file_with_content(): void
     {
         $path = self::CACHE_PATH.'/test.php';
         $content = '<?php echo "Hello World";';
@@ -67,13 +67,13 @@ class FileSystemCacheTest extends TestCase
         $this->assertSame($content, file_get_contents($path));
     }
 
-    public function testIsFreshReturnsFalseIfCompiledFileDoesNotExist(): void
+    public function test_is_fresh_returns_false_if_compiled_file_does_not_exist(): void
     {
         $this->loader->method('getPath')->willReturn(self::TEMPLATE_PATH.'/template.html');
         $this->assertFalse($this->cache->isFresh('template.html'));
     }
 
-    public function testIsFreshReturnsFalseIfSourceIsNewer(): void
+    public function test_is_fresh_returns_false_if_source_is_newer(): void
     {
         $templateName = 'newer_template.html';
         $sourcePath = self::TEMPLATE_PATH.'/'.$templateName;
@@ -91,7 +91,7 @@ class FileSystemCacheTest extends TestCase
         unlink($sourcePath);
     }
 
-    public function testIsFreshReturnsTrueIfCacheIsNewer(): void
+    public function test_is_fresh_returns_true_if_cache_is_newer(): void
     {
         $templateName = 'older_template.html';
         $sourcePath = self::TEMPLATE_PATH.'/'.$templateName;
@@ -109,7 +109,7 @@ class FileSystemCacheTest extends TestCase
         unlink($sourcePath);
     }
 
-    public function testIsFreshReturnsFalseIfSourcePathIsNull(): void
+    public function test_is_fresh_returns_false_if_source_path_is_null(): void
     {
         $this->loader->method('getPath')->willReturn(null);
         $this->assertFalse($this->cache->isFresh('non_existent_template.html'));

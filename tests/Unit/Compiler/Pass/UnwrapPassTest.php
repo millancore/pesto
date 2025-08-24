@@ -27,7 +27,7 @@ class UnwrapPassTest extends TestCase
         $this->pass = new UnwrapPass();
     }
 
-    public function testUnwrapContentInnerAttribute(): void
+    public function test_unwrap_content_inner_attribute(): void
     {
         $html = '<div php-inner>Hello</div>';
 
