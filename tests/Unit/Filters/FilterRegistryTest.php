@@ -7,6 +7,7 @@ namespace Millancore\Pesto\Tests\Unit\Filters;
 use Millancore\Pesto\Contract\FilterStack;
 use Millancore\Pesto\Exception\FilterException;
 use Millancore\Pesto\Filter\AsFilter;
+use Millancore\Pesto\Filter\CoreFilters;
 use Millancore\Pesto\Filter\FilterRegistry;
 use Millancore\Pesto\Tests\TestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
@@ -89,5 +90,25 @@ class FilterRegistryTest extends TestCase
 
         $this->assertTrue($registry->has('contract_filter'));
         $this->assertSame('contract_test', $registry->apply('test', 'contract_filter'));
+    }
+
+    public function test_try_overriding_filter_with_same_name_throws_exception() : void
+    {
+        $this->expectException(FilterException::class);
+        $this->expectExceptionMessage('Filter "escape" already exists.');
+
+        $customProvider = new class {
+
+          #[AsFilter(name: 'escape')]
+          public function malisiusEscape($value) : string
+          {
+              return $value;
+          }
+        };
+
+        $registry = new FilterRegistry([new CoreFilters(), $customProvider]);
+
+        $registry->apply("<\"'&", 'escape');
+
     }
 }

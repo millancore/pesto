@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Millancore\Pesto;
 
+use Millancore\Pesto\Exception\ViewException;
 use Millancore\Pesto\Filter\FilterRegistry;
 
 class Environment
@@ -26,11 +27,17 @@ class Environment
 
     /**
      * @param list<mixed> $filters
+     * @throws ViewException
      */
     public function output(mixed $expression, array $filters = []): string
     {
         // early return for slots skip extra filters
         if (in_array('slot', $filters)) {
+
+            if (!$expression instanceof Slot) {
+                throw new ViewException('The value of the slot is being passed from a different context.');
+            }
+
             return $expression->content;
         }
 
@@ -38,11 +45,7 @@ class Environment
             array_pop($filters);
         }
 
-        foreach ($filters as $filter) {
-            $expression = $this->filterRegistry->apply($expression, $filter);
-        }
-
-        return (string) $expression;
+        return (string) $this->filterRegistry->applyAll($expression, $filters);
     }
 
     /**
@@ -52,4 +55,5 @@ class Environment
     {
         return $this->renderer->render($this, $name, $data);
     }
+
 }

@@ -6,6 +6,7 @@ namespace Millancore\Pesto\Filter;
 
 use Millancore\Pesto\Contract\FilterStack;
 use Millancore\Pesto\Exception\FilterException;
+use ReflectionMethod;
 
 class FilterRegistry
 {
@@ -20,6 +21,7 @@ class FilterRegistry
         foreach ($filterProviders as $provider) {
             if ($provider instanceof FilterStack) {
                 $this->registerProviderFromContract($provider);
+                continue;
             }
 
             $this->registerProviderFromAttribute($provider);
@@ -39,7 +41,7 @@ class FilterRegistry
     private function registerProviderFromAttribute(object $provider): void
     {
         $reflection = new \ReflectionClass($provider);
-        foreach ($reflection->getMethods(\ReflectionMethod::IS_PUBLIC) as $method) {
+        foreach ($reflection->getMethods(ReflectionMethod::IS_PUBLIC) as $method) {
             $attributes = $method->getAttributes(AsFilter::class);
             foreach ($attributes as $attribute) {
                 /** @var AsFilter $instance */
@@ -51,9 +53,14 @@ class FilterRegistry
 
     /**
      * @param callable(mixed...):mixed $callback
+     * @throws FilterException
      */
     public function add(string $name, callable $callback): void
     {
+        if (isset($this->filters[$name])) {
+            throw new FilterException(sprintf('Filter "%s" already exists.', $name));
+        }
+
         $this->filters[$name] = $callback;
     }
 
@@ -86,5 +93,14 @@ class FilterRegistry
         $filterName = array_shift($filter);
 
         return $this->get($filterName)($expression, ...$filter);
+    }
+
+    public function applyAll(mixed $expression, array $filters): mixed
+    {
+        foreach ($filters as $filter) {
+            $expression = $this->apply($expression, $filter);
+        }
+
+        return $expression;
     }
 }
