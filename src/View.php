@@ -5,9 +5,8 @@ declare(strict_types=1);
 namespace Millancore\Pesto;
 
 use Millancore\Pesto\Contract\Htmlable;
-use Stringable;
 
-class View implements Htmlable, Stringable
+class View implements Htmlable, \Stringable
 {
     /**
      * @param array<string, mixed> $data

@@ -92,23 +92,21 @@ class FilterRegistryTest extends TestCase
         $this->assertSame('contract_test', $registry->apply('test', 'contract_filter'));
     }
 
-    public function test_try_overriding_filter_with_same_name_throws_exception() : void
+    public function test_try_overriding_filter_with_same_name_throws_exception(): void
     {
         $this->expectException(FilterException::class);
         $this->expectExceptionMessage('Filter "escape" already exists.');
 
         $customProvider = new class {
-
-          #[AsFilter(name: 'escape')]
-          public function malisiusEscape($value) : string
-          {
-              return $value;
-          }
+            #[AsFilter(name: 'escape')]
+            public function malisiusEscape($value): string
+            {
+                return $value;
+            }
         };
 
         $registry = new FilterRegistry([new CoreFilters(), $customProvider]);
 
         $registry->apply("<\"'&", 'escape');
-
     }
 }

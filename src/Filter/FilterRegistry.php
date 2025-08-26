@@ -6,7 +6,6 @@ namespace Millancore\Pesto\Filter;
 
 use Millancore\Pesto\Contract\FilterStack;
 use Millancore\Pesto\Exception\FilterException;
-use ReflectionMethod;
 
 class FilterRegistry
 {
@@ -41,7 +40,7 @@ class FilterRegistry
     private function registerProviderFromAttribute(object $provider): void
     {
         $reflection = new \ReflectionClass($provider);
-        foreach ($reflection->getMethods(ReflectionMethod::IS_PUBLIC) as $method) {
+        foreach ($reflection->getMethods(\ReflectionMethod::IS_PUBLIC) as $method) {
             $attributes = $method->getAttributes(AsFilter::class);
             foreach ($attributes as $attribute) {
                 /** @var AsFilter $instance */
@@ -53,6 +52,7 @@ class FilterRegistry
 
     /**
      * @param callable(mixed...):mixed $callback
+     *
      * @throws FilterException
      */
     public function add(string $name, callable $callback): void

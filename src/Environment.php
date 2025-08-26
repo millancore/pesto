@@ -27,13 +27,13 @@ class Environment
 
     /**
      * @param list<mixed> $filters
+     *
      * @throws ViewException
      */
     public function output(mixed $expression, array $filters = []): string
     {
         // early return for slots skip extra filters
         if (in_array('slot', $filters)) {
-
             if (!$expression instanceof Slot) {
                 throw new ViewException('The value of the slot is being passed from a different context.');
             }
@@ -55,5 +55,4 @@ class Environment
     {
         return $this->renderer->render($this, $name, $data);
     }
-
 }

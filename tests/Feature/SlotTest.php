@@ -52,8 +52,7 @@ HTML;
 HTML, (string) $content);
     }
 
-
-    public function test_no_pass_slot_to_partial() : void
+    public function test_no_pass_slot_to_partial(): void
     {
         $slotTemplate = <<<HTML
 <main>
@@ -81,11 +80,10 @@ HTML;
 HTML, (string) $content);
     }
 
-
-    public function test_pass_slot_variable_from_data_to_partial() : void
+    public function test_pass_slot_variable_from_data_to_partial(): void
     {
-       $this->expectException(ViewException::class);
-       $this->expectExceptionMessage('The value of the slot is being passed from a different context.');
+        $this->expectException(ViewException::class);
+        $this->expectExceptionMessage('The value of the slot is being passed from a different context.');
 
         $slotTemplate = <<<HTML
 <main>
