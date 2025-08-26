@@ -1,9 +1,5 @@
  # Pesto
-
-```shell
-composer require millancore/pesto
-```
-
+ 
 Modern PHP template engine that provides an intuitive and expressive way
 to build web application views. It offers a clean syntax using custom HTML attributes
 and supports advanced templating features like view composition, slots, conditional
@@ -27,37 +23,10 @@ Or, for greater clarity, use  `<template>`, which will not be included in the fi
     </template>
 </ul>
 ```
-Result:
-```html
-<ul>
-    <li>Item 8</li>
-    <li>Item 9</li>
-    <li>Item 10</li>
-</ul>
-```
-## Installation & Usage
-
-- PHP ^8.4
-
-Pesto is available via Composer: `composer require millancore/pesto` and is free of third-party dependencies
-
-```php
-use MillanCore\Pesto\PestoFactory;
-
-$pesto = PestoFactory::create([
-    templatesPath: __DIR__ . '/views',
-    cachePath: __DIR__ . '/cache',
-    // [ New CustomFilters(), ... ]
-]);
-
-$pesto->make('view.php', ['user' => $user]);
-```
-
-## Features
-
 Pesto templates support files with the `.html` or `.php`  extension,
 allowing you to integrate PHP code if needed.
 
+- [Installation & usage](#installation--usage)
 - [View Composition](#view-composition)
   - [The `<template>` Tag](#template-tag)
   - [Partials](#partials--slots)
@@ -71,6 +40,28 @@ allowing you to integrate PHP code if needed.
   - [Chain Filters](#chain-filters)
   - [Filters with Arguments](#filters-with-arguments)
   - [Add Filters](#add-filters)
+
+## Installation & Usage
+
+- PHP ^8.4
+
+Pesto is available via Composer and is free of third-party dependencies
+
+```shell
+composer require millancore/pesto
+```
+
+```php
+use MillanCore\Pesto\PestoFactory;
+
+$pesto = PestoFactory::create([
+    templatesPath: __DIR__ . '/views',
+    cachePath: __DIR__ . '/cache',
+    // [ New CustomFilters(), ... ]
+]);
+
+$pesto->make('view.php', ['user' => $user]);
+```
 
 ## View Composition
 Pesto makes it easy to reuse parts of your views
@@ -157,18 +148,17 @@ The only rule importance for use `php-elseif` and `php-else` is the tag must be 
 Pesto provides a simple way to loop over arrays or objects.
 
 ```html
-<ul php-foreach="$list as $item">
-    <li>{{ $item }}</li>
-</ul>
+<li php-foreach="$list as $item">{{ $item }}</li>
 ```
 
 ### Inline
 Pesto also allows you to use inline control flow directives.
 
 ```html
-<ul php-foreach="$users as $user" php-if="$user->isAdmin()">>
-    <li>{{ $user->name | ucfirst }}</li>
-    <li>{{ $user->email }}</li>   
+<ul>
+  <template php-foreach="$users as $user" php-if="$user->isAdmin()">
+      <li>{{ $user->name | title }} - {{ $user->email }}</li>
+  </template>
 </ul>
 ```
 
