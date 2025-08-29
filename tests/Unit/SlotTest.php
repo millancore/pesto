@@ -18,7 +18,7 @@ class SlotTest extends TestCase
         $this->assertEquals('slot-name', $slot->content);
     }
 
-    public function test_to_html() : void
+    public function test_to_html(): void
     {
         $slot = new Slot('slot-name');
 

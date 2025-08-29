@@ -31,7 +31,7 @@ class SlotTest extends TestCase
         {{\$main | slot }}
     </main>
 HTML;
-        $layoutName  = $this->createTemporaryTemplate('layout', $slotTemplate);
+        $layoutName = $this->createTemporaryTemplate('layout', $slotTemplate);
 
         $template = <<<HTML
 <template php-partial="$layoutName">
@@ -60,7 +60,7 @@ HTML, (string) $content);
 {{\$main | slot }}
 </main>
 HTML;
-        $layoutName  = $this->createTemporaryTemplate('layout', $slotTemplate);
+        $layoutName = $this->createTemporaryTemplate('layout', $slotTemplate);
 
         $template = <<<HTML
 <template php-partial="$layoutName">
@@ -92,7 +92,7 @@ HTML, (string) $content);
 </main>
 HTML;
 
-        $layoutName  = $this->createTemporaryTemplate('layout', $slotTemplate);
+        $layoutName = $this->createTemporaryTemplate('layout', $slotTemplate);
 
         $template = <<<HTML
 <template php-partial="$layoutName" php-with="['footer' => 'This is the footer']">
