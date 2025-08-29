@@ -31,18 +31,18 @@ class SlotTest extends TestCase
         {{\$main | slot }}
     </main>
 HTML;
+        $layoutName  = $this->createTemporaryTemplate('layout', $slotTemplate);
 
         $template = <<<HTML
-<template php-partial="slot.php">
+<template php-partial="$layoutName">
     <h1>Title</h1>
     <p php-slot="footer">This is the footer</p>
 </template>
 HTML;
 
-        $this->createTemporaryTemplate('slot.php', $slotTemplate);
-        $this->createTemporaryTemplate('template.php', $template);
+        $viewName = $this->createTemporaryTemplate('template', $template);
 
-        $content = $this->env->make('template.php');
+        $content = $this->env->make($viewName);
 
         $this->assertEquals(<<<HTML
 <main>
@@ -60,17 +60,17 @@ HTML, (string) $content);
 {{\$main | slot }}
 </main>
 HTML;
+        $layoutName  = $this->createTemporaryTemplate('layout', $slotTemplate);
 
         $template = <<<HTML
-<template php-partial="slot2.php">
+<template php-partial="$layoutName">
     <h1>Title</h1>
 </template>
 HTML;
 
-        $this->createTemporaryTemplate('slot2.php', $slotTemplate);
-        $this->createTemporaryTemplate('incomplete.php', $template);
+        $viewName = $this->createTemporaryTemplate('incomplete', $template);
 
-        $content = $this->env->make('incomplete.php');
+        $content = $this->env->make($viewName);
 
         $this->assertEquals(<<<HTML
 <main>
@@ -92,15 +92,16 @@ HTML, (string) $content);
 </main>
 HTML;
 
+        $layoutName  = $this->createTemporaryTemplate('layout', $slotTemplate);
+
         $template = <<<HTML
-<template php-partial="slot3.php" php-with="['footer' => 'This is the footer']">
+<template php-partial="$layoutName" php-with="['footer' => 'This is the footer']">
 <h1>Title</h1>
 </template>
 HTML;
-        $this->createTemporaryTemplate('slot3.php', $slotTemplate);
-        $this->createTemporaryTemplate('wrong_slot.php', $template);
+        $viewName = $this->createTemporaryTemplate('wrong_slot.php', $template);
 
-        $this->env->make('wrong_slot.php')->toHtml();
+        $this->env->make($viewName)->toHtml();
     }
 
     public function tearDown(): void

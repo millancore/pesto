@@ -15,6 +15,7 @@ use PHPUnit\Framework\Attributes\UsesClass;
 
 #[CoversClass(FilterRegistry::class)]
 #[UsesClass(AsFilter::class)]
+#[UsesClass(CoreFilters::class)]
 class FilterRegistryTest extends TestCase
 {
     public function test_add_and_get_filter(): void

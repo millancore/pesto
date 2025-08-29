@@ -86,7 +86,7 @@ class Pesto
     private function getRenderedContent(): string
     {
         if ($this->isFullHtmlDocument) {
-            return (string) $this->document->saveXML(null, LIBXML_NOXMLDECL | LIBXML_COMPACT);
+            return (string) $this->document->saveXML(null, LIBXML_NOXMLDECL | LIBXML_COMPACT | LIBXML_NOEMPTYTAG);
         }
 
         return $this->getInnerXML('#'.self::TEMPLATE_WRAPPER_ID);

@@ -30,9 +30,7 @@ class XssTest extends TestCase
 
     private function assertTemplateOutput($template, $data, $expected): void
     {
-        $templateID = $this->uniqueTemplateName(uniqid('xss_'));
-
-        $this->createTemporaryTemplate($templateID, $template);
+        $templateID = $this->createTemporaryTemplate('xss_', $template);
         $content = $this->env->make($templateID, $data);
         $this->assertEquals($expected, (string) $content);
     }

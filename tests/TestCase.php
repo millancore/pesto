@@ -25,9 +25,13 @@ class TestCase extends \PHPUnit\Framework\TestCase
         array_map('unlink', glob(self::CACHE_PATH.'/*'));
     }
 
-    protected function createTemporaryTemplate(string $name, string $content): void
+    protected function createTemporaryTemplate(string $name, string $content): string
     {
-        file_put_contents(self::TEMPLATE_PATH.'/'.$name, $content);
+        $uniqueName = sprintf('%s_%s', uniqid(), $name);
+
+        file_put_contents(self::TEMPLATE_PATH.'/'.$uniqueName, $content);
+
+        return $uniqueName;
     }
 
     protected function cleanupTemporaryTemplate(): void

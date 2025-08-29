@@ -29,9 +29,7 @@ class FilterTest extends TestCase
         <h1>{{ 'pesto is a great engine' | title }}</h1>
         HTML;
 
-        $templateName = $this->uniqueTemplateName('filter-title');
-
-        $this->createTemporaryTemplate($templateName, $template);
+        $templateName = $this->createTemporaryTemplate('filter-title', $template);
         $content = $this->env->make($templateName);
 
         $this->assertEquals('<h1>Pesto Is A Great Engine</h1>', $content->toHtml());
@@ -44,9 +42,7 @@ class FilterTest extends TestCase
         $template = <<<HTML
 <h1>{{ \$names | join:',' }}</h1>
 HTML;
-        $templateName = $this->uniqueTemplateName('filter-join');
-
-        $this->createTemporaryTemplate($templateName, $template);
+        $templateName = $this->createTemporaryTemplate('filter-join', $template);
         $content = $this->env->make($templateName, ['names' => $names]);
 
         $this->assertEquals('<h1>juan, maria, jhon</h1>', $content->toHtml());
@@ -61,9 +57,7 @@ HTML;
         <h1>{{ 'name' | notfound }}</h1>
         HTML;
 
-        $templateName = $this->uniqueTemplateName('filter-notfound');
-
-        $this->createTemporaryTemplate($templateName, $template);
+        $templateName = $this->createTemporaryTemplate('filter-notfound', $template);
 
         $this->env->make($templateName)->toHtml();
     }
