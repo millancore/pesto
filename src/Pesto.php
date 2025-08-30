@@ -12,24 +12,33 @@ class Pesto
 {
     private HTMLDocument $document;
     private bool $isFullHtmlDocument;
-
-    private const string PHP_OPEN_TAG_PLACEHOLDER = '___PHP_OPEN_TAG___';
-    private const string PHP_ECHO_TAG_PLACEHOLDER = '___PHP_ECHO_TAG___';
-    private const string PHP_CLOSE_TAG_PLACEHOLDER = '___PHP_CLOSE_TAG___';
+    /** @var array<int, string> */
+    private array $phpBlocks = [];
 
     private const string TEMPLATE_WRAPPER_ID = '__pesto-template-wrapper__';
+    private const string PHP_BLOCK_PLACEHOLDER_PREFIX = '<!--__PESTO_PHP_BLOCK_';
 
     public function __construct(string $html)
     {
         $this->isFullHtmlDocument = str_contains($html, '<html') || str_contains($html, '<body');
 
-        $html = $this->replacePhpTagsWithPlaceholders($html);
+        $html = $this->extractPhpBlocks($html);
 
         if (!$this->isFullHtmlDocument) {
             $html = '<div id="'.self::TEMPLATE_WRAPPER_ID.'">'.$html.'</div>';
         }
 
         $this->document = Document::fromString($html);
+    }
+
+    private function extractPhpBlocks(string $html): string
+    {
+        return preg_replace_callback('/(<\?php|<\?=).*?\?>/s', function ($match) {
+            $placeholder = self::PHP_BLOCK_PLACEHOLDER_PREFIX.count($this->phpBlocks).'__-->';
+            $this->phpBlocks[] = $match[0];
+
+            return $placeholder;
+        }, $html);
     }
 
     public function find(string $selector): NodeCollection
@@ -60,27 +69,16 @@ class Pesto
         return $innerHtml;
     }
 
-    private function replacePhpTagsWithPlaceholders(string $html): string
-    {
-        return str_replace(
-            ['<?php', '<?=', '?>'],
-            [self::PHP_OPEN_TAG_PLACEHOLDER, self::PHP_ECHO_TAG_PLACEHOLDER, self::PHP_CLOSE_TAG_PLACEHOLDER],
-            $html,
-        );
-    }
-
-    private function replacePhpTagsBack(string $html): string
-    {
-        return str_replace(
-            [self::PHP_OPEN_TAG_PLACEHOLDER, self::PHP_ECHO_TAG_PLACEHOLDER, self::PHP_CLOSE_TAG_PLACEHOLDER],
-            ['<?php', '<?=', '?>'],
-            $html,
-        );
-    }
-
     public function getCompiledTemplate(): string
     {
-        return $this->replacePhpTagsBack($this->getRenderedContent());
+        $content = $this->getRenderedContent();
+
+        $placeholders = [];
+        foreach ($this->phpBlocks as $index => $phpBlock) {
+            $placeholders[] = self::PHP_BLOCK_PLACEHOLDER_PREFIX.$index.'__-->';
+        }
+
+        return str_replace($placeholders, $this->phpBlocks, $content);
     }
 
     private function getRenderedContent(): string
