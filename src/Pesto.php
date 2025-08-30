@@ -12,11 +12,11 @@ class Pesto
 {
     private HTMLDocument $document;
     private bool $isFullHtmlDocument;
-    /** @var array<int, string> */
+    /** @var array<string, string> */
     private array $phpBlocks = [];
 
     private const string TEMPLATE_WRAPPER_ID = '__pesto-template-wrapper__';
-    private const string PHP_BLOCK_PLACEHOLDER_PREFIX = '<!--__PESTO_PHP_BLOCK_';
+    private const string PHP_BLOCK_PLACEHOLDER_PREFIX = '__PESTO_PHP_BLOCK__';
 
     public function __construct(string $html)
     {
@@ -34,8 +34,8 @@ class Pesto
     private function extractPhpBlocks(string $html): string
     {
         return preg_replace_callback('/(<\?php|<\?=).*?\?>/s', function ($match) {
-            $placeholder = self::PHP_BLOCK_PLACEHOLDER_PREFIX.count($this->phpBlocks).'__-->';
-            $this->phpBlocks[] = $match[0];
+            $placeholder = self::PHP_BLOCK_PLACEHOLDER_PREFIX.uniqid('', true);
+            $this->phpBlocks[$placeholder] = $match[0];
 
             return $placeholder;
         }, $html);
@@ -73,12 +73,7 @@ class Pesto
     {
         $content = $this->getRenderedContent();
 
-        $placeholders = [];
-        foreach ($this->phpBlocks as $index => $phpBlock) {
-            $placeholders[] = self::PHP_BLOCK_PLACEHOLDER_PREFIX.$index.'__-->';
-        }
-
-        return str_replace($placeholders, $this->phpBlocks, $content);
+        return str_replace(array_keys($this->phpBlocks), array_values($this->phpBlocks), $content);
     }
 
     private function getRenderedContent(): string

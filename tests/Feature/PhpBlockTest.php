@@ -33,7 +33,7 @@ class PhpBlockTest extends TestCase
         $template = <<<HTML
 <div><?php
         \$myObject = new \stdClass();
-        \$myObject->property = 'Hello World';
+        \$myObject->property = 'Hello Pesto';
         echo \$myObject->property;
     ?>
 </div>
@@ -42,7 +42,7 @@ HTML;
         $templateName = $this->createTemporaryTemplate('php-block-test', $template);
         $content = $this->env->make($templateName);
 
-        $this->assertEquals('<div>Hello World</div>', $content->toHtml());
+        $this->assertEquals('<div>Hello Pesto</div>', $content->toHtml());
     }
 
     public function test_correctly_renders_php_echo_blocks(): void
@@ -58,5 +58,18 @@ HTML;
         $content = $this->env->make($templateName, ['myObject' => $myObject]);
 
         $this->assertEquals('<div>Hello Again</div>', $content->toHtml());
+    }
+
+    public function test_render_php_block_in_html_attribute(): void
+    {
+        $template = <<<HTML
+<div title="<?= \$myObject->property ?>"></div>
+HTML;
+        $myObject = new \stdClass();
+        $myObject->property = 'Hello Again';
+        $templateName = $this->createTemporaryTemplate('php-echo-block-test', $template);
+        $content = $this->env->make($templateName, ['myObject' => $myObject]);
+
+        $this->assertEquals('<div title="Hello Again"/>', $content->toHtml());
     }
 }
