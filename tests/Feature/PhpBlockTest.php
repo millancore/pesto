@@ -72,4 +72,62 @@ HTML;
 
         $this->assertEquals('<div title="Hello Again"/>', $content->toHtml());
     }
+
+    public function test_render_php_at_first_line(): void
+    {
+        $template = <<<HTML
+<?php \$myObject = new \stdClass(); \$myObject->property = 'First line'; ?>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+             <meta name="viewport" content="width=device-width, initial-scale=1">
+             <title>Document</title>
+</head>
+<body>
+    <h1>{{ \$myObject->property }}</h1>
+</body>
+</html>
+HTML;
+
+        $templateName = $this->createTemporaryTemplate('php-first-line', $template);
+        $content = $this->env->make($templateName);
+
+        $this->assertEquals(<<<HTML
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"></meta>
+             <meta name="viewport" content="width=device-width, initial-scale=1"></meta>
+             <title>Document</title>
+</head>
+<body>
+    <h1>First line</h1>
+
+</body></html>
+HTML, $content->toHtml());
+    }
+
+    public function test_render_multiples_php_blocks_before_html_content(): void
+    {
+        $template = <<<HTML
+<?php \$myObject = new \stdClass();  ?>
+<?php \$myObject->property = 'Second line'; ?>
+<!doctype html>
+<html lang="en">
+<body>
+ <h1>{{ \$myObject->property }}</h1>  
+</body>
+</html>
+HTML;
+        $templateName = $this->createTemporaryTemplate('php-multiple-blocks', $template);
+        $content = $this->env->make($templateName);
+
+        $this->assertEquals(<<<HTML
+<!DOCTYPE html>
+<html lang="en"><head></head><body>
+ <h1>Second line</h1>  
+
+</body></html>
+HTML, $content->toHtml());
+    }
 }

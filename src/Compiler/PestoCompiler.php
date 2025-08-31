@@ -30,8 +30,10 @@ class PestoCompiler implements Compiler
 
     public function compile(string $source): string
     {
-        return $this->syntaxCompiler->compile(
-            $this->nodeCompiler->compile($source),
-        );
+        $source = $this->nodeCompiler->compile($source);
+
+        return $source = $this->syntaxCompiler->compile($source);
+
+        // return $this->nodeCompiler->compile($source);
     }
 }

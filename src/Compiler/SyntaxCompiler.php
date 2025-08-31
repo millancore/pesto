@@ -26,7 +26,7 @@ class SyntaxCompiler implements Compiler
 
     private function handleEscapedExpression(string $expression): string
     {
-        $expression = trim($expression);
+        $expression = html_entity_decode(trim($expression), ENT_QUOTES, 'UTF-8');
 
         $parts = explode('|', $expression);
         $variable = trim(array_shift($parts));
