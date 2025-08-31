@@ -96,8 +96,8 @@ HTML;
         $this->assertEquals(<<<HTML
 <!DOCTYPE html>
 <html lang="en"><head>
-<meta charset="UTF-8"></meta>
-             <meta name="viewport" content="width=device-width, initial-scale=1"></meta>
+<meta charset="UTF-8"/>
+             <meta name="viewport" content="width=device-width, initial-scale=1"/>
              <title>Document</title>
 </head>
 <body>
@@ -124,7 +124,7 @@ HTML;
 
         $this->assertEquals(<<<HTML
 <!DOCTYPE html>
-<html lang="en"><head></head><body>
+<html lang="en"><head/><body>
  <h1>Second line</h1>  
 
 </body></html>
