@@ -70,7 +70,7 @@ HTML;
         $templateName = $this->createTemporaryTemplate('php-echo-block-test', $template);
         $content = $this->env->make($templateName, ['myObject' => $myObject]);
 
-        $this->assertEquals('<div title="Hello Again"/>', $content->toHtml());
+        $this->assertEquals('<div title="Hello Again"></div>', $content->toHtml());
     }
 
     public function test_render_php_at_first_line(): void
@@ -96,8 +96,8 @@ HTML;
         $this->assertEquals(<<<HTML
 <!DOCTYPE html>
 <html lang="en"><head>
-<meta charset="UTF-8"/>
-             <meta name="viewport" content="width=device-width, initial-scale=1"/>
+<meta charset="UTF-8"></meta>
+             <meta name="viewport" content="width=device-width, initial-scale=1"></meta>
              <title>Document</title>
 </head>
 <body>
@@ -124,7 +124,7 @@ HTML;
 
         $this->assertEquals(<<<HTML
 <!DOCTYPE html>
-<html lang="en"><head/><body>
+<html lang="en"><head></head><body>
  <h1>Second line</h1>  
 
 </body></html>

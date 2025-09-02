@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Millancore\Pesto;
 
 use Dom\HTMLDocument;
+use Dom\Node;
 use Millancore\Pesto\Dom\Document;
 use Millancore\Pesto\Dom\NodeCollection;
 
@@ -67,12 +68,12 @@ class Pesto
             return '';
         }
 
-        $innerHtml = '';
+        $parts = [];
         foreach ($element->childNodes as $childNode) {
-            $innerHtml .= $this->document->saveXml($childNode);
+            $parts[] = $this->getXML($childNode);
         }
 
-        return $innerHtml;
+        return implode('', $parts);
     }
 
     public function getCompiledTemplate(): string
@@ -87,9 +88,14 @@ class Pesto
     private function getRenderedContent(): string
     {
         if ($this->isFullHtmlDocument) {
-            return (string) $this->document->saveXML(null, LIBXML_NOXMLDECL | LIBXML_COMPACT);
+            return $this->getXML();
         }
 
         return $this->getInnerXML('#'.self::TEMPLATE_WRAPPER_ID);
+    }
+
+    private function getXML(?Node $element = null): string
+    {
+        return (string) $this->document->saveXML($element, LIBXML_NOXMLDECL | LIBXML_COMPACT | LIBXML_NOEMPTYTAG);
     }
 }

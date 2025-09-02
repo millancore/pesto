@@ -48,7 +48,7 @@ class XssTest extends TestCase
     {
         $xss = "<'\"&";
         $html = '<input value="{{ $text }}">';
-        $expected = '<input value="&lt;&#039;&quot;&amp;"/>';
+        $expected = '<input value="&lt;&#039;&quot;&amp;"></input>';
 
         $this->assertTemplateOutput($html, ['text' => $xss], $expected);
     }
