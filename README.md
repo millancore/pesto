@@ -17,7 +17,7 @@ and escapes them according to their scope to avoid
 Or, for greater clarity, use  `<template>`, which will not be included in the final render.
 
 ```html
-<ul
+<ul>
     <template php-foreach="range(1, 10) as $number">
        <li php-if="$number > 7">Item {{ $number }}</li>
     </template>
