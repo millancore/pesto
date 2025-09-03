@@ -113,7 +113,7 @@ class ContextPass implements CompilerPass
 
     private function markContext(string $content, string $context): string
     {
-        $inner = preg_replace('/\{\{([^}|]+)(\|.*?)?\}\}/', '{{$1$2|'.$context.'}}', $content);
+        $inner = preg_replace('/(?<!@)\{\{([^}|]+)(\|.*?)?\}\}/', '{{$1$2|'.$context.'}}', $content);
 
         return $inner ?? $content;
     }

@@ -8,23 +8,31 @@ use Millancore\Pesto\Contract\Compiler;
 
 class SyntaxCompiler implements Compiler
 {
-    private const string ESCAPED_PATTERN = '/\{\{(.*?)\}\}/s';
+    private const string PATTERN = '/(?<!@)\{\{(.*?)\}\}/s';
+    private const string ESCAPED_PATTERN = '/@(\{\{.*?\}\})/s';
 
     public function compile(string $source): string
     {
-        return $this->compileEscapedExpressions($source) ?? '';
+        $source = $this->compileExpressions($source);
+
+        return $this->compileEscapedExpressions($source);
     }
 
-    private function compileEscapedExpressions(string $source): ?string
+    private function compileExpressions(string $source): string
     {
         return preg_replace_callback(
-            self::ESCAPED_PATTERN,
-            fn ($matches) => $this->handleEscapedExpression($matches[1]),
+            self::PATTERN,
+            fn ($matches) => $this->handleExpression($matches[1]),
             $source,
-        );
+        ) ?? $source;
     }
 
-    private function handleEscapedExpression(string $expression): string
+    private function compileEscapedExpressions(string $source): string
+    {
+        return preg_replace(self::ESCAPED_PATTERN, '$1', $source) ?? $source;
+    }
+
+    private function handleExpression(string $expression): string
     {
         $expression = html_entity_decode(trim($expression), ENT_QUOTES, 'UTF-8');
 
