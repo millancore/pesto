@@ -19,7 +19,7 @@ class FileSystemCacheTest extends TestCase
     {
         parent::setUp();
 
-        $this->loader = $this->createMock(Loader::class);
+        $this->loader = $this->createStub(Loader::class);
         $this->cache = new FileSystemCache(self::CACHE_PATH, $this->loader);
     }
 

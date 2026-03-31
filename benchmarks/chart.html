@@ -1,0 +1,521 @@
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Pesto Benchmark — Pesto vs Blade vs Twig</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    </head>
+    <body class="container">
+                <h1>Pesto Benchmark — Pesto vs Blade vs Twig</h1>
+        <hr/>
+                    <div>
+            <h2>Pesto vs Blade vs Twig</h2>
+                                <div>
+                    <ul class="nav nav-tabs" id="tab-group-phpbench-component-4" role="tablist">
+                                        <li class="nav-item" role="presentation">
+                    <button 
+                        class="nav-link active" 
+                        id="tab-button-phpbench-component-4-0" 
+                        data-bs-toggle="tab" 
+                        data-bs-target="#tab-content-phpbench-component-4-0" 
+                        aria-controls="#tab-content-phpbench-component-4-0" 
+                        aria-current="page" 
+                        >
+                        Time by Scenario                    </button>
+                </li>
+                                            <li class="nav-item" role="presentation">
+                    <button 
+                        class="nav-link " 
+                        id="tab-button-phpbench-component-4-1" 
+                        data-bs-toggle="tab" 
+                        data-bs-target="#tab-content-phpbench-component-4-1" 
+                        aria-controls="#tab-content-phpbench-component-4-1" 
+                        aria-current="page" 
+                        >
+                        Time by Engine                    </button>
+                </li>
+                                            <li class="nav-item" role="presentation">
+                    <button 
+                        class="nav-link " 
+                        id="tab-button-phpbench-component-4-2" 
+                        data-bs-toggle="tab" 
+                        data-bs-target="#tab-content-phpbench-component-4-2" 
+                        aria-controls="#tab-content-phpbench-component-4-2" 
+                        aria-current="page" 
+                        >
+                        Memory                    </button>
+                </li>
+                                            <li class="nav-item" role="presentation">
+                    <button 
+                        class="nav-link " 
+                        id="tab-button-phpbench-component-4-3" 
+                        data-bs-toggle="tab" 
+                        data-bs-target="#tab-content-phpbench-component-4-3" 
+                        aria-controls="#tab-content-phpbench-component-4-3" 
+                        aria-current="page" 
+                        >
+                        Data Table                    </button>
+                </li>
+                                    </ul>
+                <div class="tab-content">
+                  <div
+              class="tab-pane show active" 
+              id="tab-content-phpbench-component-4-0" 
+              role="tabpanel" 
+              aria-labelledby="tab-button-phpbench-component-4-0"
+          >
+<br/>
+              <div id="phpbench-component-5" width="400" height="100"></div>
+<script>
+var data = [
+        {
+        x: ["benchSimple","benchLoop","benchConditional","benchPartial"],
+        name: 'PestoBench',
+        y: [29.053033268101796,316.2152641878647,102.01213307240687,65.28356164383555],
+        type: 'bar',
+                error_y: {
+            type: 'data',
+            array: [2.4183405467386105,19.137842590009985,11.918196172240162,5.92210469343459],
+            visible: true,
+        }
+            },
+        {
+        x: ["benchSimple","benchLoop","benchConditional","benchPartial"],
+        name: 'BladeBench',
+        y: [32.15499021526418,474.24814090019487,200.42602739726075,64.6518590998043],
+        type: 'bar',
+                error_y: {
+            type: 'data',
+            array: [3.1498207885528977,19.29093763921288,12.069754719960137,7.382011920879024],
+            visible: true,
+        }
+            },
+        {
+        x: ["benchSimple","benchLoop","benchConditional","benchPartial"],
+        name: 'TwigBench',
+        y: [15.013698630136972,784.1027397260314,224.54931506849292,24.568884540117423],
+        type: 'bar',
+                error_y: {
+            type: 'data',
+            array: [1.6223328881582846,30.98146645980465,14.931513352637767,4.888627107890313],
+            visible: true,
+        }
+            },
+    ]
+var layout = {
+    barmode: 'group',
+    yaxis: {
+        tickmode: 'array',
+        tickvals: [0,78.41027397260314,156.82054794520627,235.2308219178094,313.64109589041254,392.0513698630157,470.4616438356188,548.871917808222,627.2821917808251,705.6924657534282,784.1027397260314],
+        ticktext: ["0.0<span style=\"color: #555; font-weight: bold;\">\u03bcs<\/span>\n","78.4<span style=\"color: #555; font-weight: bold;\">\u03bcs<\/span>\n","156.8<span style=\"color: #555; font-weight: bold;\">\u03bcs<\/span>\n","235.2<span style=\"color: #555; font-weight: bold;\">\u03bcs<\/span>\n","313.6<span style=\"color: #555; font-weight: bold;\">\u03bcs<\/span>\n","392.1<span style=\"color: #555; font-weight: bold;\">\u03bcs<\/span>\n","470.5<span style=\"color: #555; font-weight: bold;\">\u03bcs<\/span>\n","548.9<span style=\"color: #555; font-weight: bold;\">\u03bcs<\/span>\n","627.3<span style=\"color: #555; font-weight: bold;\">\u03bcs<\/span>\n","705.7<span style=\"color: #555; font-weight: bold;\">\u03bcs<\/span>\n","784.1<span style=\"color: #555; font-weight: bold;\">\u03bcs<\/span>\n"]    },
+    xaxis: {
+        tickmode: 'array',
+        tickvals: ["benchSimple","benchLoop","benchConditional","benchPartial"],
+        ticktext: ["benchSimple","benchLoop","benchConditional","benchPartial"],
+    }
+};
+layout.title = "Average rendering time grouped by scenario (lower is better)";
+Plotly.newPlot(document.getElementById('phpbench-component-5'), data, layout);
+</script>
+          </div>
+                            <div
+              class="tab-pane " 
+              id="tab-content-phpbench-component-4-1" 
+              role="tabpanel" 
+              aria-labelledby="tab-button-phpbench-component-4-1"
+          >
+<br/>
+              <div id="phpbench-component-8" width="400" height="100"></div>
+<script>
+var data = [
+        {
+        x: ["PestoBench","BladeBench","TwigBench"],
+        name: 'benchSimple',
+        y: [29.053033268101796,32.15499021526418,15.013698630136972],
+        type: 'bar',
+                error_y: {
+            type: 'data',
+            array: [2.4183405467386105,3.1498207885528977,1.6223328881582846],
+            visible: true,
+        }
+            },
+        {
+        x: ["PestoBench","BladeBench","TwigBench"],
+        name: 'benchLoop',
+        y: [316.2152641878647,474.24814090019487,784.1027397260314],
+        type: 'bar',
+                error_y: {
+            type: 'data',
+            array: [19.137842590009985,19.29093763921288,30.98146645980465],
+            visible: true,
+        }
+            },
+        {
+        x: ["PestoBench","BladeBench","TwigBench"],
+        name: 'benchConditional',
+        y: [102.01213307240687,200.42602739726075,224.54931506849292],
+        type: 'bar',
+                error_y: {
+            type: 'data',
+            array: [11.918196172240162,12.069754719960137,14.931513352637767],
+            visible: true,
+        }
+            },
+        {
+        x: ["PestoBench","BladeBench","TwigBench"],
+        name: 'benchPartial',
+        y: [65.28356164383555,64.6518590998043,24.568884540117423],
+        type: 'bar',
+                error_y: {
+            type: 'data',
+            array: [5.92210469343459,7.382011920879024,4.888627107890313],
+            visible: true,
+        }
+            },
+    ]
+var layout = {
+    barmode: 'group',
+    yaxis: {
+        tickmode: 'array',
+        tickvals: [0,78.41027397260314,156.82054794520627,235.2308219178094,313.64109589041254,392.0513698630157,470.4616438356188,548.871917808222,627.2821917808251,705.6924657534282,784.1027397260314],
+        ticktext: ["0.0<span style=\"color: #555; font-weight: bold;\">\u03bcs<\/span>\n","78.4<span style=\"color: #555; font-weight: bold;\">\u03bcs<\/span>\n","156.8<span style=\"color: #555; font-weight: bold;\">\u03bcs<\/span>\n","235.2<span style=\"color: #555; font-weight: bold;\">\u03bcs<\/span>\n","313.6<span style=\"color: #555; font-weight: bold;\">\u03bcs<\/span>\n","392.1<span style=\"color: #555; font-weight: bold;\">\u03bcs<\/span>\n","470.5<span style=\"color: #555; font-weight: bold;\">\u03bcs<\/span>\n","548.9<span style=\"color: #555; font-weight: bold;\">\u03bcs<\/span>\n","627.3<span style=\"color: #555; font-weight: bold;\">\u03bcs<\/span>\n","705.7<span style=\"color: #555; font-weight: bold;\">\u03bcs<\/span>\n","784.1<span style=\"color: #555; font-weight: bold;\">\u03bcs<\/span>\n"]    },
+    xaxis: {
+        tickmode: 'array',
+        tickvals: ["PestoBench","BladeBench","TwigBench"],
+        ticktext: ["PestoBench","BladeBench","TwigBench"],
+    }
+};
+layout.title = "Average rendering time grouped by engine (lower is better)";
+Plotly.newPlot(document.getElementById('phpbench-component-8'), data, layout);
+</script>
+          </div>
+                            <div
+              class="tab-pane " 
+              id="tab-content-phpbench-component-4-2" 
+              role="tabpanel" 
+              aria-labelledby="tab-button-phpbench-component-4-2"
+          >
+<br/>
+              <div id="phpbench-component-9" width="400" height="100"></div>
+<script>
+var data = [
+        {
+        x: ["benchSimple","benchLoop","benchConditional","benchPartial"],
+        name: 'PestoBench',
+        y: [2234984,2234984,2235000,2234984],
+        type: 'bar',
+            },
+        {
+        x: ["benchSimple","benchLoop","benchConditional","benchPartial"],
+        name: 'BladeBench',
+        y: [3970360,4026936,3994080,3970360],
+        type: 'bar',
+            },
+        {
+        x: ["benchSimple","benchLoop","benchConditional","benchPartial"],
+        name: 'TwigBench',
+        y: [2869448,2869448,2869456,2869448],
+        type: 'bar',
+            },
+    ]
+var layout = {
+    barmode: 'group',
+    yaxis: {
+        tickmode: 'array',
+        tickvals: [0,402693.6,805387.2,1208080.7999999998,1610774.4,2013468,2416161.5999999996,2818855.1999999997,3221548.8,3624242.4,4026936],
+        ticktext: ["0<span style=\"color: #555; font-weight: bold;\">b<\/span>\n","402.7<span style=\"color: #555; font-weight: bold;\">kb<\/span>\n","805.4<span style=\"color: #555; font-weight: bold;\">kb<\/span>\n","1.2<span style=\"color: #555; font-weight: bold;\">mb<\/span>\n","1.6<span style=\"color: #555; font-weight: bold;\">mb<\/span>\n","2.0<span style=\"color: #555; font-weight: bold;\">mb<\/span>\n","2.4<span style=\"color: #555; font-weight: bold;\">mb<\/span>\n","2.8<span style=\"color: #555; font-weight: bold;\">mb<\/span>\n","3.2<span style=\"color: #555; font-weight: bold;\">mb<\/span>\n","3.6<span style=\"color: #555; font-weight: bold;\">mb<\/span>\n","4.0<span style=\"color: #555; font-weight: bold;\">mb<\/span>\n"]    },
+    xaxis: {
+        tickmode: 'array',
+        tickvals: ["benchSimple","benchLoop","benchConditional","benchPartial"],
+        ticktext: ["benchSimple","benchLoop","benchConditional","benchPartial"],
+    }
+};
+layout.title = "Peak memory usage by scenario (lower is better)";
+Plotly.newPlot(document.getElementById('phpbench-component-9'), data, layout);
+</script>
+          </div>
+                            <div
+              class="tab-pane " 
+              id="tab-content-phpbench-component-4-3" 
+              role="tabpanel" 
+              aria-labelledby="tab-button-phpbench-component-4-3"
+          >
+<br/>
+              <table class="table table-striped table-bordered table-hover">
+            <caption>Full Results</caption>
+        <thead class="thead-light">
+        <tr>
+                                    <th colspan=8></th>
+                        </tr>
+        <tr>
+                            <th>engine</th>
+                            <th>scenario</th>
+                            <th>mode</th>
+                            <th>mean</th>
+                            <th>min</th>
+                            <th>max</th>
+                            <th>rstdev</th>
+                            <th>memory</th>
+                    </tr>
+    </thead>
+    <tbody>
+                    <tr>
+            <td>PestoBench</td>
+            <td>benchSimple</td>
+            <td>29.053<span style="color: #555; font-weight: bold;">μs</span>
+</td>
+            <td>30.023<span style="color: #555; font-weight: bold;">μs</span>
+</td>
+            <td>28.300<span style="color: #555; font-weight: bold;">μs</span>
+</td>
+            <td>43.100<span style="color: #555; font-weight: bold;">μs</span>
+</td>
+            <td><span style="color: #140000">
+    <span style="color: #555; font-weight: bold;">±</span>
+8.05%</span>
+
+</td>
+            <td>2.235<span style="color: #555; font-weight: bold;">mb</span>
+</td>
+    </tr>
+                    <tr>
+            <td>PestoBench</td>
+            <td>benchLoop</td>
+            <td>316.215<span style="color: #555; font-weight: bold;">μs</span>
+</td>
+            <td>328.491<span style="color: #555; font-weight: bold;">μs</span>
+</td>
+            <td>302.000<span style="color: #555; font-weight: bold;">μs</span>
+</td>
+            <td>392.800<span style="color: #555; font-weight: bold;">μs</span>
+</td>
+            <td><span style="color: #0c0000">
+    <span style="color: #555; font-weight: bold;">±</span>
+5.83%</span>
+
+</td>
+            <td>2.235<span style="color: #555; font-weight: bold;">mb</span>
+</td>
+    </tr>
+                    <tr>
+            <td>PestoBench</td>
+            <td>benchConditional</td>
+            <td>102.012<span style="color: #555; font-weight: bold;">μs</span>
+</td>
+            <td>107.860<span style="color: #555; font-weight: bold;">μs</span>
+</td>
+            <td>98.800<span style="color: #555; font-weight: bold;">μs</span>
+</td>
+            <td>155.400<span style="color: #555; font-weight: bold;">μs</span>
+</td>
+            <td><span style="color: #1c0000">
+    <span style="color: #555; font-weight: bold;">±</span>
+11.05%</span>
+
+</td>
+            <td>2.235<span style="color: #555; font-weight: bold;">mb</span>
+</td>
+    </tr>
+                    <tr>
+            <td>PestoBench</td>
+            <td>benchPartial</td>
+            <td>65.284<span style="color: #555; font-weight: bold;">μs</span>
+</td>
+            <td>68.026<span style="color: #555; font-weight: bold;">μs</span>
+</td>
+            <td>62.900<span style="color: #555; font-weight: bold;">μs</span>
+</td>
+            <td>91.900<span style="color: #555; font-weight: bold;">μs</span>
+</td>
+            <td><span style="color: #140000">
+    <span style="color: #555; font-weight: bold;">±</span>
+8.71%</span>
+
+</td>
+            <td>2.235<span style="color: #555; font-weight: bold;">mb</span>
+</td>
+    </tr>
+                    <tr>
+            <td>BladeBench</td>
+            <td>benchSimple</td>
+            <td>32.155<span style="color: #555; font-weight: bold;">μs</span>
+</td>
+            <td>33.127<span style="color: #555; font-weight: bold;">μs</span>
+</td>
+            <td>30.400<span style="color: #555; font-weight: bold;">μs</span>
+</td>
+            <td>54.000<span style="color: #555; font-weight: bold;">μs</span>
+</td>
+            <td><span style="color: #160000">
+    <span style="color: #555; font-weight: bold;">±</span>
+9.51%</span>
+
+</td>
+            <td>3.970<span style="color: #555; font-weight: bold;">mb</span>
+</td>
+    </tr>
+                    <tr>
+            <td>BladeBench</td>
+            <td>benchLoop</td>
+            <td>474.248<span style="color: #555; font-weight: bold;">μs</span>
+</td>
+            <td>483.595<span style="color: #555; font-weight: bold;">μs</span>
+</td>
+            <td>461.300<span style="color: #555; font-weight: bold;">μs</span>
+</td>
+            <td>581.600<span style="color: #555; font-weight: bold;">μs</span>
+</td>
+            <td><span style="color: #070000">
+    <span style="color: #555; font-weight: bold;">±</span>
+3.99%</span>
+
+</td>
+            <td>4.027<span style="color: #555; font-weight: bold;">mb</span>
+</td>
+    </tr>
+                    <tr>
+            <td>BladeBench</td>
+            <td>benchConditional</td>
+            <td>200.426<span style="color: #555; font-weight: bold;">μs</span>
+</td>
+            <td>205.761<span style="color: #555; font-weight: bold;">μs</span>
+</td>
+            <td>195.100<span style="color: #555; font-weight: bold;">μs</span>
+</td>
+            <td>243.700<span style="color: #555; font-weight: bold;">μs</span>
+</td>
+            <td><span style="color: #0c0000">
+    <span style="color: #555; font-weight: bold;">±</span>
+5.87%</span>
+
+</td>
+            <td>3.994<span style="color: #555; font-weight: bold;">mb</span>
+</td>
+    </tr>
+                    <tr>
+            <td>BladeBench</td>
+            <td>benchPartial</td>
+            <td>64.652<span style="color: #555; font-weight: bold;">μs</span>
+</td>
+            <td>66.830<span style="color: #555; font-weight: bold;">μs</span>
+</td>
+            <td>61.200<span style="color: #555; font-weight: bold;">μs</span>
+</td>
+            <td>118.100<span style="color: #555; font-weight: bold;">μs</span>
+</td>
+            <td><span style="color: #1c0000">
+    <span style="color: #555; font-weight: bold;">±</span>
+11.05%</span>
+
+</td>
+            <td>3.970<span style="color: #555; font-weight: bold;">mb</span>
+</td>
+    </tr>
+                    <tr>
+            <td>TwigBench</td>
+            <td>benchSimple</td>
+            <td>15.014<span style="color: #555; font-weight: bold;">μs</span>
+</td>
+            <td>15.494<span style="color: #555; font-weight: bold;">μs</span>
+</td>
+            <td>14.500<span style="color: #555; font-weight: bold;">μs</span>
+</td>
+            <td>25.000<span style="color: #555; font-weight: bold;">μs</span>
+</td>
+            <td><span style="color: #190000">
+    <span style="color: #555; font-weight: bold;">±</span>
+10.47%</span>
+
+</td>
+            <td>2.869<span style="color: #555; font-weight: bold;">mb</span>
+</td>
+    </tr>
+                    <tr>
+            <td>TwigBench</td>
+            <td>benchLoop</td>
+            <td>784.103<span style="color: #555; font-weight: bold;">μs</span>
+</td>
+            <td>799.156<span style="color: #555; font-weight: bold;">μs</span>
+</td>
+            <td>755.500<span style="color: #555; font-weight: bold;">μs</span>
+</td>
+            <td>929.500<span style="color: #555; font-weight: bold;">μs</span>
+</td>
+            <td><span style="color: #070000">
+    <span style="color: #555; font-weight: bold;">±</span>
+3.88%</span>
+
+</td>
+            <td>2.869<span style="color: #555; font-weight: bold;">mb</span>
+</td>
+    </tr>
+                    <tr>
+            <td>TwigBench</td>
+            <td>benchConditional</td>
+            <td>224.549<span style="color: #555; font-weight: bold;">μs</span>
+</td>
+            <td>231.053<span style="color: #555; font-weight: bold;">μs</span>
+</td>
+            <td>219.100<span style="color: #555; font-weight: bold;">μs</span>
+</td>
+            <td>326.200<span style="color: #555; font-weight: bold;">μs</span>
+</td>
+            <td><span style="color: #0f0000">
+    <span style="color: #555; font-weight: bold;">±</span>
+6.46%</span>
+
+</td>
+            <td>2.869<span style="color: #555; font-weight: bold;">mb</span>
+</td>
+    </tr>
+                    <tr>
+            <td>TwigBench</td>
+            <td>benchPartial</td>
+            <td>24.569<span style="color: #555; font-weight: bold;">μs</span>
+</td>
+            <td>25.865<span style="color: #555; font-weight: bold;">μs</span>
+</td>
+            <td>22.900<span style="color: #555; font-weight: bold;">μs</span>
+</td>
+            <td>55.700<span style="color: #555; font-weight: bold;">μs</span>
+</td>
+            <td><span style="color: #2d0000">
+    <span style="color: #555; font-weight: bold;">±</span>
+18.90%</span>
+
+</td>
+            <td>2.869<span style="color: #555; font-weight: bold;">mb</span>
+</td>
+    </tr>
+            </tbody>
+</table>
+          </div>
+                          </div>
+    </div>
+            </div>
+    </body>
+    <footer>
+        <center>
+        Generated by <a href="https://github.com/phpbench/phpbench">PHPBench</a>
+        </center>
+    </footer>
+    <script type="text/javascript">
+    /**
+     * Resize Plots when tab is activated
+     */
+    (function () {
+        var tabEls = document.querySelectorAll('button[data-bs-toggle="tab"]')
+        tabEls.forEach(function (tabEl) {
+            tabEl.addEventListener('shown.bs.tab', function (event) {
+console.log(event);
+                var docs = event.target.parentNode.parentNode.parentNode.querySelectorAll('.tab-pane.active .js-plotly-plot');
+                docs.forEach(function (plotEl) {
+                    Plotly.relayout(plotEl, {autosize: true});
+                });
+            });
+        });
+    })();
+    </script>
+</html>

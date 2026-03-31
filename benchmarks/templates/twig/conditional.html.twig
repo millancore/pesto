@@ -1,0 +1,33 @@
+<html>
+<head><title>{{ title }}</title></head>
+<body>
+    {% if role == 'admin' %}
+    <div>
+        <h1>Admin Dashboard</h1>
+        <p>Welcome, {{ name }}. You have full access.</p>
+    </div>
+    {% elseif role == 'editor' %}
+    <div>
+        <h1>Editor Panel</h1>
+        <p>Welcome, {{ name }}. You can edit content.</p>
+    </div>
+    {% else %}
+    <div>
+        <h1>User Profile</h1>
+        <p>Welcome, {{ name }}. You have read-only access.</p>
+    </div>
+    {% endif %}
+
+    <ul>
+        {% for notification in notifications %}
+        <li>
+            {% if notification.unread %}
+            <span><strong>{{ notification.message }}</strong></span>
+            {% else %}
+            <span>{{ notification.message }}</span>
+            {% endif %}
+        </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

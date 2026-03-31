@@ -16,7 +16,8 @@
   },
   "autoload-dev": {
     "psr-4": {
-      "Millancore\\Pesto\\Tests\\": "tests/"
+      "Millancore\\Pesto\\Tests\\": "tests/",
+      "Millancore\\Pesto\\Benchmarks\\": "benchmarks/"
     }
   },
   "require": {
@@ -28,13 +29,22 @@
     "phpunit/phpunit": "^12.3",
     "symfony/var-dumper": "^7.3",
     "phpstan/phpstan": "^2.1",
-    "friendsofphp/php-cs-fixer": "^3.86"
+    "friendsofphp/php-cs-fixer": "^3.86",
+    "phpbench/phpbench": "^1.3",
+    "twig/twig": "^3.0",
+    "illuminate/view": "^11.0",
+    "illuminate/events": "^11.0"
   },
   "scripts": {
     "test": "vendor/bin/phpunit --",
     "coverage": "vendor/bin/phpunit --coverage-html tests/coverage",
     "phpstan": "vendor/bin/phpstan analyse",
-    "fixer": "vendor/bin/php-cs-fixer fix"
+    "fixer": "vendor/bin/php-cs-fixer fix",
+    "bench": "vendor/bin/phpbench run --report=compare",
+    "bench:pesto": "vendor/bin/phpbench run benchmarks/PestoBench.php --report=compare",
+    "bench:twig": "vendor/bin/phpbench run benchmarks/TwigBench.php --report=compare",
+    "bench:blade": "vendor/bin/phpbench run benchmarks/BladeBench.php --report=compare",
+    "bench:chart": "vendor/bin/phpbench run --report=chart --output=chart-html"
   },
   "minimum-stability": "stable"
 }
