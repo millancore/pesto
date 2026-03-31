@@ -32,6 +32,11 @@ class Environment
      */
     public function output(mixed $expression, array $filters = []): string
     {
+        // Fast path: default HTML escape (most common case in loops/templates)
+        if ($filters === ['escape'] && is_string($expression)) {
+            return htmlspecialchars($expression, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+        }
+
         // early return for slots skip extra filters
         if (in_array('slot', $filters)) {
             if (!$expression instanceof Slot) {

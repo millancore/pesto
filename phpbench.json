@@ -1,0 +1,75 @@
+{
+    "runner.bootstrap": "vendor/autoload.php",
+    "runner.path": "benchmarks",
+    "runner.iterations": 100,
+    "runner.revs": 10,
+    "runner.warmup": 5,
+    "report.generators": {
+        "compare": {
+            "generator": "expression",
+            "cols": ["benchmark", "subject", "mode", "mem_peak", "rstdev"],
+            "break": []
+        },
+        "chart": {
+            "generator": "component",
+            "title": "Pesto vs Blade vs Twig",
+            "components": [
+                {
+                    "component": "section",
+                    "tabbed": true,
+                    "tab_labels": ["Time by Scenario", "Time by Engine", "Memory", "Data Table"],
+                    "components": [
+                        {
+                            "title": "Average rendering time grouped by scenario (lower is better)",
+                            "component": "bar_chart_aggregate",
+                            "x_partition": ["subject_name"],
+                            "bar_partition": ["benchmark_name"],
+                            "y_expr": "mode(partition['result_time_avg'])",
+                            "y_error_margin": "stdev(partition['result_time_avg'])",
+                            "y_axes_label": "yValue as time precision 1"
+                        },
+                        {
+                            "title": "Average rendering time grouped by engine (lower is better)",
+                            "component": "bar_chart_aggregate",
+                            "x_partition": ["benchmark_name"],
+                            "bar_partition": ["subject_name"],
+                            "y_expr": "mode(partition['result_time_avg'])",
+                            "y_error_margin": "stdev(partition['result_time_avg'])",
+                            "y_axes_label": "yValue as time precision 1"
+                        },
+                        {
+                            "title": "Peak memory usage by scenario (lower is better)",
+                            "component": "bar_chart_aggregate",
+                            "x_partition": ["subject_name"],
+                            "bar_partition": ["benchmark_name"],
+                            "y_expr": "mode(partition['result_mem_peak'])",
+                            "y_axes_label": "yValue as memory precision 1"
+                        },
+                        {
+                            "component": "table_aggregate",
+                            "title": "Full Results",
+                            "partition": ["benchmark_name", "subject_name"],
+                            "row": {
+                                "engine": "first(partition['benchmark_name'])",
+                                "scenario": "first(partition['subject_name'])",
+                                "mode": "mode(partition['result_time_avg']) as time",
+                                "mean": "mean(partition['result_time_avg']) as time",
+                                "min": "min(partition['result_time_avg']) as time",
+                                "max": "max(partition['result_time_avg']) as time",
+                                "rstdev": "rstdev(partition['result_time_avg'])",
+                                "memory": "first(partition['result_mem_peak']) as memory"
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+    },
+    "report.outputs": {
+        "chart-html": {
+            "renderer": "html",
+            "path": "benchmarks/chart.html",
+            "title": "Pesto Benchmark — Pesto vs Blade vs Twig"
+        }
+    }
+}

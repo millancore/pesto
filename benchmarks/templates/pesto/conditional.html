@@ -1,0 +1,24 @@
+<html>
+<head><title>{{ $title }}</title></head>
+<body>
+    <div php-if="$role === 'admin'">
+        <h1>Admin Dashboard</h1>
+        <p>Welcome, {{ $name }}. You have full access.</p>
+    </div>
+    <div php-elseif="$role === 'editor'">
+        <h1>Editor Panel</h1>
+        <p>Welcome, {{ $name }}. You can edit content.</p>
+    </div>
+    <div php-else>
+        <h1>User Profile</h1>
+        <p>Welcome, {{ $name }}. You have read-only access.</p>
+    </div>
+
+    <ul>
+        <li php-foreach="$notifications as $notification">
+            <span php-if="$notification['unread']"><strong>{{ $notification['message'] }}</strong></span>
+            <span php-else>{{ $notification['message'] }}</span>
+        </li>
+    </ul>
+</body>
+</html>

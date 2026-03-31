@@ -18,7 +18,7 @@ class ViewTest extends TestCase
     public function setUp(): void
     {
         // mock environment
-        $this->env = $this->createMock(Environment::class);
+        $this->env = $this->createStub(Environment::class);
     }
 
     public function test_it_be_htmlable(): void

@@ -3,5 +3,7 @@
 /vendor/
 /cache/
 /tests/coverage/
+benchmarks/cache/
 .php-cs-fixer.cache
+/.phpbench/
 
