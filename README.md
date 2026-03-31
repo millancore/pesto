@@ -40,6 +40,7 @@ allowing you to integrate PHP code if needed.
   - [Chain Filters](#chain-filters)
   - [Filters with Arguments](#filters-with-arguments)
   - [Add Filters](#add-filters)
+- [Benchmarks](#benchmarks)
 
 ## Installation & Usage
 
@@ -212,7 +213,7 @@ public function truncate(string $value, int $length, string $end = '...') : stri
 ```
 on Pesto factory pass the class to the `filters` option.
 
-```php 
+```php
 $pesto = PestoFactory::create([
     templatesPath: __DIR__ . '/views',
     cachePath: __DIR__ . '/cache', [
@@ -220,6 +221,25 @@ $pesto = PestoFactory::create([
     ]
 ]);
 
+```
+
+## Benchmarks
+
+Pesto includes benchmarks comparing performance against Blade and Twig across four scenarios: simple rendering, loops, conditionals, and partials.
+
+Benchmarks are powered by [PHPBench](https://phpbench.readthedocs.io/) with 100 iterations, 10 revolutions, and 5 warmup iterations.
+
+```bash
+# Run all benchmarks (Pesto, Blade, Twig)
+composer bench
+
+# Run a single engine
+composer bench:pesto
+composer bench:blade
+composer bench:twig
+
+# Generate an interactive HTML chart (output: benchmarks/chart.html)
+composer bench:chart
 ```
 
 
