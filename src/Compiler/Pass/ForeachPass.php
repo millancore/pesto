@@ -12,11 +12,11 @@ class ForeachPass extends Pass implements CompilerPass
 {
     public function compile(Pesto $pesto): void
     {
-        $elements = $pesto->find('[php-foreach]');
+        $elements = $pesto->find($this->directiveSelector('foreach'));
 
         $elements->each(function (Node $element) {
-            $foreachExpression = $element->getAttribute('php-foreach');
-            $element->removeAttribute('php-foreach');
+            $foreachExpression = $this->getDirective($element, 'foreach');
+            $this->removeDirective($element, 'foreach');
 
             $startInstruction = $element->createPHPInstruction("foreach($foreachExpression): ");
             $endInstruction = $element->createPHPInstruction('endforeach; ');

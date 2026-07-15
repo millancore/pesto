@@ -74,4 +74,28 @@ final class IfPassTest extends TestCase
 
         $this->assertCompiledEquals($this->pass, $expected, $html);
     }
+
+    public function test_compiles_a_short_syntax_if(): void
+    {
+        $html = '<div p:if="$show">Hello</div>';
+        $expected = '<?php if ($show): ?><div>Hello</div><?php endif; ?>';
+
+        $this->assertCompiledEquals($this->pass, $expected, $html);
+    }
+
+    public function test_compiles_a_short_syntax_if_with_elseif_and_else(): void
+    {
+        $html = '<div p:if="$show">Hello</div><div p:elseif="$getting">World</div><div p:else>Universe</div>';
+        $expected = '<?php if ($show): ?><div>Hello</div><?php elseif ($getting): ?><div>World</div><?php else: ?><div>Universe</div><?php endif; ?>';
+
+        $this->assertCompiledEquals($this->pass, $expected, $html);
+    }
+
+    public function test_compiles_mixed_long_and_short_syntax_chain(): void
+    {
+        $html = '<div php-if="$show">Hello</div><div p:elseif="$getting">World</div><div php-else>Universe</div>';
+        $expected = '<?php if ($show): ?><div>Hello</div><?php elseif ($getting): ?><div>World</div><?php else: ?><div>Universe</div><?php endif; ?>';
+
+        $this->assertCompiledEquals($this->pass, $expected, $html);
+    }
 }

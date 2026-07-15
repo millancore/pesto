@@ -42,9 +42,18 @@ class NodeCollection implements \IteratorAggregate, \Countable
 
     public function each(callable $callback): void
     {
+        // querySelectorAll returns a node once per matching selector in a
+        // selector list, so the same element can appear multiple times.
+        $seen = [];
         $count = $this->nodeList->count();
         for ($i = $count - 1; $i >= 0; --$i) {
-            $callback(new Node($this->nodeList->item($i)));
+            $domNode = $this->nodeList->item($i);
+            $id = spl_object_id($domNode);
+            if (isset($seen[$id])) {
+                continue;
+            }
+            $seen[$id] = $domNode;
+            $callback(new Node($domNode));
         }
     }
 

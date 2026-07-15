@@ -50,4 +50,20 @@ class ForeachPassTest extends TestCase
 
         $this->assertCompiledEquals($this->pass, $expected, $html);
     }
+
+    public function test_compile_a_short_syntax_foreach(): void
+    {
+        $html = '<div p:foreach="$items as $item">Hello</div>';
+        $expected = '<?php foreach($items as $item): ?><div>Hello</div><?php endforeach; ?>';
+
+        $this->assertCompiledEquals($this->pass, $expected, $html);
+    }
+
+    public function test_long_form_wins_over_short_syntax(): void
+    {
+        $html = '<div php-foreach="$items as $item" p:foreach="$others as $other">Hello</div>';
+        $expected = '<?php foreach($items as $item): ?><div>Hello</div><?php endforeach; ?>';
+
+        $this->assertCompiledEquals($this->pass, $expected, $html);
+    }
 }

@@ -43,6 +43,14 @@ class PartialPassTest extends TestCase
         $this->assertCompiledEquals($this->pass, $expected, $html);
     }
 
+    public function test_compile_a_short_syntax_partial_with_variables(): void
+    {
+        $html = '<div p:partial="test.php" p:with=\'["id" => "test-123"]\'>Hello</div>';
+        $expected = '<?php $__pesto->start("test.php", ["id" => "test-123"]); ?><div>Hello</div><?php $__pesto->end(); ?>';
+
+        $this->assertCompiledEquals($this->pass, $expected, $html);
+    }
+
     public function test_compile_nested_partials(): void
     {
         $html = '<ul php-partial="list.php"><li>parent item</li><li><ul php-partial="list.php"><li>Child Item</li></ul></li></ul>';

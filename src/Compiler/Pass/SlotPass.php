@@ -12,11 +12,11 @@ class SlotPass extends Pass implements CompilerPass
 {
     public function compile(Pesto $pesto): void
     {
-        $elements = $pesto->find('[php-slot]');
+        $elements = $pesto->find($this->directiveSelector('slot'));
 
         $elements->each(function (Node $element) {
-            $slot = $element->getAttribute('php-slot');
-            $element->removeAttribute('php-slot');
+            $slot = $this->getDirective($element, 'slot');
+            $this->removeDirective($element, 'slot');
 
             $startInstruction = $element->createPHPInstruction('$__pesto->slot("'.$slot.'"); ');
 

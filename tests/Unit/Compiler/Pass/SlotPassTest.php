@@ -42,4 +42,12 @@ class SlotPassTest extends TestCase
 
         $this->assertCompiledEquals($this->pass, $expected, $html);
     }
+
+    public function test_compiled_short_syntax_named_slot(): void
+    {
+        $html = '<div p:slot="slot_name">Slot Content</div>';
+        $expected = '<?php $__pesto->slot("slot_name"); ?><div>Slot Content</div><?php $__pesto->endSlot(); ?>';
+
+        $this->assertCompiledEquals($this->pass, $expected, $html);
+    }
 }

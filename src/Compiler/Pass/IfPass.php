@@ -12,7 +12,7 @@ class IfPass extends Pass implements CompilerPass
 {
     public function compile(Pesto $pesto): void
     {
-        $nodes = $pesto->find('[php-if]');
+        $nodes = $pesto->find($this->directiveSelector('if'));
 
         $nodes->each(function (Node $node) {
             $this->compileIfStatement($node);
@@ -26,12 +26,12 @@ class IfPass extends Pass implements CompilerPass
         $anchorNode = $this->processElseCondition($node, $anchorNode);
         $this->closeIfStatement($node, $anchorNode);
 
-        $node->removeAttribute('php-if');
+        $this->removeDirective($node, 'if');
     }
 
     private function processIfCondition(Node $node): Node
     {
-        $condition = $node->getAttribute('php-if');
+        $condition = $this->getDirective($node, 'if');
         $phpOpen = $node->createProcessingInstruction('php', 'if ('.$condition.'): ');
         $node->insertBefore($phpOpen);
 
@@ -44,11 +44,11 @@ class IfPass extends Pass implements CompilerPass
     {
         $nextSibling = $anchorNode->getNextSibling();
 
-        while ($nextSibling && $nextSibling->hasAttribute('php-elseif')) {
-            $elseifCondition = $nextSibling->getAttribute('php-elseif');
+        while ($nextSibling && $this->hasDirective($nextSibling, 'elseif')) {
+            $elseifCondition = $this->getDirective($nextSibling, 'elseif');
             $phpElseif = $node->createProcessingInstruction('php', 'elseif ('.$elseifCondition.'): ');
             $nextSibling->insertBefore($phpElseif);
-            $nextSibling->removeAttribute('php-elseif');
+            $this->removeDirective($nextSibling, 'elseif');
 
             $this->markTemplateForUnwrapping($nextSibling);
 
@@ -63,10 +63,10 @@ class IfPass extends Pass implements CompilerPass
     {
         $nextSibling = $anchorNode->getNextSibling();
 
-        if ($nextSibling && $nextSibling->hasAttribute('php-else')) {
+        if ($nextSibling && $this->hasDirective($nextSibling, 'else')) {
             $phpElse = $node->createProcessingInstruction('php', 'else: ');
             $nextSibling->insertBefore($phpElse);
-            $nextSibling->removeAttribute('php-else');
+            $this->removeDirective($nextSibling, 'else');
 
             $this->markTemplateForUnwrapping($nextSibling);
 

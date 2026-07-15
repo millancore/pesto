@@ -12,14 +12,14 @@ class PartialPass extends Pass implements CompilerPass
 {
     public function compile(Pesto $pesto): void
     {
-        $elements = $pesto->find('[php-partial]');
+        $elements = $pesto->find($this->directiveSelector('partial'));
 
         $elements->each(function (Node $element) {
-            $partialView = $element->getAttribute('php-partial');
-            $element->removeAttribute('php-partial');
+            $partialView = $this->getDirective($element, 'partial');
+            $this->removeDirective($element, 'partial');
 
-            $data = $element->getAttribute('php-with') ?? '[]';
-            $element->removeAttribute('php-with');
+            $data = $this->getDirective($element, 'with') ?? '[]';
+            $this->removeDirective($element, 'with');
 
             $startInstruction = $element->createPHPInstruction('$__pesto->start("'.$partialView.'", '.$data.'); ');
 
