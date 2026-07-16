@@ -11,6 +11,7 @@ class TestCase extends \PHPUnit\Framework\TestCase
 {
     public const string TEMPLATE_PATH = __DIR__.'/fixtures/templates';
     public const string CACHE_PATH = __DIR__.'/fixtures/cache';
+    public const string VIEWS_PATH = __DIR__.'/fixtures/views';
 
     public function assertCompiledEquals(CompilerPass $pass, string $expected, string $html): void
     {

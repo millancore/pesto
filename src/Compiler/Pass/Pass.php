@@ -35,6 +35,17 @@ class Pass
         return false;
     }
 
+    protected function getDirectiveAttributeName(Node $node, string $directive): ?string
+    {
+        foreach (self::PREFIXES as $prefix) {
+            if ($node->hasAttribute($prefix.$directive)) {
+                return $prefix.$directive;
+            }
+        }
+
+        return null;
+    }
+
     protected function getDirective(Node $node, string $directive): ?string
     {
         foreach (self::PREFIXES as $prefix) {

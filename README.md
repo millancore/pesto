@@ -36,6 +36,10 @@ allowing you to integrate PHP code if needed.
   - [If Attribute](#if-attribute)
   - [Loop](#loops)
   - [Inline](#inline)
+- [Short Syntax](#short-syntax)
+- [Command Line](#command-line)
+  - [Compile](#compile)
+  - [Lint](#lint)
 - [Filters](#filters)
   - [Chain Filters](#chain-filters)
   - [Filters with Arguments](#filters-with-arguments)
@@ -162,6 +166,97 @@ Pesto also allows you to use inline control flow directives.
   </template>
 </ul>
 ```
+
+## Short Syntax
+Every `php-*` attribute has a shorter `p:*` alias, both forms work everywhere
+and can be mixed in the same template.
+
+| Long form     | Short form  |
+|---------------|-------------|
+| `php-if`      | `p:if`      |
+| `php-elseif`  | `p:elseif`  |
+| `php-else`    | `p:else`    |
+| `php-foreach` | `p:foreach` |
+| `php-partial` | `p:partial` |
+| `php-with`    | `p:with`    |
+| `php-slot`    | `p:slot`    |
+
+```html
+<ul p:if="count($items) > 0">
+    <li p:foreach="$items as $item">{{ $item }}</li>
+</ul>
+<p p:else>No items</p>
+```
+
+If an element has both forms of the same directive, the long form wins.
+Since no client-side framework claims the `p:` prefix, it is safe to combine
+with Vue, Alpine.js, or Lit bindings.
+
+## Command Line
+Pesto ships with a `pesto` binary (installed at `vendor/bin/pesto`) to validate
+and inspect templates without rendering them.
+
+```shell
+vendor/bin/pesto help
+```
+
+| Command                          | Description                                        |
+|----------------------------------|----------------------------------------------------|
+| `pesto compile <template_path>`  | Validate and compile a template, print the result  |
+| `pesto -c <template_path>`       | Shorthand for `compile`                            |
+| `pesto lint <path> [<path>...]`  | Validate template files or directories             |
+| `pesto help`                     | Show the help message                              |
+
+Both commands read the template from stdin when no path is given (or with `-`).
+
+### Compile
+Compiles a template and prints the resulting PHP, so you can see exactly
+what Pesto generates:
+
+```shell
+echo '<li p:foreach="$items as $item" p:if="$item->visible">{{ $item->name | title }}</li>' | vendor/bin/pesto compile
+```
+```php
+<?php foreach($items as $item): ?><?php if ($item->visible): ?><li><?= $__pesto->output($item->name, ['title', 'escape']) ?></li><?php endif; ?><?php endforeach; ?>
+```
+
+If the template is invalid, the errors are printed and the command exits with `1`.
+
+### Lint
+Validates templates without rendering them: it checks for unclosed `{{ }}`
+expressions, orphan `php-else`/`php-elseif` directives, unprocessed directives,
+and PHP syntax errors in the compiled output.
+
+```shell
+# Single files or directories (scanned recursively for .html and .php)
+vendor/bin/pesto lint views/home.php
+vendor/bin/pesto lint views/ emails/
+
+# Or from stdin
+echo '<p php-else>Guest</p>' | vendor/bin/pesto lint
+```
+```
+ ✗ <stdin>
+   - Orphan "php-else" directive on line 1: it must be an immediate sibling of a "php-if" element.
+```
+
+With `--views <dir>` the linter also verifies that every `php-partial`
+reference exists in the templates root. Without explicit paths, it lints
+the whole directory:
+
+```shell
+vendor/bin/pesto lint --views views/
+```
+```
+ ✓ views/home.php
+ ✓ views/layouts/app.php
+ ✓ views/partials/nav.php
+
+Linted 3 templates: no errors found.
+```
+
+The exit code is `0` when all templates pass and `1` otherwise, so `lint`
+fits directly into a CI pipeline.
 
 ## Filters
 Pesto provides a simple way to apply filters to variables using the pipe operator,

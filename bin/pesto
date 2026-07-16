@@ -1,0 +1,25 @@
+#!/usr/bin/env php
+<?php
+
+declare(strict_types=1);
+
+use Millancore\Pesto\Console\Application;
+
+$autoloadFiles = [
+    __DIR__.'/../vendor/autoload.php',
+    __DIR__.'/../../../autoload.php',
+];
+
+foreach ($autoloadFiles as $autoloadFile) {
+    if (file_exists($autoloadFile)) {
+        require $autoloadFile;
+        break;
+    }
+}
+
+if (!class_exists(Application::class)) {
+    fwrite(STDERR, 'Composer autoloader not found. Run "composer install".'.PHP_EOL);
+    exit(1);
+}
+
+exit((new Application())->run($argv));
