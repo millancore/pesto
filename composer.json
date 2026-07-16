@@ -3,6 +3,9 @@
   "description": "PHP View Engine",
   "type": "library",
   "license": "MIT",
+  "bin": [
+    "bin/pesto"
+  ],
   "authors": [
     {
       "name": "Juan Millan",
